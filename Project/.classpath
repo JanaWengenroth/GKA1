@@ -3,18 +3,22 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="Z:/win7/GKA1/libraries/jgrapht-0.9.0/lib/jgrapht-core-0.9.0.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/Z:/win7/GKA1/libraries/jgrapht-0.9.0/javadoc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="Z:/win7/GKA1/libraries/jgrapht-0.9.0/lib/jgrapht-ext-0.9.0.jar"/>
-	<classpathentry kind="lib" path="Z:/win7/GKA1/libraries/jgrapht-0.9.0/lib/jgrapht-ext-0.9.0-uber.jar"/>
-	<classpathentry kind="lib" path="Z:/win7/GKA1/libraries/jgraphx/lib/jgraphx.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/Z:/win7/GKA1/libraries/jgraphx/docs/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/jgrapht/jgrapht-core-0.9.0.jar" sourcepath="lib/jgrapht/source/jgrapht-core">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/GKA/lib/jgrapht/javadoc.zip!/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jgrapht/jgrapht-ext-0.9.0-uber.jar" sourcepath="lib/jgrapht/source/jgrapht-ext">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/GKA/lib/jgrapht/javadoc.zip!/javadoc"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jgrapht/jgrapht-ext-0.9.0.jar" sourcepath="lib/jgrapht/source/jgrapht-ext"/>
+	<classpathentry kind="lib" path="lib/jgraphx/jgraphx.jar" sourcepath="lib/jgraphx/src">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/GKA/lib/jgraphx/api.zip!/api"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
