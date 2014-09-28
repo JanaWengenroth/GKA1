@@ -27,6 +27,7 @@ public class GKAWindow extends JFrame
 		setVisible(true);
 		setSize(1000, 700);
 		setPreferredSize(new Dimension(1000, 700));
+		setResizable(false);
 		initPanels();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

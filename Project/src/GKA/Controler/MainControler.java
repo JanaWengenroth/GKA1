@@ -20,7 +20,7 @@ public class MainControler {
 		graph.addEdge("v1", "v2");
 		mainWindow.showMainPanel(graph);
 		mainWindow.pack();
-		mainWindow.sendMessage("New Directed Graph was build.");
+		sendMessage("New Directed Graph was build.");
 	}
 	public static void newUndirectedGraph(){
 		ListenableGraph<String,DefaultEdge> graph = new ListenableUndirectedGraph<>(DefaultEdge.class);
@@ -29,6 +29,9 @@ public class MainControler {
 		graph.addEdge("v3", "v4");
 		mainWindow.showMainPanel(graph);
 		mainWindow.pack();
-		mainWindow.sendMessage("New Undirected Graph was build.");
+		sendMessage("New Undirected Graph was build.");
+	}
+	public static void sendMessage(String msg){
+		mainWindow.sendMessage(msg);
 	}
 }

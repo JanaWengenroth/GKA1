@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import GKA.Controler.MainControler;
+
 public class GKAButton extends JButton implements ActionListener
 {
 
@@ -23,7 +25,7 @@ public class GKAButton extends JButton implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this)
-			System.out.println("Not YetImplemented");
+			MainControler.sendMessage("Not Yet Implemented");
 		
 	}
 	
