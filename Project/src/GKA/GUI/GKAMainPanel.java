@@ -1,9 +1,13 @@
 package GKA.GUI;
 
 import java.awt.Color;
+import java.util.Hashtable;
 
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.graph.DefaultEdge;
+
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxUtils;
 
 public class GKAMainPanel extends GKAPanel{
 
