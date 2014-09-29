@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.graph.DefaultEdge;
 
+import GKA.Graph.GKAGraphInterface;
+
 public class GKAWindow extends JFrame
 {
 	/**
@@ -39,7 +41,7 @@ public class GKAWindow extends JFrame
 		messages = new GKAMessages(getWidth(), messageBoxHeight, 0, getHeight() - menuePanelHeight - messageBoxHeight);
 		add(messages);
 	}
-	public void showMainPanel(ListenableGraph<String,DefaultEdge> graph){
+	public void showMainPanel(GKAGraphInterface graph){
 		if (mainPanel != null)
 			remove(mainPanel);
 		mainPanel = new GKAMainPanel(getWidth(),getHeight() - menuePanelHeight - messageBoxHeight, 0, menuePanelHeight, graph);
