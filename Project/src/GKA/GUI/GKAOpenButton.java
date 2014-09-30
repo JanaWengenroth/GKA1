@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 
 public class GKAOpenButton extends GKAButton 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7102577864760108095L;
 	private final GKAFileChooser fileChooser = new GKAFileChooser();
 	public GKAOpenButton() {
 		super(70, 25, 5, 5, "Open");

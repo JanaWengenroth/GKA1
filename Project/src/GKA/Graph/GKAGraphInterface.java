@@ -41,6 +41,10 @@ public interface GKAGraphInterface {
 	public abstract boolean addEdge(String source, String target, String name,
 			Double weight);
 	
-	public abstract void setCircleLayout();
+	public abstract void setLayout();
+	
+	public boolean removeVertex(String vertexName);
+	
+	public boolean removeEdge(String source, String target);
 
 }

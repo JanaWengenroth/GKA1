@@ -5,9 +5,6 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import org.jgrapht.ListenableGraph;
-import org.jgrapht.graph.DefaultEdge;
-
 import GKA.Graph.GKAGraphInterface;
 
 public class GKAWindow extends JFrame

@@ -2,13 +2,15 @@ package GKA.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ScrollPane;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class GKAMessages extends GKAPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3931067560175491718L;
+	
 	private JTextArea textArea = new JTextArea();
 	private JScrollPane scrollPane = new JScrollPane();
 	public GKAMessages(int width, int height, int posX, int posY){

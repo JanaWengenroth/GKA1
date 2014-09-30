@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 
 public class GKASaveButton extends GKAButton 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6289110092253949214L;
+	
 	private final GKAFileChooser fileChooser = new GKAFileChooser();
 	public GKASaveButton() {
 		super(70, 25, 80, 5, "Save");

@@ -2,12 +2,15 @@ package GKA.Graph;
 
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
+import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.ListenableDirectedGraph;
 import org.jgrapht.graph.ListenableUndirectedGraph;
+import org.jgrapht.graph.Multigraph;
 
 import GKA.Controler.MainControler;
 
 import com.mxgraph.layout.mxCircleLayout;
+import com.mxgraph.layout.mxParallelEdgeLayout;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 
@@ -30,9 +33,9 @@ class GKAGraph implements GKAGraphInterface {
 		
 		// Choose if it will be directed or undirected
 		if (isDirected()){
-			jGraph = new ListenableDirectedGraph<>(GKAEdge.class);
+			jGraph = new ListenableDirectedGraph<>(new DirectedMultigraph<>(GKAEdge.class));
 		}else{
-			jGraph = new ListenableUndirectedGraph<>(GKAEdge.class);
+			jGraph = new ListenableUndirectedGraph<>(new Multigraph<>(GKAEdge.class));
 		}
 		
 		// JGXAdapter for showing the Graph in Swing
@@ -40,8 +43,9 @@ class GKAGraph implements GKAGraphInterface {
 		
 		// Changing EdgeStyle when is undirected
 		if (!isDirected()){
-			mxgraph.getStylesheet().getDefaultEdgeStyle().put(mxConstants.STYLE_ENDARROW, "none");
+			getMxgraph().getStylesheet().getDefaultEdgeStyle().put(mxConstants.STYLE_ENDARROW, "none");
 		}
+		setGraphConfig();
 	}
 	
 	/* (non-Javadoc)
@@ -90,6 +94,7 @@ class GKAGraph implements GKAGraphInterface {
 			MainControler.sendMessage("Vertex \"" + vertexName + "\" already exists!");
 			return false;
 		}
+		MainControler.sendMessage("Vertex \"" + vertexName + "\" created.");
 		return true;
 	}
 	
@@ -139,8 +144,29 @@ class GKAGraph implements GKAGraphInterface {
 	}
 	
 	@Override
-	public void setCircleLayout(){
-		mxCircleLayout layout = new mxCircleLayout(getMxgraph());
+	public void setLayout(){
+		mxCircleLayout layout1 = new mxCircleLayout(getMxgraph());
+        layout1.execute(getMxgraph().getDefaultParent());
+		mxParallelEdgeLayout layout = new mxParallelEdgeLayout(getMxgraph(), 50);
         layout.execute(getMxgraph().getDefaultParent());
+	}
+	private void setGraphConfig(){
+		getMxgraph().setAllowDanglingEdges(false);
+		getMxgraph().setCellsDisconnectable(false);
+		getMxgraph().setDisconnectOnMove(false);
+		getMxgraph().setCellsEditable(false);
+		getMxgraph().setVertexLabelsMovable(false);
+		getMxgraph().setEdgeLabelsMovable(false);
+		getMxgraph().setConnectableEdges(false);
+	}
+
+	@Override
+	public boolean removeVertex(String vertexName) {
+		return getjGraph().removeVertex(vertexName);
+	}
+
+	@Override
+	public boolean removeEdge(String source, String target) {
+		return getjGraph().removeEdge(getjGraph().getEdge(source, target));
 	}
 }
