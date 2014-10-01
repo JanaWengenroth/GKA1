@@ -1,5 +1,12 @@
 package GKA.Graph;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Collection;
+
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -11,6 +18,7 @@ import GKA.Controler.MainControler;
 
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.layout.mxParallelEdgeLayout;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 
@@ -21,6 +29,8 @@ class GKAGraph implements GKAGraphInterface {
 	 * @param type - specifies the type of the Graph
 	 * @return
 	 */
+	static final String directedConnector = "->";
+	static final String undirectedConnector = "--";
 	static GKAGraphInterface newGraph(GraphType type){
 		return new GKAGraph(type);
 	}
@@ -125,8 +135,9 @@ class GKAGraph implements GKAGraphInterface {
 		}else if (!getjGraph().containsVertex(target)){
 			addVertex(target);
 		}
+		GKAEdge edge;
 		try {
-			GKAEdge edge = jGraph.addEdge(source, target);
+			edge = jGraph.addEdge(source, target);
 			if(edge == null){
 				MainControler.sendMessage("A edge from \"" + source + "\" to \"" + target + "\" aready exists!");
 				return false;
@@ -168,5 +179,64 @@ class GKAGraph implements GKAGraphInterface {
 	@Override
 	public boolean removeEdge(String source, String target) {
 		return getjGraph().removeEdge(getjGraph().getEdge(source, target));
+	}
+	
+	@Override
+	public void saveGraph(File file){
+		Writer fw = null;
+		BufferedWriter bw = null;
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		try
+		{
+		  fw = new FileWriter( file );
+		  bw = new BufferedWriter(fw);
+		  bw.write( "" );
+		  for(String vertex :getjGraph().vertexSet()){
+			  bw.append(vertex + ";" + System.getProperty("line.separator"));
+		  }
+		  String connector = isDirected() ? directedConnector : undirectedConnector;
+		  for(GKAEdge edge:getjGraph().edgeSet()){
+			  String saveVal = edge.getSource() + " " + connector + " " + edge.getTarget();
+			  if(edge.getName() != null){
+				  saveVal += " (" + edge.getName() + ")";
+			  }
+			  if(isWeighted()){
+				  saveVal += " :" + edge.getWeight();
+			  }
+			  saveVal += ";" + System.getProperty("line.separator");
+			  bw.append(saveVal);
+		  }
+		  MainControler.sendMessage("Graph is saved to: \"" + file.getAbsolutePath() + "\".");
+		}
+		catch ( IOException e ) {
+		  MainControler.sendMessage( "Konnte Datei nicht erstellen" );
+		}
+		finally {
+		  if ( bw != null )
+		    try { bw.close(); } catch ( IOException e ) { e.printStackTrace();}
+		}
+		
+	}
+
+	@Override
+	public void colorEdge(GKAEdge edge) {
+		getMxgraph().getModel().setStyle(
+				mxgraph.getEdgeToCellMap().get(edge),
+				"strokeColor=0000ff");
+	}
+
+	@Override
+	public void colorEdge(Collection<GKAEdge> edges) {
+		for(GKAEdge edge: edges){
+			colorEdge(edge);
+		}
 	}
 }

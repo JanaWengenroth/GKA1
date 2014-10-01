@@ -1,6 +1,9 @@
 package GKA.GUI;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
+
+import GKA.Controler.MainControler;
 
 public class GKASaveButton extends GKAButton 
 {
@@ -16,10 +19,10 @@ public class GKASaveButton extends GKAButton
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this){
-			int retVal = fileChooser.showOpenDialog(this);
+			int retVal = fileChooser.showSaveDialog(this);
 			if (retVal == GKAFileChooser.APPROVE_OPTION){
-				System.out.println(fileChooser.getSelectedFile());
-				// ToDo: Real saving
+				File file = fileChooser.getSelectedFile();
+				MainControler.saveGraph(file);
 			}
 		}
 		

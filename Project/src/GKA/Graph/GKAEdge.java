@@ -28,6 +28,10 @@ public class GKAEdge extends DefaultEdge{
 		this.weight = weight;
 	}
 	
+	public String getName(){
+		return this.edgeName;
+	}
+	
 	public void setName(String name){
 		this.edgeName = name;
 	}
@@ -39,7 +43,7 @@ public class GKAEdge extends DefaultEdge{
     		retVal = "(" + getSource() + " : " + getTarget() + ")";
     	}
     	else{
-    		retVal =  edgeName;
+    		retVal = "(" + edgeName + ")";
     	}
     	if (getWeight() != null){
     		retVal += " : " + getWeight();

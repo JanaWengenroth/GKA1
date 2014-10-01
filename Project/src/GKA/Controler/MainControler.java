@@ -1,5 +1,7 @@
 package GKA.Controler;
 
+import java.io.File;
+
 import GKA.GUI.GKAWindow;
 import GKA.Graph.GKAGraphInterface;
 import GKA.Graph.GraphType;
@@ -9,6 +11,7 @@ public class MainControler {
 	private static GKAGraphInterface graph;
 	public static void main(String[] args) {
 		mainWindow = new GKAWindow();
+		newDirectedGraph();
 		mainWindow.repaint();
 	}
 	public static void newDirectedGraph(){
@@ -56,5 +59,8 @@ public class MainControler {
 	}
 	public static GKAGraphInterface getGraph() {
 		return graph;
+	}
+	public static void saveGraph(File file){
+		graph.saveGraph(file);
 	}
 }

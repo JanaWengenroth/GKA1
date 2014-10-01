@@ -1,5 +1,8 @@
 package GKA.Graph;
 
+import java.io.File;
+import java.util.Collection;
+
 import org.jgrapht.ListenableGraph;
 
 import com.mxgraph.view.mxGraph;
@@ -46,5 +49,11 @@ public interface GKAGraphInterface {
 	public boolean removeVertex(String vertexName);
 	
 	public boolean removeEdge(String source, String target);
+	
+	public void saveGraph(File file);
+	
+	public void colorEdge(GKAEdge edge);
+	
+	public void colorEdge(Collection<GKAEdge> edges);
 
 }
