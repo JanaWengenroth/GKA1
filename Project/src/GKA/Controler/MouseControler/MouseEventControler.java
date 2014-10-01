@@ -3,6 +3,7 @@ package GKA.Controler.MouseControler;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import GKA.Controler.MainControler;
 import GKA.Graph.GKAGraphInterface;
 
 import com.mxgraph.model.mxCell;
@@ -32,12 +33,17 @@ public class MouseEventControler {
 			runningEvent = mouseEvent;
 		}else{
 			runningEvent.cancelOperation();
-			runningEvent = runningEvent.getClass().equals(mouseEvent.getClass()) ? null : mouseEvent;
+			runningEvent = mouseEvent;
 		}
 	}
 	private static void runEvent(mxCell cell){
 		if(runningEvent != null && !runningEvent.isFinished()){
 			runningEvent.addEventObject(cell);
 		}
+	}
+	public static void cancel() {
+		runningEvent.cancelOperation();
+		MainControler.sendMessage("Canceled Operation");
+		
 	}
 }

@@ -15,11 +15,22 @@ public class MainControler {
 		mainWindow.repaint();
 	}
 	public static void newDirectedGraph(){
+		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
+		graph.addVertex("v1");
+		graph.addVertex("v2");
+		graph.addEdge("v1", "v2",null,null);
+		graph.addEdge("v1", "v2",null,null);
+		graph.setLayout();
+		mainWindow.showMainPanel(graph);
+		mainWindow.pack();
+		sendMessage("New Directed Graph was build.");
+	}
+	public static void newDirectedWeightedGraph(){
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
 		graph.addVertex("v1");
 		graph.addVertex("v2");
-		graph.addEdge("v1", "v2",null,12.0);
-		graph.addEdge("v1", "v2",null,15.0);
+		graph.addEdge("v1", "v2",null,1.0);
+		graph.addEdge("v1", "v2",null,1.0);
 		graph.setLayout();
 		mainWindow.showMainPanel(graph);
 		mainWindow.pack();
@@ -30,6 +41,18 @@ public class MainControler {
 		graph.addVertex("v3");
 		graph.addVertex("v4");
 		graph.addEdge("v3", "v4",null,null);
+		graph.addEdge("v3", "v4",null,null);
+		graph.setLayout();
+		mainWindow.showMainPanel(graph);
+		mainWindow.pack();
+		sendMessage("New Directed Graph was build.");
+	}
+	public static void newUndirectedWeigthedGraph(){
+		MainControler.graph = GKAGraphInterface.newGraph(GraphType.UndirectedWeighted);
+		graph.addVertex("v3");
+		graph.addVertex("v4");
+		graph.addEdge("v3", "v4",null,1.0);
+		graph.addEdge("v3", "v4",null,1.0);
 		graph.setLayout();
 		mainWindow.showMainPanel(graph);
 		mainWindow.pack();

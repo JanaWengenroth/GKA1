@@ -12,7 +12,9 @@ public class GKAMenuPanel extends GKAPanel
 	private GKAOpenButton openButton = new GKAOpenButton();
 	private GKASaveButton saveButton = new GKASaveButton();
 	private GKANewDirectedButton newDirectedButton = new GKANewDirectedButton();
+	private GKANewDirectedWeightedButton newDirectedWeightedButton = new GKANewDirectedWeightedButton();
 	private GKANewUndirectedButton newUndirectedButton = new GKANewUndirectedButton();
+	private GKANewUndirectedWeightedButton newUndirectedWeightedButton = new GKANewUndirectedWeightedButton();
 	
 	public GKAMenuPanel(int width, int height, int posX, int posY) 
 	{
@@ -21,7 +23,9 @@ public class GKAMenuPanel extends GKAPanel
 		add(openButton);
 		add(saveButton);
 		add(newDirectedButton);
+		add(newDirectedWeightedButton);
 		add(newUndirectedButton);
+		add(newUndirectedWeightedButton);
 	}
 
 }

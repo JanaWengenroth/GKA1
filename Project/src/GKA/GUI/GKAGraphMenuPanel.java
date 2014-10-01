@@ -13,6 +13,7 @@ public class GKAGraphMenuPanel extends GKAPanel{
 	private GKAAddEdgeButton addEdge;
 	private GKAResetLayoutButton resetLayout;
 	private GKARemoveButton removeButton;
+	private GKACancelButton cancelButton;
 	public GKAGraphMenuPanel(int width, int height, int posX, int posY) 
 	{
 		super(width, height, posX, posY, Color.GREEN);
@@ -25,6 +26,8 @@ public class GKAGraphMenuPanel extends GKAPanel{
 		add(addEdge);
 		removeButton = new GKARemoveButton(width - 10, 25, 5, 95);
 		add(removeButton);
+		cancelButton = new GKACancelButton(width - 10, 25, 5, height - 80);
+		add(cancelButton);
 	}
 
 }
