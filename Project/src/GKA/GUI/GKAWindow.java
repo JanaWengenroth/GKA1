@@ -41,7 +41,7 @@ public class GKAWindow extends JFrame
 	public void showMainPanel(GKAGraphInterface graph){
 		if (mainPanel != null)
 			remove(mainPanel);
-		mainPanel = new GKAMainPanel(getWidth(),getHeight() - menuePanelHeight - messageBoxHeight, 0, menuePanelHeight, graph);
+		mainPanel = new GKAMainPanel(getWidth(),getHeight() - (menuePanelHeight + messageBoxHeight + 35), 0, menuePanelHeight, graph);
 		add(mainPanel);
 		repaint();
 	}

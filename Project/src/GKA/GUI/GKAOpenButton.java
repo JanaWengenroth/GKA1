@@ -2,6 +2,8 @@ package GKA.GUI;
 
 import java.awt.event.ActionEvent;
 
+import GKA.Controler.MainControler;
+
 public class GKAOpenButton extends GKAButton 
 {
 	/**
@@ -17,8 +19,8 @@ public class GKAOpenButton extends GKAButton
 		if (e.getSource() == this){
 			int retVal = fileChooser.showOpenDialog(this);
 			if (retVal == GKAFileChooser.APPROVE_OPTION){
-				System.out.println(fileChooser.getSelectedFile());
-				// ToDo: Real opening
+				MainControler.newGraph(fileChooser.getSelectedFile());
+				
 			}
 		}
 		

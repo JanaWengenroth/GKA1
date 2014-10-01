@@ -44,7 +44,7 @@ public class MouseAddEdgeHandler implements MouseEventInterface{
 					return;
 				}
 				String weightString = null;
-				if (MainControler.getGraph().isDirected()){
+				if (MainControler.getGraph().isWeighted()){
 					weightString = JOptionPane.showInputDialog("Please enter the EdgeWeight.");
 					if (weightString == null){
 						return;

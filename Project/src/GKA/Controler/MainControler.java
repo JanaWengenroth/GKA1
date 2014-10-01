@@ -14,6 +14,14 @@ public class MainControler {
 		newDirectedGraph();
 		mainWindow.repaint();
 	}
+	public static void newGraph(File file){
+		GKAGraphInterface.newGraph(file);
+//		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
+//		graph.setLayout();
+//		mainWindow.showMainPanel(graph);
+//		mainWindow.pack();
+		sendMessage("New Graph was build.");
+	}
 	public static void newDirectedGraph(){
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
 		graph.addVertex("v1");

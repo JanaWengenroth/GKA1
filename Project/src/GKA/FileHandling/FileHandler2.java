@@ -102,28 +102,28 @@ public class FileHandler2
    
     //bei den verschiedenen Möglichkeiten für gerichteten Graphen splitten
     //Liste mit Kantennamen erstellen
-    public static ArrayList<String> edgenames(File file )
-    {
-        ArrayList<String> edgenameList = readFile(file);
-        String edgename = new String();
+//    public static ArrayList<String> edgenames(File file )
+//    {
+//        ArrayList<String> edgenameList = readFile(file);
+//        String edgename = new String();
        // ArrayList<String> edgenameList = new ArrayList<>();
-        for(int i = 0; i <= inputValue.size()-1; i++)
-        {
-            if(inputValue.get(i).contains("\\(\\w*\\)"))
-            {
-                edgename = inputValue.get(i).split("(")[1];
-                edgename =edgename.split(")")[0];
-            }
-            else
-            {
-                edgename = "";
-            }
-            edgenameList.add(edgename);
-          
-        }
-        return edgenameList;
-        
-    }
+//        for(int i = 0; i <= inputValue.size()-1; i++)
+//        {
+//            if(inputValue.get(i).contains("\\(\\w*\\)"))
+//            {
+//                edgename = inputValue.get(i).split("(")[1];
+//                edgename = edgename.split(")")[0];
+//            }
+//            else
+//            {
+//                edgename = "";
+//            }
+//            edgenameList.add(edgename);
+//          
+//        }
+//        return edgenameList;
+//        
+//    }
     
     //Liste mit Gewichtungen erstellen
     public static ArrayList<String> weights(ArrayList<String> inputValue )
@@ -279,7 +279,7 @@ public static ArrayList<String> node2(ArrayList<String> inputValue )
     {
            try
         {
-            load(new File("D:\\GKA\\GKA1\\aufgabe1Bsp\\graph1.gka"));
+            load(new File("C:\\Users\\ClausTorben\\OneDrive\\Dokumente\\Studium\\Praktikum\\GKA1\\aufgabe1Bsp\\graph1.gka"));
         } catch (FileNotExists | IOException e)
         {
             // TODO Auto-generated catch block

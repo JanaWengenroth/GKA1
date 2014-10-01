@@ -26,7 +26,7 @@ public class GKAGraphMenuPanel extends GKAPanel{
 		add(addEdge);
 		removeButton = new GKARemoveButton(width - 10, 25, 5, 95);
 		add(removeButton);
-		cancelButton = new GKACancelButton(width - 10, 25, 5, height - 80);
+		cancelButton = new GKACancelButton(width - 10, 25, 5, height-40);
 		add(cancelButton);
 	}
 

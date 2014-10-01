@@ -23,5 +23,7 @@ public class GKAMessages extends GKAPanel{
 	}
 	public void sendMessage(String msg){
 		textArea.append(msg + "\n");
+		final int length = textArea.getText().length();
+		textArea.setCaretPosition(length);
 	}
 }

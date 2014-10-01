@@ -1,11 +1,20 @@
 package GKA.Graph;
 
+import static GKA.FileHandling.Checks.PreChecks.checkExistingFile;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
 
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
@@ -15,10 +24,11 @@ import org.jgrapht.graph.ListenableUndirectedGraph;
 import org.jgrapht.graph.Multigraph;
 
 import GKA.Controler.MainControler;
+import GKA.FileHandling.Errors.FileNotExists;
+import GKA.FileHandling.Errors.IncorrectFileFormat;
 
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.layout.mxParallelEdgeLayout;
-import com.mxgraph.model.mxCell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 
@@ -29,11 +39,104 @@ class GKAGraph implements GKAGraphInterface {
 	 * @param type - specifies the type of the Graph
 	 * @return
 	 */
-	static final String directedConnector = "->";
-	static final String undirectedConnector = "--";
+	static final String DIRECTED_SIGN = "->";
+	static final String UNDIRECTED_SIGN = "--";
 	static GKAGraphInterface newGraph(GraphType type){
 		return new GKAGraph(type);
 	}
+	
+	static GKAGraphInterface newGraph(File file){
+		ArrayList<String> linedFile;
+		try {
+			linedFile = readFile(file);
+			ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
+		} catch (IOException | FileNotExists e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IncorrectFileFormat e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	private static ArrayList<HashMap<String, String>> parse(ArrayList<String> linedFile) throws IncorrectFileFormat {
+		ArrayList<HashMap<String, String>> retVal = new ArrayList<>();
+		for (String line : linedFile){
+			HashMap<String, String> lineHash = new HashMap<>();
+			if(line.matches("\\w+"))
+	        {
+				lineHash.put("vertexOnly","true");
+				lineHash.put("node1", line);
+				retVal.add(lineHash); //direkt zur Ausgabe
+	        }
+	        else if(line.matches("\\w+" + DIRECTED_SIGN + "\\w+(\\(\\w+\\))?(:\\d+(.\\d+)?)?"))
+	        {	
+	        	//Methode für gerichtete Graphen
+	        	lineHash = getHashedLine(line, DIRECTED_SIGN);
+	        	lineHash.put("isDirected", "true");
+	        }
+	        else if(line.matches("\\w+" + UNDIRECTED_SIGN + "\\w+(\\(\\w+\\))?(:\\d+(.\\d+)?)?"))
+	        {	
+	        	//Methode für ungerichtete Graphen
+	        	lineHash = getHashedLine(line, UNDIRECTED_SIGN);
+	        	lineHash.put("isDirected", "false");
+	        }
+	        else {
+	        	System.out.println(line);
+	        	throw new IncorrectFileFormat();
+	        }
+			System.out.println(lineHash);
+		}
+		return retVal;
+	}
+
+
+	private static HashMap<String, String> getHashedLine(String line,
+			String sign) {
+		HashMap<String,String> retVal = new HashMap<>();
+		retVal.put("vertexOnly","false");
+		String[] splitedLine = line.split(sign);
+		retVal.put("node1", splitedLine[0]);
+		if(splitedLine[1].contains("("))
+        {
+			splitedLine = splitedLine[1].split("\\(");
+        }
+        else
+        {
+        	splitedLine = splitedLine[1].split(":");
+        }
+		retVal.put("Node2", splitedLine[0]);
+		if (splitedLine.length > 1){
+			if(splitedLine[1].contains(")")){
+				splitedLine = splitedLine[1].split("\\)|\\):");
+				retVal.put("edgeName", splitedLine[0]);
+				if(splitedLine.length > 1){
+					retVal.put("weight", splitedLine[1].replace(":", ""));
+				}
+			}
+			else{
+				retVal.put("weight", splitedLine[1]);
+			}
+		}
+		return retVal;
+	}
+
+	//* Wenn der file existiert, werden die " " entfernt und an dem ";" aufgeteilt und in einem Array heraus gegeben
+    private static ArrayList<String> readFile(File file) throws IOException, FileNotExists
+    {
+        Charset charset = Charset.forName("US-ASCII");
+        BufferedReader reader = Files.newBufferedReader(checkExistingFile(file).toPath(), charset);
+        String line = null;
+        ArrayList<String> returnValue = new ArrayList<>();
+        while ((line = reader.readLine()) != null) 
+        {
+            returnValue.addAll(Arrays.asList(line.replace(" ","").replace("\t","").split(";")));
+        }
+        return returnValue;  
+    }
+	
 	
 	private final ListenableGraph<String, GKAEdge> jGraph;
 	private final JGraphXAdapter<String,GKAEdge> mxgraph;
@@ -202,7 +305,7 @@ class GKAGraph implements GKAGraphInterface {
 		  for(String vertex :getjGraph().vertexSet()){
 			  bw.append(vertex + ";" + System.getProperty("line.separator"));
 		  }
-		  String connector = isDirected() ? directedConnector : undirectedConnector;
+		  String connector = isDirected() ? DIRECTED_SIGN : UNDIRECTED_SIGN;
 		  for(GKAEdge edge:getjGraph().edgeSet()){
 			  String saveVal = edge.getSource() + " " + connector + " " + edge.getTarget();
 			  if(edge.getName() != null){
@@ -238,5 +341,11 @@ class GKAGraph implements GKAGraphInterface {
 		for(GKAEdge edge: edges){
 			colorEdge(edge);
 		}
+	}
+
+	@Override
+	public Set<GKAEdge> shortesPathBroad(String source, String target) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -2,6 +2,7 @@ package GKA.Graph;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Set;
 
 import org.jgrapht.ListenableGraph;
 
@@ -11,6 +12,9 @@ public interface GKAGraphInterface {
 
 	public static GKAGraphInterface newGraph(GraphType type){
 		return GKAGraph.newGraph(type);
+	}
+	public static GKAGraphInterface newGraph(File file){
+		return GKAGraph.newGraph(file);
 	}
 	public abstract ListenableGraph<String, GKAEdge> getjGraph();
 
@@ -55,5 +59,14 @@ public interface GKAGraphInterface {
 	public void colorEdge(GKAEdge edge);
 	
 	public void colorEdge(Collection<GKAEdge> edges);
-
+	
+	/**
+	 * Find the shortest way from Source to Target
+	 * by using the broad search algorithm
+	 * @param source
+	 * @param target
+	 * @return
+	 */
+	public Set<GKAEdge> shortesPathBroad(String source, String target);
+	
 }
