@@ -107,7 +107,7 @@ class GKAGraph implements GKAGraphInterface {
         {
         	splitedLine = splitedLine[1].split(":");
         }
-		retVal.put("Node2", splitedLine[0]);
+		retVal.put("node2", splitedLine[0]);
 		if (splitedLine.length > 1){
 			if(splitedLine[1].contains(")")){
 				splitedLine = splitedLine[1].split("\\)|\\):");

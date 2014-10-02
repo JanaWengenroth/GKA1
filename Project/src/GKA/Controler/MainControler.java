@@ -24,8 +24,6 @@ public class MainControler {
 	}
 	public static void newDirectedGraph(){
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
-		graph.addVertex("v1");
-		graph.addVertex("v2");
 		graph.addEdge("v1", "v2",null,null);
 		graph.addEdge("v1", "v2",null,null);
 		graph.setLayout();
