@@ -50,7 +50,6 @@ class GKAGraph implements GKAGraphInterface {
 	}
 	
 	 static GKAGraphInterface newGraph(File file){
-<<<<<<< HEAD
     	ArrayList<String> linedFile;
     	GKAGraphInterface returnValue = null;
     	try {
@@ -99,100 +98,6 @@ class GKAGraph implements GKAGraphInterface {
     	return returnValue;
     }
 
-//    static GKAGraphInterface newGraph(File file){
-//		ArrayList<String> linedFile;
-//		try {
-//			linedFile = readFile(file);
-//			ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
-//			double weight; 
-//			String edgeName;
-//			
-//			for(HashMap<String,String> line : parsedGraph)
-//			{
-//			    if(line.get("vertexOnly") == "true")
-//			    {
-//			            addVertex(line.get("node1"));
-//			    }
-//			    else 
-//			    {
-//			        if(line.containsKey("weight"))
-//			        {
-//			          weight = Double.parseDouble(line.get("weight"));		          
-//			        }
-//			        else
-//			        {
-//			            weight = 0.0;
-//			            System.out.println("weight not existing");
-//			        }
-//			        if(line.containsKey("edgeName"))
-//			        {
-//			            edgeName = line.get("edgeName");
-//			        }
-//			        else
-//			        {
-//			            edgeName = null;
-//			        }
-//			        addEdge(line.get("node1"), line.get("node2"), edgeName, weight);
-//			    }
-//			}
-//		} catch (IOException | FileNotExists e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IncorrectFileFormat e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		return null;
-//	}
-=======
-		ArrayList<String> linedFile;
-		GKAGraphInterface retval = null;
-		try {
-			linedFile = readFile(file);
-			ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
-			double weight; 
-			String edgeName;
-			
-			for(HashMap<String,String> line : parsedGraph)
-			{
-			    if(line.get("vertexOnly") == "true")
-			    {
-			            addVertex(line.get("node1"));
-			    }
-			    else 
-			    {
-			        if(line.containsKey("weight"))
-			        {
-			          weight = Double.parseDouble(line.get("weight"));		          
-			        }
-			        else
-			        {
-			            weight = 0.0;
-			            System.out.println("weight not existing");
-			        }
-			        if(line.containsKey("edgeName"))
-			        {
-			            edgeName = line.get("edgeName");
-			        }
-			        else
-			        {
-			            edgeName = null;
-			        }
-			        addEdge(line.get("node1"), line.get("node2"), edgeName, weight);
-			    }
-			}
-		} catch (IOException | FileNotExists e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IncorrectFileFormat e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return retval;
-	}
->>>>>>> 1abde2fc0ea1b585959d9c0ba944b98733691998
 	
 	private static ArrayList<HashMap<String, String>> parse(ArrayList<String> linedFile) throws IncorrectFileFormat {
 		ArrayList<HashMap<String, String>> retVal = new ArrayList<>();
