@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import org.jgrapht.ListenableGraph;
@@ -46,6 +50,7 @@ class GKAGraph implements GKAGraphInterface {
 	}
 	
 	 static GKAGraphInterface newGraph(File file){
+<<<<<<< HEAD
     	ArrayList<String> linedFile;
     	GKAGraphInterface returnValue = null;
     	try {
@@ -140,6 +145,54 @@ class GKAGraph implements GKAGraphInterface {
 //		
 //		return null;
 //	}
+=======
+		ArrayList<String> linedFile;
+		GKAGraphInterface retval = null;
+		try {
+			linedFile = readFile(file);
+			ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
+			double weight; 
+			String edgeName;
+			
+			for(HashMap<String,String> line : parsedGraph)
+			{
+			    if(line.get("vertexOnly") == "true")
+			    {
+			            addVertex(line.get("node1"));
+			    }
+			    else 
+			    {
+			        if(line.containsKey("weight"))
+			        {
+			          weight = Double.parseDouble(line.get("weight"));		          
+			        }
+			        else
+			        {
+			            weight = 0.0;
+			            System.out.println("weight not existing");
+			        }
+			        if(line.containsKey("edgeName"))
+			        {
+			            edgeName = line.get("edgeName");
+			        }
+			        else
+			        {
+			            edgeName = null;
+			        }
+			        addEdge(line.get("node1"), line.get("node2"), edgeName, weight);
+			    }
+			}
+		} catch (IOException | FileNotExists e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IncorrectFileFormat e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retval;
+	}
+>>>>>>> 1abde2fc0ea1b585959d9c0ba944b98733691998
 	
 	private static ArrayList<HashMap<String, String>> parse(ArrayList<String> linedFile) throws IncorrectFileFormat {
 		ArrayList<HashMap<String, String>> retVal = new ArrayList<>();
@@ -414,21 +467,138 @@ class GKAGraph implements GKAGraphInterface {
 
 	@Override
 	public void colorEdge(GKAEdge edge) {
-		getMxgraph().getModel().setStyle(
-				mxgraph.getEdgeToCellMap().get(edge),
-				"strokeColor=0000ff");
-	}
-
-	@Override
-	public void colorEdge(Collection<GKAEdge> edges) {
-		for(GKAEdge edge: edges){
-			colorEdge(edge);
+		if(edge != null){
+			getMxgraph().getModel().setStyle(
+					mxgraph.getEdgeToCellMap().get(edge),
+					"strokeColor=FF0000");
 		}
 	}
-
+	
 	@Override
-	public Set<GKAEdge> shortesPathBroad(String source, String target) {
-		// TODO Auto-generated method stub
+	public void resetColor(){
+		for(GKAEdge edge : getjGraph().edgeSet()){
+			getMxgraph().getModel().setStyle(mxgraph.getEdgeToCellMap().get(edge), "");
+		}
+	}
+	@Override
+	public void colorEdge(Collection<GKAEdge> edges) {
+		if(edges != null){
+			for(GKAEdge edge: edges){
+				colorEdge(edge);
+			}
+		}
+	}
+	/**
+	 * Finds the Shortest way from source to target,
+	 * returns null if not reachable,
+	 * else it returns the from source to target
+	 */
+	@Override
+	public List<GKAEdge> shortesPathBroad(String source, String target) {
+		List<String> shortestPath = shortesPathBroadStringList(source, target);
+		if(shortestPath == null){
+			return null;
+		}
+		else{
+			ArrayList<GKAEdge> retVal = new ArrayList<>();
+			ListIterator<String> it = shortestPath.listIterator();
+			if(it.hasNext()){
+				String sourceErg = it.next();;
+				while (it.hasNext()){
+					String targetErg = it.next();
+					retVal.add(getjGraph().getEdge(sourceErg, targetErg));
+					sourceErg = targetErg;
+				}
+			}else{
+				return null;
+			}
+			return retVal;
+		}
+	}
+	
+	
+	public List<String> shortesPathBroadStringList(String source, String target) {
+		ArrayList<ArrayList<String>> wayList = new ArrayList<>();
+		Set<String> visitedVertexes = new HashSet<>();
+		int hops = 0;
+		if (source.equals(target)){
+			MainControler.sendMessage("Source == Target");
+			return null;
+		}
+		
+		{
+			ArrayList<String> actualWay = new ArrayList<>();
+			actualWay.add(source);
+			wayList.add(actualWay);
+			visitedVertexes.add(source);
+		}
+		
+		while (!wayList.isEmpty()){
+			long startime = System.nanoTime();
+			
+			ArrayList<ArrayList<String>> tmpWaylist = new ArrayList<>();
+			for(ArrayList<String> actualWay : wayList){
+				String lastNode = actualWay.get(actualWay.size() - 1);
+				for(GKAEdge edge : getAccessibleEdges(lastNode)){
+					ArrayList<String> tmpActualWay = new ArrayList<>(actualWay);
+					String nextNode = moveEdge(edge, lastNode);
+					tmpActualWay.add(nextNode);
+					hops = hops + 1;
+					if(nextNode.equals(target)){
+						long timeNeeded = (System.nanoTime() - startime);
+						MainControler.sendMessage("Found Way: " + tmpActualWay);
+						MainControler.sendMessage("Hops: " + hops);
+						MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
+						return tmpActualWay;
+					}
+					else{
+						tmpWaylist.add(tmpActualWay);
+					}
+				}
+				
+			}
+			wayList = tmpWaylist;
+		}
 		return null;
+	}
+	private String moveEdge(GKAEdge edge, String source){
+		if(edge.getSource().equals(source)){
+			return edge.getTarget().toString();
+		}else{
+			return edge.getSource().toString();
+		}
+	}
+	/**
+	 * Returns a set of edges which are accessible from a specified 
+	 * source
+	 * @param source
+	 * @return
+	 */
+	private Set<GKAEdge> getAccessibleEdges(String source){
+		Set<GKAEdge> edges = new HashSet<>(getjGraph().edgesOf(source));
+		Set<GKAEdge> notGoable = new HashSet<>();
+		for (GKAEdge edge : edges) {
+			if(!isEdgeAccessible(edge, source)){
+				notGoable.add(edge);
+			}
+		}
+		edges.removeAll(notGoable);
+		return edges;
+	}
+	/**
+	 * Returns true or false if an Edge is accessible by Starting 
+	 * from a specified source
+	 * @param edge
+	 * @param source
+	 * @return
+	 */
+	private boolean isEdgeAccessible(GKAEdge edge, String source){
+		if(edge.getSource().equals(source)){
+			return true;
+		}else if(!isDirected() && edge.getTarget().equals(source)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
