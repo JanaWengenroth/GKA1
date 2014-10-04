@@ -20,14 +20,14 @@ public class FileHandler2
 {
     public static final String DIRECTED_SIGN = "->";
     public static final String UNDIRECTED_SIGN = "--";
-   
+    private static ArrayList<String>  _kanten;
     
     //*file wird geladen
     
     public static Graph<String, DefaultEdge> load(File file) throws FileNotExists, IOException
     {
         
-        System.out.println(directed(file));
+        System.out.println(directed());
         return null;
     }
     
@@ -48,26 +48,50 @@ public class FileHandler2
         {
             returnValue.addAll(Arrays.asList(line.replace(" ","").replace("\t","").split(";")));
         }
+        _kanten = returnValue;
         return returnValue;  
     }
        
-    //*ist der Graph gerichtet oder ungerichtet oder ein einzelner Knoten?
-    private static ArrayList<String> directed(File file) throws IOException, FileNotExists
+    //*ist der Graph gerichtet  ein einzelner Knoten?
+    private static boolean singleNode() 
     {
-        ArrayList<String> returnValue = readFile(file);
-     //   weights(returnValue);
-        if(returnValue.get(0).matches("\\w+"))
+        for(String kante : _kanten)
         {
-           System.out.println("Graph enthaelt nur node1"); //direkt zur Ausgabe
+            if(!kante.matches("\\w+"))
+            {
+                System.out.println("Graph enthaelt nur node1"); //direkt zur Ausgabe
+                return false;
+            }
         }
-        else if(returnValue.get(0).matches("\\w+" + DIRECTED_SIGN + "\\w*[\\(\\w*\\)]?[\\:\\w*]?"))
+        return true;
+    }
+    
+    private static boolean directed()
+    {
+        for(String kante : _kanten)
         {
-            System.out.println("Graph ist gerichtet");//Methode für gerichtete Graphen
+            if(!kante.matches("\\w+" + DIRECTED_SIGN + "\\w*[\\(\\w*\\)]?[\\:\\w*]?"))
+            {
+                System.out.println("Graph ist gerichtet");//Methode für gerichtete Graphen
+                return false;
+            }
         }
-        else if(returnValue.get(0).matches("\\w+" + UNDIRECTED_SIGN + "\\w*[\\(\\w*\\)]?[\\:\\w*]?"))
+        return true;
+    }
+    
+    private static boolean undirected()
+    {
+        for(String kante : _kanten)
         {
-            System.out.println("Graph ist ungerichtet");//Methode für ungerichtete Graphen
+            if(!kante.matches("\\w+" + UNDIRECTED_SIGN + "\\w*[\\(\\w*\\)]?[\\:\\w*]?"))
+            {
+                System.out.println("Graph ist ungerichtet");//Methode für ungerichtete Graphen
+                return false;
+            }
         }
+        return true;
+    }
+    
 //        else if(returnValue.get(0).matches("\\w*\\" + DIRECTED_SIGN + "\\w*\\(\\w*\\)"))
 //        {
 //            System.out.println("Graphen sind gerichtet mit Kantennamen");
@@ -92,38 +116,37 @@ public class FileHandler2
 //        {
 //            System.out.println("Graphen sind ungerichtet mit Kantennamen und Gewichtung");
 //        }
-        else
-        {
-            System.out.println("found nothing");
-        }
-        return returnValue;
-    }
+//        else
+//        {
+//            System.out.println("found nothing");
+//        }
+    
     
    
     //bei den verschiedenen Möglichkeiten für gerichteten Graphen splitten
     //Liste mit Kantennamen erstellen
-//    public static ArrayList<String> edgenames(File file )
-//    {
-//        ArrayList<String> edgenameList = readFile(file);
-//        String edgename = new String();
+    public static ArrayList<String> edgenames(ArrayList<String> inputValue )
+    {
+        ArrayList<String> edgenameList = new ArrayList<>();
+        String edgename = new String();
        // ArrayList<String> edgenameList = new ArrayList<>();
-//        for(int i = 0; i <= inputValue.size()-1; i++)
-//        {
-//            if(inputValue.get(i).contains("\\(\\w*\\)"))
-//            {
-//                edgename = inputValue.get(i).split("(")[1];
-//                edgename = edgename.split(")")[0];
-//            }
-//            else
-//            {
-//                edgename = "";
-//            }
-//            edgenameList.add(edgename);
-//          
-//        }
-//        return edgenameList;
-//        
-//    }
+        for(int i = 0; i <= inputValue.size()-1; i++)
+        {
+            if(inputValue.get(i).contains("\\(\\w*\\)"))
+            {
+                edgename = inputValue.get(i).split("(")[1];
+                edgename =edgename.split(")")[0];
+            }
+            else
+            {
+                edgename = "";
+            }
+            edgenameList.add(edgename);
+          
+        }
+        return edgenameList;
+        
+    }
     
     //Liste mit Gewichtungen erstellen
     public static ArrayList<String> weights(ArrayList<String> inputValue )
@@ -279,7 +302,7 @@ public static ArrayList<String> node2(ArrayList<String> inputValue )
     {
            try
         {
-            load(new File("C:\\Users\\ClausTorben\\OneDrive\\Dokumente\\Studium\\Praktikum\\GKA1\\aufgabe1Bsp\\graph1.gka"));
+            load(new File("D:\\GKA\\GKA1\\aufgabe1Bsp\\graph1.gka"));
         } catch (FileNotExists | IOException e)
         {
             // TODO Auto-generated catch block
