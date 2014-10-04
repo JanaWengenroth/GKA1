@@ -15,7 +15,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -276,7 +275,8 @@ class GKAGraph implements GKAGraphInterface {
 		}
 		if(!getjGraph().containsVertex(source)){
 			addVertex(source);
-		}else if (!getjGraph().containsVertex(target)){
+		}
+		if (!getjGraph().containsVertex(target)){
 			addVertex(target);
 		}
 		GKAEdge edge;
@@ -425,6 +425,7 @@ class GKAGraph implements GKAGraphInterface {
 	public List<String> shortesPathBroadStringList(String source, String target) {
 		ArrayList<ArrayList<String>> wayList = new ArrayList<>();
 		Set<String> visitedVertexes = new HashSet<>();
+		long startime = System.nanoTime();
 		int hops = 0;
 		if (source.equals(target)){
 			MainControler.sendMessage("Source == Target");
@@ -438,9 +439,7 @@ class GKAGraph implements GKAGraphInterface {
 			visitedVertexes.add(source);
 		}
 		
-		while (!wayList.isEmpty()){
-			long startime = System.nanoTime();
-			
+		while (!wayList.isEmpty()){			
 			ArrayList<ArrayList<String>> tmpWaylist = new ArrayList<>();
 			for(ArrayList<String> actualWay : wayList){
 				String lastNode = actualWay.get(actualWay.size() - 1);
@@ -457,13 +456,20 @@ class GKAGraph implements GKAGraphInterface {
 						return tmpActualWay;
 					}
 					else{
-						tmpWaylist.add(tmpActualWay);
+						if(!visitedVertexes.contains(nextNode)){
+							visitedVertexes.add(nextNode);
+							tmpWaylist.add(tmpActualWay);
+						}
 					}
 				}
 				
 			}
 			wayList = tmpWaylist;
 		}
+		long timeNeeded = (System.nanoTime() - startime);
+		MainControler.sendMessage("Found no way!");
+		MainControler.sendMessage("Hops: " + hops);
+		MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
 		return null;
 	}
 	private String moveEdge(GKAEdge edge, String source){

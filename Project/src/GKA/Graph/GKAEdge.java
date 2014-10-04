@@ -12,6 +12,9 @@ public class GKAEdge extends DefaultEdge{
 	private String edgeName = null;
 	private Double weight = null;
 	
+	public GKAEdge(){
+		super();
+	}
 	public Object getSource(){
 		return super.getSource();
 	}
