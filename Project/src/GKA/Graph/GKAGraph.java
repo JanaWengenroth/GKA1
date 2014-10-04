@@ -55,14 +55,18 @@ class GKAGraph implements GKAGraphInterface {
     	try {
     		linedFile = readFile(file);
     		ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
-    		double weight; 
+    		Double weight; 
     		String edgeName;
+    		
+    		
+    		returnValue = newGraph(GraphType.Directed);
+    		
     		
     		for(HashMap<String,String> line : parsedGraph)
     		{
     		    if(line.get("vertexOnly") == "true")
     		    {
-    		        returnValue = newGraph(GraphType.Directed);
+    		        
     		            returnValue.addVertex(line.get("node1"));
     		    }
     		    else 
@@ -73,7 +77,7 @@ class GKAGraph implements GKAGraphInterface {
     		        }
     		        else
     		        {
-    		            weight = 0.0;
+    		            weight = null;
     		            System.out.println("weight not existing");
     		        }
     		        if(line.containsKey("edgeName"))
