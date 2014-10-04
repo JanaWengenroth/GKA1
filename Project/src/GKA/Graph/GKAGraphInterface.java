@@ -2,6 +2,7 @@ package GKA.Graph;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.ListenableGraph;
@@ -67,6 +68,8 @@ public interface GKAGraphInterface {
 	 * @param target
 	 * @return
 	 */
-	public Set<GKAEdge> shortesPathBroad(String source, String target);
+	public List<GKAEdge> shortesPathBroad(String source, String target);
+	
+	public void resetColor();
 	
 }

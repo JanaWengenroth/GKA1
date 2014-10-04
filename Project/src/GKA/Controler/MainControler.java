@@ -92,4 +92,8 @@ public class MainControler {
 	public static void saveGraph(File file){
 		graph.saveGraph(file);
 	}
+	public static void shortesPathBroad(String source, String target){
+		graph.resetColor();
+		graph.colorEdge(graph.shortesPathBroad(source, target));
+	}
 }
