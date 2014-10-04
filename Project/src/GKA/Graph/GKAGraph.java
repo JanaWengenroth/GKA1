@@ -49,13 +49,43 @@ class GKAGraph implements GKAGraphInterface {
 		return new GKAGraph(type);
 	}
 	
-	static GKAGraphInterface newGraph(File file){
+	 static GKAGraphInterface newGraph(File file){
 		ArrayList<String> linedFile;
 		GKAGraphInterface retval = null;
 		try {
 			linedFile = readFile(file);
 			ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
-			retval = newGraph(GraphType.Directed);
+			double weight; 
+			String edgeName;
+			
+			for(HashMap<String,String> line : parsedGraph)
+			{
+			    if(line.get("vertexOnly") == "true")
+			    {
+			            addVertex(line.get("node1"));
+			    }
+			    else 
+			    {
+			        if(line.containsKey("weight"))
+			        {
+			          weight = Double.parseDouble(line.get("weight"));		          
+			        }
+			        else
+			        {
+			            weight = 0.0;
+			            System.out.println("weight not existing");
+			        }
+			        if(line.containsKey("edgeName"))
+			        {
+			            edgeName = line.get("edgeName");
+			        }
+			        else
+			        {
+			            edgeName = null;
+			        }
+			        addEdge(line.get("node1"), line.get("node2"), edgeName, weight);
+			    }
+			}
 		} catch (IOException | FileNotExists e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,12 +112,14 @@ class GKAGraph implements GKAGraphInterface {
 	        	//Methode für gerichtete Graphen
 	        	lineHash = getHashedLine(line, DIRECTED_SIGN);
 	        	lineHash.put("isDirected", "true");
+	        	retVal.add(lineHash);
 	        }
 	        else if(line.matches("\\w+" + UNDIRECTED_SIGN + "\\w+(\\(\\w+\\))?(:\\d+(.\\d+)?)?"))
 	        {	
 	        	//Methode für ungerichtete Graphen
 	        	lineHash = getHashedLine(line, UNDIRECTED_SIGN);
 	        	lineHash.put("isDirected", "false");
+	        	retVal.add(lineHash);
 	        }
 	        else {
 	        	System.out.println(line);
@@ -132,7 +164,7 @@ class GKAGraph implements GKAGraphInterface {
 	//* Wenn der file existiert, werden die " " entfernt und an dem ";" aufgeteilt und in einem Array heraus gegeben
     private static ArrayList<String> readFile(File file) throws IOException, FileNotExists
     {
-        Charset charset = Charset.forName("US-ASCII");
+        Charset charset = Charset.forName("UTF-8");
         BufferedReader reader = Files.newBufferedReader(checkExistingFile(file).toPath(), charset);
         String line = null;
         ArrayList<String> returnValue = new ArrayList<>();
@@ -140,6 +172,7 @@ class GKAGraph implements GKAGraphInterface {
         {
             returnValue.addAll(Arrays.asList(line.replace(" ","").replace("\t","").split(";")));
         }
+        System.out.println(returnValue);
         return returnValue;  
     }
 	
