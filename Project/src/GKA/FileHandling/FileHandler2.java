@@ -40,7 +40,7 @@ public class FileHandler2
   //* Wenn der file existiert, werden die " " entfernt und an dem ";" aufgeteilt und in einem Array heraus gegeben
     private static ArrayList<String> readFile(File file) throws IOException, FileNotExists
     {
-        Charset charset = Charset.forName("US-ASCII");
+        Charset charset = Charset.forName("UTF-8");
         BufferedReader reader = Files.newBufferedReader(checkExistingFile(file).toPath(), charset);
         String line = null;
         ArrayList<String> returnValue = new ArrayList<>();
@@ -57,7 +57,7 @@ public class FileHandler2
     {
         for(String kante : _kanten)
         {
-            if(!kante.matches("\\w+"))
+            if(!kante.matches("\\p{L}+"))
             {
                 System.out.println("Graph enthaelt nur node1"); //direkt zur Ausgabe
                 return false;
@@ -70,7 +70,7 @@ public class FileHandler2
     {
         for(String kante : _kanten)
         {
-            if(!kante.matches("\\w+" + DIRECTED_SIGN + "\\w*[\\(\\w*\\)]?[\\:\\w*]?"))
+            if(!kante.matches("\\p{L}+" + DIRECTED_SIGN + "\\p{L}*[\\(\\p{L}*\\)]?[\\:\\p{L}*]?"))
             {
                 System.out.println("Graph ist gerichtet");//Methode für gerichtete Graphen
                 return false;
@@ -83,7 +83,7 @@ public class FileHandler2
     {
         for(String kante : _kanten)
         {
-            if(!kante.matches("\\w+" + UNDIRECTED_SIGN + "\\w*[\\(\\w*\\)]?[\\:\\w*]?"))
+            if(!kante.matches("\\p{L}+" + UNDIRECTED_SIGN + "\\p{L}*[\\(\\p{L}*\\)]?[\\:\\p{L}*]?"))
             {
                 System.out.println("Graph ist ungerichtet");//Methode für ungerichtete Graphen
                 return false;
@@ -132,7 +132,7 @@ public class FileHandler2
        // ArrayList<String> edgenameList = new ArrayList<>();
         for(int i = 0; i <= inputValue.size()-1; i++)
         {
-            if(inputValue.get(i).contains("\\(\\w*\\)"))
+            if(inputValue.get(i).contains("\\(\\p{L}*\\)"))
             {
                 edgename = inputValue.get(i).split("(")[1];
                 edgename =edgename.split(")")[0];

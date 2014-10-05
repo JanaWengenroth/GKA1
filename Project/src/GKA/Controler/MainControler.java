@@ -16,10 +16,10 @@ public class MainControler {
 	}
 	public static void newGraph(File file){
 		GKAGraphInterface.newGraph(file);
-//		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
-//		graph.setLayout();
-//		mainWindow.showMainPanel(graph);
-//		mainWindow.pack();
+		MainControler.graph = GKAGraphInterface.newGraph(file);
+		graph.setLayout();
+		mainWindow.showMainPanel(graph);
+		mainWindow.pack();
 		sendMessage("New Graph was build.");
 	}
 	public static void newDirectedGraph(){

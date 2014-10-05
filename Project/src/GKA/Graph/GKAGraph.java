@@ -56,9 +56,52 @@ class GKAGraph implements GKAGraphInterface {
     		ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
     		Double weight; 
     		String edgeName;
+    		boolean isDirectedGraph = false;
+    		boolean isWeightedGraph = false;
+    		    
+    		for(HashMap<String,String> line : parsedGraph)
+    		{
+    		    if(line.get("vertexOnly") == "false")
+    		    {
+    		       isDirectedGraph = line.get("isDirected") == "true"; 
+    		       isWeightedGraph = line.get("isWeighted") == "true";
+    		       break;
+    		    }   		    
+    		}
     		
+    		for(HashMap<String,String> line : parsedGraph)
+    		{
+    		    if(line.get("vertexOnly") == "false")
+    		    {
+    		        if(isDirectedGraph != (line.get("isDirected") == "true"))
+    		        {
+    		           System.out.println("Graph beinhaltet sowohl gerichtete als auch ungerichtete Kanten");
+    		           throw new IncorrectFileFormat(); 		           
+    		        }
+    		        if(isWeightedGraph != (line.get("isWeighted") == "true"))
+    		        {
+    		            System.out.println("Graph beinhaltet sowohl gewichtete als auch ungewichtete Kanten");
+                        throw new IncorrectFileFormat(); 
+    		        }
+    		    }
+    		}
     		
-    		returnValue = newGraph(GraphType.Directed);
+    		if(isDirectedGraph && isWeightedGraph)
+    		{
+    		  returnValue = newGraph(GraphType.DirectedWeighted); 
+    		}
+    		else if(isDirectedGraph && !isWeightedGraph)
+    		{
+    		    returnValue = newGraph(GraphType.Directed);
+    		}
+    		else if(!isDirectedGraph && isWeightedGraph)
+    		{
+    		    returnValue = newGraph(GraphType.UndirectedWeighted);
+    		}
+    		else if(!isDirectedGraph && !isWeightedGraph)
+    		{
+    		    returnValue = newGraph(GraphType.Undirected);
+    		}
     		
     		
     		for(HashMap<String,String> line : parsedGraph)
@@ -106,20 +149,20 @@ class GKAGraph implements GKAGraphInterface {
 		ArrayList<HashMap<String, String>> retVal = new ArrayList<>();
 		for (String line : linedFile){
 			HashMap<String, String> lineHash = new HashMap<>();
-			if(line.matches("\\w+"))
+			if(line.matches("\\p{L}+"))
 	        {
 				lineHash.put("vertexOnly","true");
 				lineHash.put("node1", line);
 				retVal.add(lineHash); //direkt zur Ausgabe
 	        }
-	        else if(line.matches("\\w+" + DIRECTED_SIGN + "\\w+(\\(\\w+\\))?(:\\d+(.\\d+)?)?"))
+	        else if(line.matches("\\p{L}+" + DIRECTED_SIGN + "\\p{L}+(\\(\\p{L}+\\))?(:\\d+(.\\d+)?)?"))
 	        {	
 	        	//Methode für gerichtete Graphen
 	        	lineHash = getHashedLine(line, DIRECTED_SIGN);
 	        	lineHash.put("isDirected", "true");
 	        	retVal.add(lineHash);
 	        }
-	        else if(line.matches("\\w+" + UNDIRECTED_SIGN + "\\w+(\\(\\w+\\))?(:\\d+(.\\d+)?)?"))
+	        else if(line.matches("\\p{L}+" + UNDIRECTED_SIGN + "\\p{L}+(\\(\\p{L}+\\))?(:\\d+(.\\d+)?)?"))
 	        {	
 	        	//Methode für ungerichtete Graphen
 	        	lineHash = getHashedLine(line, UNDIRECTED_SIGN);
