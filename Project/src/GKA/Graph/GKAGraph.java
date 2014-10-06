@@ -342,12 +342,6 @@ class GKAGraph implements GKAGraphInterface {
 		try {
 			edge = new GKAEdge(name, weight);
 			jGraph.addEdge(source, target,edge);
-//			if(edge == null){
-//				MainControler.sendMessage("A edge from \"" + source + "\" to \"" + target + "\" aready exists!");
-//				return false;
-//			}
-//			edge.setName(name);
-//			edge.setWeight(weight);
 			MainControler.sendMessage("Edge \"" + edge.toString() + "\" was set.");
 		} catch (Exception e) {
 			MainControler.sendMessage("Adding edge from \"" + source + "\" to \"" + target + "\" failed by \n" +
@@ -489,8 +483,9 @@ class GKAGraph implements GKAGraphInterface {
 		int hops = 0;
 		if (source.equals(target)){
 			MainControler.sendMessage("Source == Target");
-			
-			return null;
+			ArrayList<String> retVal = new ArrayList<>();
+			retVal.add(source);
+			return retVal;
 		}
 		
 		{

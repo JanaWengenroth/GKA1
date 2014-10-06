@@ -39,7 +39,7 @@ public class MouseAddEdgeHandler implements MouseEventInterface{
 					return;
 				}else if (edgeName.isEmpty()){
 					edgeName = null;
-				}else if(!edgeName.matches("[a-zA-Z]+[a-zA-Z0-9]*")){
+				}else if(!edgeName.matches("[\\p{L}|[0-9]]+")){
 					MainControler.sendMessage("Please Enter a correct VertexName.");
 					return;
 				}
@@ -51,7 +51,7 @@ public class MouseAddEdgeHandler implements MouseEventInterface{
 					}else if (weightString.isEmpty()){
 						MainControler.sendMessage("Please Enter a a weight.");
 						return;
-					}else if(!weightString.matches("[0-9]+[.]?[0-9]*")){
+					}else if(!weightString.matches("[0-9]+([.]?[0-9]*)?")){
 						MainControler.sendMessage("Please Enter a correct weight.");
 						return;
 					}
@@ -61,7 +61,7 @@ public class MouseAddEdgeHandler implements MouseEventInterface{
 				
 				
 				if(MainControler.addEdge(source, eventObj.getValue().toString(), edgeName, weight)){
-					MainControler.sendMessage("Edge \"(" + source + " - " + eventObj.getValue().toString() + ")\" was added.");
+					//MainControler.sendMessage("Edge \"(" + source + " - " + eventObj.getValue().toString() + ")\" was added.");
 				}else{
 					MainControler.sendMessage("Unable to add Edge \"(" + source + " - " + eventObj.getValue().toString() + ")\"!");
 				}
