@@ -3,6 +3,8 @@ package GKA.Graph;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -108,13 +110,13 @@ public class GKAGraphTest
         g3.addEdge("Norderstedt","Bremerhaven", null, 191.0);
         g3.addEdge("Norderstedt","Husum", null, 145.0);
         g3.addEdge("Kiel","Husum", null, 86.0);
-        g3.addEdge("LÃ¼neburg","LÃ¼beck", null, 115.0);
-        g3.addEdge("LÃ¼neburg","Soltau", null, 52.0);
+        g3.addEdge("Lüneburg","Lübeck", null, 115.0);
+        g3.addEdge("Lüneburg","Soltau", null, 52.0);
         g3.addEdge("Hameln","Soltau", null, 134.0);
         g3.addEdge("Hameln","Paderborn", null, 134.0);
         g3.addEdge("Hameln","Detmold", null, 45.0);
-        g3.addEdge("MÃ¼nster","Bremen", null, 173.0);
-        g3.addEdge("MÃ¼nster","Minden", null, 131.0);
+        g3.addEdge("Münster","Bremen", null, 173.0);
+        g3.addEdge("Münster","Minden", null, 131.0);
         g3.addEdge("Minden","Hannover", null, 76.0);
         g3.addEdge("Hannover","Oldenburg", null, 169.0);
         g3.addEdge("Oldenburg","Cuxhaven", null, 105.0);
@@ -124,15 +126,15 @@ public class GKAGraphTest
         g3.addEdge("Rotenburg","Soltau", null, 41.0);
         g3.addEdge("Minden","Rotenburg", null, 171.0);
         g3.addEdge("Rotenburg","Uelzen", null, 104.0);
-        g3.addEdge("LÃ¼neburg","Buxtehude", null, 66.0);
+        g3.addEdge("Lüneburg","Buxtehude", null, 66.0);
         g3.addEdge("Uelzen","Hameln", null, 160.0);
         g3.addEdge("Hameln","Walsrode", null, 116.0);
         g3.addEdge("Walsrode","Hamburg", null, 101.0);
         g3.addEdge("Walsrode","Minden", null, 126.0);
-        g3.addEdge("MÃ¼nster","Walsrode", null, 226.0);
-        g3.addEdge("LÃ¼neburg","MÃ¼nster", null, 295.0);
-        g3.addEdge("MÃ¼nster","Paderborn", null, 149.0);
-        g3.addEdge("LÃ¼neburg","Hamburg", null, 55.0);
+        g3.addEdge("Münster","Walsrode", null, 226.0);
+        g3.addEdge("Lüneburg","Münster", null, 295.0);
+        g3.addEdge("Münster","Paderborn", null, 149.0);
+        g3.addEdge("Lüneburg","Hamburg", null, 55.0);
         g3.addEdge("Kiel","Uelzen", null, 190.0);
         g3.addEdge("Oldenburg","Celle", null, 167.0);
         g3.addEdge("Celle","Hannover", null, 43.0);

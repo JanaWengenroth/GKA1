@@ -121,11 +121,11 @@ class GKAGraph implements GKAGraphInterface {
     		    {
     		        if(line.containsKey("weight"))
     		        {
-    		          weight = Double.parseDouble((isWeightedGraph != (line.get("weight") != null)) ? "1.0" :line.get("weight"));		          
+    		          weight = Double.parseDouble(line.get("weight"));		          
     		        }
     		        else
     		        {
-    		            weight = null;
+    		            weight = (isWeightedGraph != (line.get("weight") != null)) ? 1.0 : null;
     		        }
     		        if(line.containsKey("edgeName"))
     		        {
@@ -219,7 +219,7 @@ class GKAGraph implements GKAGraphInterface {
     private static ArrayList<String> readFile(File file) throws IOException, FileNotExists
     {
         CharsetDecoder decoder = Charset.forName("ISO-8859-1").newDecoder();
-        decoder.onMalformedInput(CodingErrorAction.IGNORE);
+        //decoder.onMalformedInput(CodingErrorAction.IGNORE);
         InputStreamReader reader2 = new InputStreamReader(new FileInputStream(checkExistingFile(file)), decoder);
         BufferedReader reader = new BufferedReader(reader2);
         String line = null;
@@ -335,17 +335,18 @@ class GKAGraph implements GKAGraphInterface {
 		}
 		GKAEdge edge;
 		try {
-			edge = jGraph.addEdge(source, target);
-			if(edge == null){
-				MainControler.sendMessage("A edge from \"" + source + "\" to \"" + target + "\" aready exists!");
-				return false;
-			}
-			edge.setName(name);
-			edge.setWeight(weight);
+			edge = new GKAEdge(name, weight);
+			jGraph.addEdge(source, target,edge);
+//			if(edge == null){
+//				MainControler.sendMessage("A edge from \"" + source + "\" to \"" + target + "\" aready exists!");
+//				return false;
+//			}
+//			edge.setName(name);
+//			edge.setWeight(weight);
 			MainControler.sendMessage("Edge \"" + edge.toString() + "\" was set.");
 		} catch (Exception e) {
 			MainControler.sendMessage("Adding edge from \"" + source + "\" to \"" + target + "\" failed by \n" +
-					e.getMessage());
+					e.toString());
 			return false;
 		}
 		return true;

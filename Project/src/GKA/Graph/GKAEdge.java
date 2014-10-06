@@ -12,8 +12,10 @@ public class GKAEdge extends DefaultEdge{
 	private String edgeName = null;
 	private Double weight = null;
 	
-	public GKAEdge(){
+	public GKAEdge(String name, Double weight){
 		super();
+		this.edgeName = name;
+		this.weight = weight;
 	}
 	public Object getSource(){
 		return super.getSource();
@@ -27,16 +29,8 @@ public class GKAEdge extends DefaultEdge{
 		return weight;
 	}
 	
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
-	
 	public String getName(){
 		return this.edgeName;
-	}
-	
-	public void setName(String name){
-		this.edgeName = name;
 	}
 	
     public String toString()
@@ -66,15 +60,53 @@ public class GKAEdge extends DefaultEdge{
         }
         else{
             GKAEdge edge = (GKAEdge) object;
-            return this.getSource().equals(edge.getSource()) && 
-                    this.getTarget().equals(edge.getTarget()) && 
-                    this.getName().equals(edge.getName()) && 
-                    this.getWeight().equals(edge.getWeight());
+            boolean retval = true;
+            if(getSource() == null){
+            	retval = retval && edge.getSource() == null;
+            }
+            else{
+            	retval = retval && getSource().equals(edge.getSource());
+            }
+
+            if(getTarget() == null){
+            	retval = retval && edge.getTarget() == null;
+            }
+            else{
+            	retval = retval && getTarget().equals(edge.getTarget());
+            }
+            
+            if(getName() == null){
+            	retval = retval && edge.getName() == null;
+            }
+            else{
+            	retval = retval && getName().equals(edge.getName());
+            }
+            
+            if(getWeight() == null){
+            	retval = retval && edge.getWeight() == null;
+            }
+            else{
+            	retval = retval && getWeight().equals(edge.getWeight());
+            }
+            return retval;
         }
     }
     @Override
     public int hashCode(){
-        return getSource().hashCode() + getTarget().hashCode() + getName().hashCode() + getWeight().hashCode();
+    	int retVal = 31;
+    	if(getSource() != null){
+    		retVal += getSource().hashCode();
+        }
+    	if(getTarget() != null){
+    		retVal += getTarget().hashCode();
+        }
+    	if(getName() != null){
+    		retVal += getName().hashCode();
+        }
+    	if(getWeight() != null){
+    		retVal += getWeight().hashCode();
+        }
+        return retVal;
     }
 
 }
