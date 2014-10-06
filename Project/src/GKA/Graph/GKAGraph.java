@@ -5,10 +5,14 @@ import static GKA.FileHandling.Checks.PreChecks.checkExistingFile;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +23,13 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+
+
+
+
+
+//import org.jgraph.graph.DefaultEdge;
+//import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -47,6 +58,7 @@ class GKAGraph implements GKAGraphInterface {
 	static GKAGraphInterface newGraph(GraphType type){
 		return new GKAGraph(type);
 	}
+
 	
 	 static GKAGraphInterface newGraph(File file){
     	ArrayList<String> linedFile;
@@ -61,27 +73,21 @@ class GKAGraph implements GKAGraphInterface {
     		    
     		for(HashMap<String,String> line : parsedGraph)
     		{
-    		    if(line.get("vertexOnly") == "false")
+    		    if(line.get("vertexOnly").equals("false"))
     		    {
-    		       isDirectedGraph = line.get("isDirected") == "true"; 
-    		       isWeightedGraph = line.get("isWeighted") == "true";
-    		       break;
+    		       isDirectedGraph = line.get("isDirected").equals("true"); 
+    		       isWeightedGraph = isWeightedGraph || line.get("weight") != null;
     		    }   		    
     		}
     		
     		for(HashMap<String,String> line : parsedGraph)
     		{
-    		    if(line.get("vertexOnly") == "false")
+    		    if(line.get("vertexOnly").equals("false"))
     		    {
-    		        if(isDirectedGraph != (line.get("isDirected") == "true"))
+    		        if(isDirectedGraph != (line.get("isDirected").equals("true")))
     		        {
-    		           System.out.println("Graph beinhaltet sowohl gerichtete als auch ungerichtete Kanten");
+    		           MainControler.sendMessage("Graph beinhaltet sowohl gerichtete als auch ungerichtete Kanten");
     		           throw new IncorrectFileFormat(); 		           
-    		        }
-    		        if(isWeightedGraph != (line.get("isWeighted") == "true"))
-    		        {
-    		            System.out.println("Graph beinhaltet sowohl gewichtete als auch ungewichtete Kanten");
-                        throw new IncorrectFileFormat(); 
     		        }
     		    }
     		}
@@ -115,12 +121,11 @@ class GKAGraph implements GKAGraphInterface {
     		    {
     		        if(line.containsKey("weight"))
     		        {
-    		          weight = Double.parseDouble(line.get("weight"));		          
+    		          weight = Double.parseDouble((isWeightedGraph != (line.get("weight") != null)) ? "1.0" :line.get("weight"));		          
     		        }
     		        else
     		        {
     		            weight = null;
-    		            System.out.println("weight not existing");
     		        }
     		        if(line.containsKey("edgeName"))
     		        {
@@ -148,32 +153,33 @@ class GKAGraph implements GKAGraphInterface {
 	private static ArrayList<HashMap<String, String>> parse(ArrayList<String> linedFile) throws IncorrectFileFormat {
 		ArrayList<HashMap<String, String>> retVal = new ArrayList<>();
 		for (String line : linedFile){
-			HashMap<String, String> lineHash = new HashMap<>();
-			if(line.matches("\\p{L}+"))
-	        {
-				lineHash.put("vertexOnly","true");
-				lineHash.put("node1", line);
-				retVal.add(lineHash); //direkt zur Ausgabe
-	        }
-	        else if(line.matches("\\p{L}+" + DIRECTED_SIGN + "\\p{L}+(\\(\\p{L}+\\))?(:\\d+(.\\d+)?)?"))
-	        {	
-	        	//Methode für gerichtete Graphen
-	        	lineHash = getHashedLine(line, DIRECTED_SIGN);
-	        	lineHash.put("isDirected", "true");
-	        	retVal.add(lineHash);
-	        }
-	        else if(line.matches("\\p{L}+" + UNDIRECTED_SIGN + "\\p{L}+(\\(\\p{L}+\\))?(:\\d+(.\\d+)?)?"))
-	        {	
-	        	//Methode für ungerichtete Graphen
-	        	lineHash = getHashedLine(line, UNDIRECTED_SIGN);
-	        	lineHash.put("isDirected", "false");
-	        	retVal.add(lineHash);
-	        }
-	        else {
-	        	System.out.println(line);
-	        	throw new IncorrectFileFormat();
-	        }
-			System.out.println(lineHash);
+		    if(!line.isEmpty())
+		    {
+		        HashMap<String, String> lineHash = new HashMap<>();
+    			if(line.matches("[\\p{L}|[0-9]]+"))
+    	        {
+    				lineHash.put("vertexOnly","true");
+    				lineHash.put("node1", line);
+    				retVal.add(lineHash); //direkt zur Ausgabe
+    	        }
+    	        else if(line.matches("[\\p{L}|[0-9]]+" + DIRECTED_SIGN + "[\\p{L}|[0-9]]+(\\([\\p{L}|[0-9]]+\\))?(:\\d+(.\\d+)?)?"))
+    	        {	
+    	        	//Methode für gerichtete Graphen
+    	        	lineHash = getHashedLine(line, DIRECTED_SIGN);
+    	        	lineHash.put("isDirected", "true");
+    	        	retVal.add(lineHash);
+    	        }
+    	        else if(line.matches("[\\p{L}|[0-9]]+" + UNDIRECTED_SIGN + "[\\p{L}|[0-9]]+(\\([\\p{L}|[0-9]]+\\))?(:\\d+(.\\d+)?)?"))
+    	        {	
+    	        	//Methode für ungerichtete Graphen
+    	        	lineHash = getHashedLine(line, UNDIRECTED_SIGN);
+    	        	lineHash.put("isDirected", "false");
+    	        	retVal.add(lineHash);
+    	        }
+    	        else {
+    	        	throw new IncorrectFileFormat();
+    	        }
+    		}
 		}
 		return retVal;
 	}
@@ -212,15 +218,16 @@ class GKAGraph implements GKAGraphInterface {
 	//* Wenn der file existiert, werden die " " entfernt und an dem ";" aufgeteilt und in einem Array heraus gegeben
     private static ArrayList<String> readFile(File file) throws IOException, FileNotExists
     {
-        Charset charset = Charset.forName("UTF-8");
-        BufferedReader reader = Files.newBufferedReader(checkExistingFile(file).toPath(), charset);
+        CharsetDecoder decoder = Charset.forName("ISO-8859-1").newDecoder();
+        decoder.onMalformedInput(CodingErrorAction.IGNORE);
+        InputStreamReader reader2 = new InputStreamReader(new FileInputStream(checkExistingFile(file)), decoder);
+        BufferedReader reader = new BufferedReader(reader2);
         String line = null;
         ArrayList<String> returnValue = new ArrayList<>();
         while ((line = reader.readLine()) != null) 
         {
             returnValue.addAll(Arrays.asList(line.replace(" ","").replace("\t","").split(";")));
         }
-        System.out.println(returnValue);
         return returnValue;  
     }
 	
@@ -558,5 +565,29 @@ class GKAGraph implements GKAGraphInterface {
 		}else{
 			return false;
 		}
+	}
+	public boolean equals(Object object)
+	{
+	    if(object == null){
+	        return false;
+	    }
+	    else if(object == this){
+	        return true;
+	    }
+	    else if(!(object instanceof GKAGraphInterface)){
+	        return false;
+	    }
+	    else{
+	        GKAGraphInterface graph = (GKAGraphInterface) object;
+	        return (graph.getjGraph().edgeSet().equals(this.getjGraph().edgeSet()) && graph.getjGraph().vertexSet().equals(this.getjGraph().vertexSet()));
+	    }
+	}
+	public int hashCode(){
+	    return 31 + getjGraph().edgeSet().hashCode() + getjGraph().vertexSet().hashCode();
+
+	}
+	public String toString()
+	{
+	    return getjGraph().toString();
 	}
 }
