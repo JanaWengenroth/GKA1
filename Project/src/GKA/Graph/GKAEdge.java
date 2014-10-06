@@ -53,5 +53,28 @@ public class GKAEdge extends DefaultEdge{
     	}
     	return retVal;
     }
+    @Override
+    public boolean equals(Object object){
+        if(object == null){
+            return false;
+        }
+        else if(object == this){
+            return true;
+        }
+        else if(!(object instanceof GKAEdge)){
+            return false;
+        }
+        else{
+            GKAEdge edge = (GKAEdge) object;
+            return this.getSource().equals(edge.getSource()) && 
+                    this.getTarget().equals(edge.getTarget()) && 
+                    this.getName().equals(edge.getName()) && 
+                    this.getWeight().equals(edge.getWeight());
+        }
+    }
+    @Override
+    public int hashCode(){
+        return getSource().hashCode() + getTarget().hashCode() + getName().hashCode() + getWeight().hashCode();
+    }
 
 }
