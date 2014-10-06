@@ -393,11 +393,7 @@ class GKAGraph implements GKAGraphInterface {
 			}
 		}
 	}
-	/**
-	 * Finds the Shortest way from source to target,
-	 * returns null if not reachable,
-	 * else it returns the from source to target
-	 */
+	
 	@Override
 	public List<GKAEdge> shortesPathBroad(String source, String target) {
 		List<String> shortestPath = shortesPathBroadStringList(source, target);
@@ -421,7 +417,11 @@ class GKAGraph implements GKAGraphInterface {
 		}
 	}
 	
-	
+	/**
+	 * Finds the Shortest way from source to target,
+	 * returns null if not reachable,
+	 * else it returns the way from source to target
+	 */
 	public List<String> shortesPathBroadStringList(String source, String target) {
 		ArrayList<ArrayList<String>> wayList = new ArrayList<>();
 		Set<String> visitedVertexes = new HashSet<>();
@@ -429,6 +429,7 @@ class GKAGraph implements GKAGraphInterface {
 		int hops = 0;
 		if (source.equals(target)){
 			MainControler.sendMessage("Source == Target");
+			
 			return null;
 		}
 		
@@ -472,6 +473,12 @@ class GKAGraph implements GKAGraphInterface {
 		MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
 		return null;
 	}
+	/**
+	 * Returns the TargetVertex by moving an edge Starting at a Source
+	 * @param edge
+	 * @param source
+	 * @return
+	 */
 	private String moveEdge(GKAEdge edge, String source){
 		if(edge.getSource().equals(source)){
 			return edge.getTarget().toString();
