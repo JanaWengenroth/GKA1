@@ -28,14 +28,19 @@ import java.util.Set;
 
 
 
+
+
+
 //import org.jgraph.graph.DefaultEdge;
 //import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DirectedMultigraph;
+import org.jgrapht.graph.DirectedPseudograph;
 import org.jgrapht.graph.ListenableDirectedGraph;
 import org.jgrapht.graph.ListenableUndirectedGraph;
 import org.jgrapht.graph.Multigraph;
+import org.jgrapht.graph.Pseudograph;
 
 import GKA.Controler.MainControler;
 import GKA.FileHandling.Errors.FileNotExists;
@@ -240,9 +245,9 @@ class GKAGraph implements GKAGraphInterface {
 		
 		// Choose if it will be directed or undirected
 		if (isDirected()){
-			jGraph = new ListenableDirectedGraph<>(new DirectedMultigraph<>(GKAEdge.class));
+			jGraph = new ListenableDirectedGraph<>(new DirectedPseudograph<>(GKAEdge.class));
 		}else{
-			jGraph = new ListenableUndirectedGraph<>(new Multigraph<>(GKAEdge.class));
+			jGraph = new ListenableUndirectedGraph<>(new Pseudograph<>(GKAEdge.class));
 		}
 		
 		// JGXAdapter for showing the Graph in Swing
