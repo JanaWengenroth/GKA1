@@ -527,7 +527,7 @@ class GKAGraph implements GKAGraphInterface {
 		MainControler.sendMessage("Hops: " + hops);
 		MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
 		return null;
-	}
+	} 
 	/**
 	 * Returns the TargetVertex by moving an edge Starting at a Source
 	 * @param edge
