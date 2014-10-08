@@ -286,18 +286,24 @@ public class GKAGraphTest
     {
         assertEquals(new ArrayList(Arrays.asList("Paderborn", "Hamburg", "Bremen")), ((GKAGraph) GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph3.gka"))).shortesPathBroadStringList("Paderborn","Bremen"));
         //graph1 von a nach j
-        assertEquals("[(a : b), (b : j)]", GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph1.gka")).shortesPathBroad("a","j").toString());
+        assertEquals(new ArrayList(Arrays.asList("a", "b", "j")), ((GKAGraph) GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph1.gka"))).shortesPathBroadStringList("a","j"));
+        //assertEquals("[(a : b), (b : j)]", GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph1.gka")).shortesPathBroad("a","j").toString());
         //graph2 von a nach k mehrere Möglichkeiten
+        assertEquals(new ArrayList(Arrays.asList("a", "c", "k")), ((GKAGraph) GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph2.gka"))).shortesPathBroadStringList("a","k"));
         assertEquals(2, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph2.gka")).shortesPathBroad("a","k").size());
         // graph3 von Paderborn nach Bremen
-        assertEquals("[(Paderborn : Hamburg) : 228.0, (Bremen : Hamburg) : 127.0]", GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph3.gka")).shortesPathBroad("Paderborn","Bremen").toString());
+        //assertEquals("[(Paderborn : Hamburg) : 228.0, (Bremen : Hamburg) : 127.0]", GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph3.gka")).shortesPathBroad("Paderborn","Bremen").toString());
         //graph4 gewichtet von v4 nach s : 1.0
+        assertEquals(new ArrayList(Arrays.asList("v4", "s")), ((GKAGraph) GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph4.gka"))).shortesPathBroadStringList("v4","s"));
         assertEquals("[(v4 : s) : 1.0]", GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph4.gka")).shortesPathBroad("v4","s").toString());
         //graph5 gewichtet von v1 nach v7 : 6.0
-        assertEquals("[(v1 : v7) : 6.0]", GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph5.gka")).shortesPathBroad("v1","v7").toString());
+        assertEquals(new ArrayList(Arrays.asList("v1", "v7")), ((GKAGraph) GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph5.gka"))).shortesPathBroadStringList("v1","v7"));
+       // assertEquals("[(v1 : v7) : 6.0]", GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph5.gka")).shortesPathBroad("v1","v7").toString());
        //graph6 von 10 nach 12 (keine Verbindung vorhanden)
-        assertEquals(null, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph6.gka")).shortesPathBroad("10","12"));
+        assertEquals(null, ((GKAGraph) GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph6.gka"))).shortesPathBroadStringList("10","12"));
+        //assertEquals(null, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph6.gka")).shortesPathBroad("10","12"));
        //graph6 von 12 nach 11 gegen die Richtung
+        assertEquals(null, ((GKAGraph) GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph6.gka"))).shortesPathBroadStringList("12","11"));
         assertEquals(null, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph6.gka")).shortesPathBroad("12","11"));
     }
     
