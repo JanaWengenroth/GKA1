@@ -6,9 +6,11 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
@@ -22,6 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+
+
 
 
 
@@ -84,7 +88,7 @@ class GKAGraph implements GKAGraphInterface {
     		       isWeightedGraph = isWeightedGraph || line.get("weight") != null;
     		    }   		    
     		}
-    		
+    		System.out.println(isWeightedGraph);
     		for(HashMap<String,String> line : parsedGraph)
     		{
     		    if(line.get("vertexOnly").equals("false"))
@@ -275,7 +279,7 @@ class GKAGraph implements GKAGraphInterface {
 	public mxGraph getMxgraph() {
 		return mxgraph;
 	}
-	private GraphType getType() {
+	public GraphType getType() {
 		return type;
 	}
 	/* (non-Javadoc)
@@ -381,8 +385,8 @@ class GKAGraph implements GKAGraphInterface {
 	
 	@Override
 	public void saveGraph(File file){
-		Writer fw = null;
-		BufferedWriter bw = null;
+		//Writer fw = null;
+		OutputStreamWriter bw = null;
 		if (!file.exists()) {
 			try {
 				file.createNewFile();
@@ -394,8 +398,9 @@ class GKAGraph implements GKAGraphInterface {
 		
 		try
 		{
-		  fw = new FileWriter( file );
-		  bw = new BufferedWriter(fw);
+		  //fw = new FileWriter( file );
+		  bw = new OutputStreamWriter(new FileOutputStream(file), "ISO-8859-1");
+		  //bw = new BufferedWriter(fw);
 		  bw.write( "" );
 		  for(String vertex :getjGraph().vertexSet()){
 			  bw.append(vertex + ";" + System.getProperty("line.separator"));
@@ -406,6 +411,7 @@ class GKAGraph implements GKAGraphInterface {
 			  if(edge.getName() != null){
 				  saveVal += " (" + edge.getName() + ")";
 			  }
+			  System.out.println(isWeighted());
 			  if(isWeighted()){
 				  saveVal += " :" + edge.getWeight();
 			  }
@@ -587,7 +593,7 @@ class GKAGraph implements GKAGraphInterface {
 	    }
 	    else{
 	        GKAGraphInterface graph = (GKAGraphInterface) object;
-	        return (graph.getjGraph().edgeSet().equals(this.getjGraph().edgeSet()) && graph.getjGraph().vertexSet().equals(this.getjGraph().vertexSet()));
+	        return (graph.getType().equals(this.getType()) && graph.getjGraph().edgeSet().equals(this.getjGraph().edgeSet()) && graph.getjGraph().vertexSet().equals(this.getjGraph().vertexSet()));
 	    }
 	}
 	public int hashCode(){

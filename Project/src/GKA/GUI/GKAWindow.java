@@ -13,7 +13,7 @@ public class GKAWindow extends JFrame
 	 * 
 	 */
 	private static final long serialVersionUID = -681994194520141257L;
-	public static String version = "0.0.1";
+	public static String version = "0.1";
 	private GKAMenuPanel menuePanel;
 	private GKAPanel mainPanel;
 	private GKAMessages messages;
