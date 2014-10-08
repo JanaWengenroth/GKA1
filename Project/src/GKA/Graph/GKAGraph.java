@@ -88,7 +88,7 @@ class GKAGraph implements GKAGraphInterface {
     		       isWeightedGraph = isWeightedGraph || line.get("weight") != null;
     		    }   		    
     		}
-    		System.out.println(isWeightedGraph);
+    		
     		for(HashMap<String,String> line : parsedGraph)
     		{
     		    if(line.get("vertexOnly").equals("false"))
@@ -411,7 +411,7 @@ class GKAGraph implements GKAGraphInterface {
 			  if(edge.getName() != null){
 				  saveVal += " (" + edge.getName() + ")";
 			  }
-			  System.out.println(isWeighted());
+			  
 			  if(isWeighted()){
 				  saveVal += " :" + edge.getWeight();
 			  }
