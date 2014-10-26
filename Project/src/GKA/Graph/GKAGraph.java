@@ -84,7 +84,7 @@ class GKAGraph implements GKAGraphInterface {
     		       isWeightedGraph = isWeightedGraph || line.get("weight") != null;
     		    }   		    
     		}
-    		
+    		System.out.println(isWeightedGraph);
     		for(HashMap<String,String> line : parsedGraph)
     		{
     		    if(line.get("vertexOnly").equals("false"))
@@ -354,7 +354,7 @@ class GKAGraph implements GKAGraphInterface {
 	
 	@Override
 	public void setLayout(){
-		mxCircleLayout layout1 = new mxCircleLayout(getMxgraph());
+		mxCircleLayout layout1 = new mxCircleLayout(getMxgraph(),200);
         layout1.execute(getMxgraph().getDefaultParent());
 		mxParallelEdgeLayout layout = new mxParallelEdgeLayout(getMxgraph(), 50);
         layout.execute(getMxgraph().getDefaultParent());
@@ -507,6 +507,7 @@ class GKAGraph implements GKAGraphInterface {
 					if(nextNode.equals(target)){
 						long timeNeeded = (System.nanoTime() - startime);
 						MainControler.sendMessage("Found Way: " + tmpActualWay);
+						MainControler.sendMessage("Kantenzahl" + (tmpActualWay.size() - 1));
 						MainControler.sendMessage("Hops: " + hops);
 						MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
 						return tmpActualWay;
