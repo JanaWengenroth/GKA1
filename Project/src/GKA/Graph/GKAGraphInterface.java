@@ -61,6 +61,8 @@ public interface GKAGraphInterface {
 	
 	public void colorEdge(Collection<GKAEdge> edges);
 	
+	public GraphType getType();
+	
 	/**
 	 * Find the shortest way from Source to Target
 	 * by using the broad search algorithm
