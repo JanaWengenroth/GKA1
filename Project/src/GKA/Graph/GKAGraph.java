@@ -35,6 +35,7 @@ import java.util.Set;
 
 
 
+
 //import org.jgraph.graph.DefaultEdge;
 //import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
@@ -43,10 +44,10 @@ import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.DirectedPseudograph;
 import org.jgrapht.graph.ListenableDirectedGraph;
 import org.jgrapht.graph.ListenableUndirectedGraph;
-import org.jgrapht.graph.Multigraph;
 import org.jgrapht.graph.Pseudograph;
 
 import GKA.Controler.MainControler;
+import GKA.Controler.MessageReceiver;
 import GKA.FileHandling.Errors.FileNotExists;
 import GKA.FileHandling.Errors.IncorrectFileFormat;
 
@@ -88,7 +89,7 @@ class GKAGraph implements GKAGraphInterface {
     		       isWeightedGraph = isWeightedGraph || line.get("weight") != null;
     		    }   		    
     		}
-    		System.out.println(isWeightedGraph);
+    		
     		for(HashMap<String,String> line : parsedGraph)
     		{
     		    if(line.get("vertexOnly").equals("false"))
@@ -244,6 +245,7 @@ class GKAGraph implements GKAGraphInterface {
 	private final ListenableGraph<String, GKAEdge> jGraph;
 	private final JGraphXAdapter<String,GKAEdge> mxgraph;
 	private final GraphType type;
+	private final List<MessageReceiver> messageReceivers = new ArrayList<>();
 	private GKAGraph(GraphType type){
 		this.type = type;
 		
@@ -303,14 +305,14 @@ class GKAGraph implements GKAGraphInterface {
 	@Override
 	public boolean addVertex(String vertexName){
 		if(vertexName == null){
-			MainControler.sendMessage("Null is not exepted as VertexName!");
+			sendMessage("Null is not exepted as VertexName!");
 			return false;
 		}
 		if(!getjGraph().addVertex(vertexName)){
-			MainControler.sendMessage("Vertex \"" + vertexName + "\" already exists!");
+			sendMessage("Vertex \"" + vertexName + "\" already exists!");
 			return false;
 		}
-		MainControler.sendMessage("Vertex \"" + vertexName + "\" created.");
+		sendMessage("Vertex \"" + vertexName + "\" created.");
 		return true;
 	}
 	
@@ -320,21 +322,21 @@ class GKAGraph implements GKAGraphInterface {
 	@Override
 	public boolean addEdge(String source, String target, String name, Double weight){
 		if (source == null){
-			MainControler.sendMessage("Please add a SourceVertex!");
+			sendMessage("Please add a SourceVertex!");
 			return false;
 		}else if(target == null){
-			MainControler.sendMessage("Please add a TargetVertex!");
+			sendMessage("Please add a TargetVertex!");
 			return false;
 		}
 		if (weight == null && isWeighted()){
-			MainControler.sendMessage("Please add a Weight for weighted Graphs!");
+			sendMessage("Please add a Weight for weighted Graphs!");
 			return false;
 		} else if( isWeighted() && weight < 0.0){
-			MainControler.sendMessage("A weight below 0 is not allowed!");
+			sendMessage("A weight below 0 is not allowed!");
 			return false;
 		}
 		if (weight != null && !isWeighted()){
-			MainControler.sendMessage("Weights have no effects to unweighted Graphs!");
+			sendMessage("Weights have no effects to unweighted Graphs!");
 		}
 		if(!getjGraph().containsVertex(source)){
 			addVertex(source);
@@ -346,9 +348,9 @@ class GKAGraph implements GKAGraphInterface {
 		try {
 			edge = new GKAEdge(name, weight);
 			jGraph.addEdge(source, target,edge);
-			MainControler.sendMessage("Edge \"" + edge.toString() + "\" was set.");
+			sendMessage("Edge \"" + edge.toString() + "\" was set.");
 		} catch (Exception e) {
-			MainControler.sendMessage("Adding edge from \"" + source + "\" to \"" + target + "\" failed by \n" +
+			sendMessage("Adding edge from \"" + source + "\" to \"" + target + "\" failed by \n" +
 					e.toString());
 			return false;
 		}
@@ -418,10 +420,10 @@ class GKAGraph implements GKAGraphInterface {
 			  saveVal += ";" + System.getProperty("line.separator");
 			  bw.append(saveVal);
 		  }
-		  MainControler.sendMessage("Graph is saved to: \"" + file.getAbsolutePath() + "\".");
+		  sendMessage("Graph is saved to: \"" + file.getAbsolutePath() + "\".");
 		}
 		catch ( IOException e ) {
-		  MainControler.sendMessage( "Konnte Datei nicht erstellen" );
+		  sendMessage( "Konnte Datei nicht erstellen" );
 		}
 		finally {
 		  if ( bw != null )
@@ -488,7 +490,7 @@ class GKAGraph implements GKAGraphInterface {
 		long startime = System.nanoTime();
 		int hops = 0;
 		if (source.equals(target)){
-			MainControler.sendMessage("Source == Target");
+			sendMessage("Source == Target");
 			ArrayList<String> retVal = new ArrayList<>();
 			retVal.add(source);
 			return retVal;
@@ -512,10 +514,10 @@ class GKAGraph implements GKAGraphInterface {
 					hops = hops + 1;
 					if(nextNode.equals(target)){
 						long timeNeeded = (System.nanoTime() - startime);
-						MainControler.sendMessage("Found Way: " + tmpActualWay);
-						MainControler.sendMessage("Kantenzahl" + (tmpActualWay.size() - 1));
-						MainControler.sendMessage("Hops: " + hops);
-						MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
+						sendMessage("Found Way: " + tmpActualWay);
+						sendMessage("Kantenzahl: " + (tmpActualWay.size() - 1));
+						sendMessage("Hops: " + hops);
+						sendMessage("Time: " + timeNeeded + " NanoSec");
 						return tmpActualWay;
 					}
 					else{
@@ -530,9 +532,9 @@ class GKAGraph implements GKAGraphInterface {
 			wayList = tmpWaylist;
 		}
 		long timeNeeded = (System.nanoTime() - startime);
-		MainControler.sendMessage("Found no way!");
-		MainControler.sendMessage("Hops: " + hops);
-		MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
+		sendMessage("Found no way!");
+		sendMessage("Hops: " + hops);
+		sendMessage("Time: " + timeNeeded + " NanoSec");
 		return null;
 	} 
 	/**
@@ -604,5 +606,16 @@ class GKAGraph implements GKAGraphInterface {
 	public String toString()
 	{
 	    return getjGraph().toString();
+	}
+
+	@Override
+	public void addMessageReceiver(MessageReceiver messageReceiver) {
+		messageReceivers.add(messageReceiver);
+		
+	}
+	private void sendMessage(String message){
+		for (MessageReceiver messageReceiver : messageReceivers){
+			messageReceiver.receiveMessage(message);
+		}
 	}
 }
