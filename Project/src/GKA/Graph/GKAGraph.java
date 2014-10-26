@@ -32,6 +32,7 @@ import java.util.Set;
 
 
 
+
 //import org.jgraph.graph.DefaultEdge;
 //import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
@@ -624,7 +625,76 @@ class GKAGraph implements GKAGraphInterface {
 
 	@Override
 	public List<GKAEdge> floydWarschall(String source, String target) {
-		sendMessage("Not Yet Implemented.");
-		return null;
+		long startime = System.nanoTime();
+		Matrix<String, Set<GKAEdge>> floydMatrix = generateFloydMatrix();
+		Matrix<String, Set<GKAEdge>> warschallMatrix = generateWarschalMatrix(floydMatrix);
+		sendMessage("Benötigte Zeit: " + (System.nanoTime() - startime) + " nanosec." );
+		sendMessage("Anzahl der Kanten auf dem Weg: " + warschallMatrix.get(source, target).size());
+		if (warschallMatrix.get(source, target).equals(new HashSet<>(Arrays.asList(new GKAEdge(null, 0.0))))){
+			return null;
+		}
+		return new ArrayList<>(warschallMatrix.get(source, target));
 	}
+	private Matrix<String, Set<GKAEdge>> generateWarschalMatrix(Matrix<String, Set<GKAEdge>> floydMatrix) {
+		Matrix<String, Set<GKAEdge>> retVal = new Matrix<>(floydMatrix);
+		long hops = 0;
+		for (String j : retVal.getColumns()){
+			for (String i : retVal.getRows()){
+				Set<GKAEdge> way1= retVal.get(i,j);
+				if (way1 != null){
+					for(String k : retVal.getColumns()){
+						Set<GKAEdge> way2 = retVal.get(j, k);
+						if(way2 != null){
+							Set<GKAEdge> newWay = addWays(way1, way2);
+							if(retVal.get(i, k) == null || getWayLength(retVal.get(i, k)) > getWayLength(newWay)){
+								retVal.put(i, k, newWay);
+								hops++;
+							}
+						}
+					}
+				}
+			}
+		}
+		sendMessage("Created Warschall Matrix with: " + hops + " hops.");
+		return retVal;
+	}
+
+
+	private Matrix<String, Set<GKAEdge>> generateFloydMatrix(){
+		Matrix<String, Set<GKAEdge>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
+		long hops = 0 ;
+		for(String row : retVal.getRows()){
+			for(String column : retVal.getColumns()){
+				if (row.equals(column)){
+					HashSet<GKAEdge> tmpSet = new HashSet<>();
+					tmpSet.add(new GKAEdge(null, 0.0));
+					retVal.put(row, column, tmpSet);
+				}else{
+					for(GKAEdge edge : getjGraph().getAllEdges(row, column)){
+						if (retVal.get(row, column) == null || getWayLength(retVal.get(row, column)) > edge.getWeight()){
+							HashSet<GKAEdge> tmpSet = new HashSet<>();
+							tmpSet.add(edge);
+							retVal.put(row, column, tmpSet);
+							hops++;
+						}
+					}
+				}
+			}
+		}
+		sendMessage("Created Floyd Matrix with: " + hops + " hops.");
+		return retVal;
+	}
+	private double getWayLength(Set<GKAEdge> way){
+		double retval = 0.0;
+		for(GKAEdge edge : way){
+			retval += edge.getWeight();
+		}
+		return retval;
+	}
+	private Set<GKAEdge> addWays(Set<GKAEdge> way1, Set<GKAEdge> way2){
+		HashSet<GKAEdge> retVal = new HashSet<>(way1);
+		retVal.addAll(way2);
+		return retVal;
+	}
+
 }
