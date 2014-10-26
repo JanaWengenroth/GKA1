@@ -4,9 +4,9 @@ import GKA.Controler.MainControler;
 
 import com.mxgraph.model.mxCell;
 
-public class MouseBroadSearchHandler extends MouseSearchHandler implements MouseEventInterface{
+public class MouseDijkstraHandler extends MouseSearchHandler implements MouseEventInterface{
 	
-	public MouseBroadSearchHandler() {
+	public MouseDijkstraHandler() {
 		MainControler.sendMessage("Please select SourceVertex.");
 	}
 	
@@ -17,7 +17,7 @@ public class MouseBroadSearchHandler extends MouseSearchHandler implements Mouse
 				source = eventObj.getValue().toString();
 				MainControler.sendMessage("Please select TargetVertex.");
 			}else{
-				MainControler.shortesPathBroad(source, eventObj.getValue().toString());
+				MainControler.dijkstra(source, eventObj.getValue().toString());
 				setFinished(true);
 			}
 		}

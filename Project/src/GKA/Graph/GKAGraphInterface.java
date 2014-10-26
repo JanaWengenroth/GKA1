@@ -77,4 +77,8 @@ public interface GKAGraphInterface extends MessageSender{
 	
 	public void resetColor();
 	
+	public List<GKAEdge> dijkstra(String source, String target);
+	
+	public List<GKAEdge> floydWarschall(String source, String target);
+	
 }

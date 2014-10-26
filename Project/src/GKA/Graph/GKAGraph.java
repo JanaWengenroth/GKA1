@@ -3,19 +3,14 @@ package GKA.Graph;
 import static GKA.FileHandling.Checks.PreChecks.checkExistingFile;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CodingErrorAction;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,11 +31,11 @@ import java.util.Set;
 
 
 
+
 //import org.jgraph.graph.DefaultEdge;
 //import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
-import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.DirectedPseudograph;
 import org.jgrapht.graph.ListenableDirectedGraph;
 import org.jgrapht.graph.ListenableUndirectedGraph;
@@ -617,5 +612,19 @@ class GKAGraph implements GKAGraphInterface {
 		for (MessageReceiver messageReceiver : messageReceivers){
 			messageReceiver.receiveMessage(message);
 		}
+	}
+
+
+	@Override
+	public List<GKAEdge> dijkstra(String source, String target) {
+		sendMessage("Not Yet Implemented.");
+		return null;
+	}
+
+
+	@Override
+	public List<GKAEdge> floydWarschall(String source, String target) {
+		sendMessage("Not Yet Implemented.");
+		return null;
 	}
 }

@@ -17,7 +17,7 @@ public class GKAMainPanel extends GKAPanel{
 	{
 		super(width, height, posX, posY, Color.BLACK);
 		setLayout(null);
-		graphMenuePanel = new GKAGraphMenuPanel(graphMenueSize, getHeight(), getWidth() - graphMenueSize, 0);
+		graphMenuePanel = new GKAGraphMenuPanel(graphMenueSize, getHeight(), getWidth() - graphMenueSize, 0, graph);
 		add(graphMenuePanel);
 		graphPanel = new GKAGraphPanel(getWidth() - graphMenueSize, getHeight(), 0, 0, graph);
 		add(graphPanel);

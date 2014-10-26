@@ -101,4 +101,14 @@ public class MainControler {
 		graph.resetColor();
 		graph.colorEdge(graph.shortesPathBroad(source, target));
 	}
+	public static void dijkstra(String source, String target) {
+		graph.resetColor();
+		graph.colorEdge(graph.dijkstra(source, target));
+		
+	}
+	public static void floydWarschall(String source, String target) {
+		graph.resetColor();
+		graph.colorEdge(graph.floydWarschall(source, target));
+		
+	}
 }
