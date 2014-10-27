@@ -33,6 +33,7 @@ import java.util.Set;
 
 
 
+
 //import org.jgraph.graph.DefaultEdge;
 //import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
@@ -242,6 +243,9 @@ class GKAGraph implements GKAGraphInterface {
 	private final JGraphXAdapter<String,GKAEdge> mxgraph;
 	private final GraphType type;
 	private final List<MessageReceiver> messageReceivers = new ArrayList<>();
+	private Matrix<String, Set<GKAEdge>> warschallMatrix = null;
+	
+	
 	private GKAGraph(GraphType type){
 		this.type = type;
 		
@@ -309,6 +313,7 @@ class GKAGraph implements GKAGraphInterface {
 			return false;
 		}
 		sendMessage("Vertex \"" + vertexName + "\" created.");
+		graphChanged();
 		return true;
 	}
 	
@@ -350,8 +355,13 @@ class GKAGraph implements GKAGraphInterface {
 					e.toString());
 			return false;
 		}
+		graphChanged();
 		return true;
 		
+	}
+	
+	private void graphChanged(){
+		warschallMatrix = null;
 	}
 	
 	@Override
@@ -625,9 +635,15 @@ class GKAGraph implements GKAGraphInterface {
 
 	@Override
 	public List<GKAEdge> floydWarschall(String source, String target) {
+		if (source == null || target == null || !getjGraph().containsVertex(source) || !getjGraph().containsVertex(target)){
+			throw new IllegalArgumentException();
+		}
+		
 		long startime = System.nanoTime();
-		Matrix<String, Set<GKAEdge>> floydMatrix = generateFloydMatrix();
-		Matrix<String, Set<GKAEdge>> warschallMatrix = generateWarschalMatrix(floydMatrix);
+		if (warschallMatrix == null){
+			Matrix<String, Set<GKAEdge>> floydMatrix = generateFloydMatrix();
+			warschallMatrix = generateWarschalMatrix(floydMatrix);
+		}
 		sendMessage("Benötigte Zeit: " + (System.nanoTime() - startime) + " nanosec." );
 		sendMessage("Anzahl der Kanten auf dem Weg: " + warschallMatrix.get(source, target).size());
 		if (warschallMatrix.get(source, target).equals(new HashSet<>(Arrays.asList(new GKAEdge(null, 0.0))))){
@@ -635,6 +651,7 @@ class GKAGraph implements GKAGraphInterface {
 		}
 		return new ArrayList<>(warschallMatrix.get(source, target));
 	}
+	
 	private Matrix<String, Set<GKAEdge>> generateWarschalMatrix(Matrix<String, Set<GKAEdge>> floydMatrix) {
 		Matrix<String, Set<GKAEdge>> retVal = new Matrix<>(floydMatrix);
 		long hops = 0;
@@ -684,6 +701,7 @@ class GKAGraph implements GKAGraphInterface {
 		sendMessage("Created Floyd Matrix with: " + hops + " hops.");
 		return retVal;
 	}
+	
 	private double getWayLength(Set<GKAEdge> way){
 		double retval = 0.0;
 		for(GKAEdge edge : way){
