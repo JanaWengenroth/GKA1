@@ -18,7 +18,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
+
 
 
 
@@ -627,10 +629,203 @@ class GKAGraph implements GKAGraphInterface {
 
 
 	@Override
-	public List<GKAEdge> dijkstra(String source, String target) {
-		sendMessage("Not Yet Implemented.");
-		return null;
-	}
+
+    public List<GKAEdge> dijkstra(String source, String target) {
+         List<String> shortestPath = dijkstraStringList(source, target);
+         if(shortestPath == null){
+             return null;
+         }
+         else{
+             ArrayList<GKAEdge> retVal = new ArrayList<>();
+             ListIterator<String> it = shortestPath.listIterator();
+             if(it.hasNext()){
+                 String sourceErg = it.next();;
+                 while (it.hasNext()){
+                     String targetErg = it.next();
+                     retVal.add(getjGraph().getEdge(sourceErg, targetErg));
+                     sourceErg = targetErg;
+                 }
+             }else{
+                 return null;
+             }
+             return retVal;
+         }
+     }
+//
+//public List<String> dijkstraStringList(String source, String target) {
+//     ArrayList<ArrayList<String>> wayList = new ArrayList<>();
+//     Set<String> visitedVertexes = new HashSet<>();
+//     HashMap<ArrayList<String>, Double> actualWeight = new HashMap<>();
+//     Set<HashMap<ArrayList<String>, Double>> setOfWeights = new HashSet<>();
+//     
+//     long startime = System.nanoTime();
+//    // int hops = 0;
+//     
+//     if (isWeighted() == false)
+//     {
+//         return shortesPathBroadStringList(source, target);
+//     }
+//     else
+//         if (source.equals(target)){
+//             MainControler.sendMessage("Source == Target");
+//             ArrayList<String> retVal = new ArrayList<>();
+//             retVal.add(source);
+//             return retVal;
+//         }
+//         
+//         {
+//             ArrayList<String> actualWay = new ArrayList<>();
+//             actualWay.add(source);
+//             wayList.add(actualWay);
+//             visitedVertexes.add(source);
+//             actualWeight.put(actualWay, 0.0);
+//             setOfWeights.add(actualWeight);
+//            
+//         }
+//         
+//         Double smallestWeight = 0.0;
+//     
+//     while (!wayList.isEmpty()){         
+//         ArrayList<ArrayList<String>> tmpWaylist = new ArrayList<>();
+//         for(ArrayList<String> actualWay : wayList){
+//             String lastNode = actualWay.get(actualWay.size() - 1);
+//             for(GKAEdge edge : getAccessibleEdges(lastNode)){
+//                 ArrayList<String> tmpActualWay = new ArrayList<>(actualWay);
+//                 String nextNode = moveEdge(edge, lastNode);
+//                 actualWeight.put(tmpActualWay, edge.getWeight() + (actualWeight.get(actualWay) == null ? 0.0 : actualWeight.get(actualWay)));
+//                 setOfWeights.add(actualWeight);
+//                 for (HashMap<ArrayList<String>, Double> edgeWeights : setOfWeights)
+//                 {     
+//                     for (ArrayList<String> path : edgeWeights.keySet()) 
+//                     {
+//                        if ((path.get(path.size() - 1)) == nextNode)
+//                        {
+//                            smallestWeight = edgeWeights.get(path);
+//                            
+//                          if (smallestWeight <= actualWeight.get(tmpActualWay)) 
+//                          {
+//                              actualWay = tmpActualWay;
+//                          }
+//                         
+//                        }
+//                     }
+//                 
+//                 }
+//                 
+//                 //hops = hops + 1;
+//                 if(tmpActualWay.get(tmpActualWay.size() - 1).equals(target)){
+//                     long timeNeeded = (System.nanoTime() - startime);
+//                     MainControler.sendMessage("Weight of shortest way: " + smallestWeight);
+//                     MainControler.sendMessage("Found Way: " + tmpActualWay);
+//                 //    MainControler.sendMessage("Hops: " + hops);
+//                     MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
+//                     return tmpActualWay;
+//                 }
+//                 else{
+//                     tmpActualWay.add(nextNode);
+//                     if(!visitedVertexes.contains(nextNode)){
+//                         visitedVertexes.add(nextNode);
+//                         tmpWaylist.add(actualWay);
+//                    }
+//                 }
+//             }
+//             
+//         }
+//         wayList = tmpWaylist;
+//     }
+//     long timeNeeded = (System.nanoTime() - startime);
+//     MainControler.sendMessage("Found no way!");
+//   //  MainControler.sendMessage("Hops: " + hops);
+//     MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
+//     return null;
+// } 
+ 
+ public List<String> dijkstraStringList(String source, String target) {
+     HashMap<ArrayList<String>, Double> wayList = new HashMap<>();
+     HashMap<String, Double> visitedVertexes = new HashMap<>();
+     long startime = System.nanoTime();
+     int hops = 0;
+     if (source.equals(target)){
+         MainControler.sendMessage("Source == Target");
+         ArrayList<String> retVal = new ArrayList<>();
+         retVal.add(source);
+         return retVal;
+     }
+     
+     {
+         ArrayList<String> actualWay = new ArrayList<>();
+         actualWay.add(source);
+         wayList.put(actualWay, 0.0);
+         visitedVertexes.put(source, 0.0);
+     }
+     
+     ArrayList<String> shortesPath = null;
+     Double shortestWeight = Double.POSITIVE_INFINITY;
+     
+     while (!wayList.isEmpty()){         
+         HashMap<ArrayList<String>, Double> tmpWaylist = new HashMap<>(wayList);
+         Map.Entry<ArrayList<String>, Double> actualWay = null;
+         for(Map.Entry<ArrayList<String>, Double> shortestWay : wayList.entrySet()){
+             if(actualWay == null || actualWay.getValue() < shortestWay.getValue())
+             {
+                 actualWay = shortestWay;
+             }              
+         }
+             tmpWaylist.remove(actualWay.getKey());
+             String lastNode = actualWay.getKey().get(actualWay.getKey().size() - 1);
+             for(GKAEdge edge : getAccessibleEdges(lastNode)){
+                 ArrayList<String> tmpActualWay = new ArrayList<>(actualWay.getKey());
+                 String nextNode = moveEdge(edge, lastNode);
+                 tmpActualWay.add(nextNode);
+                 hops = hops + 1;
+                 if(nextNode.equals(target)){
+                     if((edge.getWeight() + actualWay.getValue()) < shortestWeight)
+                     {
+                         shortestWeight = edge.getWeight() + actualWay.getValue();
+                         shortesPath = tmpActualWay; 
+                     }
+
+                 }
+                 else{
+                     if(edge.getWeight() + actualWay.getValue() < shortestWeight)
+                     {
+                         
+                     
+                         if(!visitedVertexes.containsKey(nextNode)){
+                             visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
+                             tmpWaylist.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
+                         }
+                         else
+                         {
+                             if(visitedVertexes.get(nextNode) > (edge.getWeight() + actualWay.getValue()))
+                             {
+                                
+                                 for (Map.Entry<ArrayList<String>, Double> path : wayList.entrySet()) 
+                                 {
+                                    if ((path.getKey().get(path.getKey().size() - 1)) == nextNode) 
+                                    {
+                                        tmpWaylist.remove(path.getKey());
+                                        break;
+                                    }    
+                                 }
+                                 visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
+                                 tmpWaylist.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
+                             }
+                         }
+                     }
+                 }
+             }
+             
+         
+         wayList = tmpWaylist;
+     }
+     long timeNeeded = (System.nanoTime() - startime);
+     MainControler.sendMessage("Found no way!");
+     MainControler.sendMessage("Weight of shortest way: " + shortestWeight);
+     MainControler.sendMessage("Hops: " + hops);
+     MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
+     return shortesPath;
+ } 
 
 
 	@Override
@@ -644,7 +839,7 @@ class GKAGraph implements GKAGraphInterface {
 			Matrix<String, Set<GKAEdge>> floydMatrix = generateFloydMatrix();
 			warschallMatrix = generateWarschalMatrix(floydMatrix);
 		}
-		sendMessage("Benötigte Zeit: " + (System.nanoTime() - startime) + " nanosec." );
+		sendMessage("Benï¿½tigte Zeit: " + (System.nanoTime() - startime) + " nanosec." );
 		sendMessage("Anzahl der Kanten auf dem Weg: " + warschallMatrix.get(source, target).size());
 		if (warschallMatrix.get(source, target).equals(new HashSet<>(Arrays.asList(new GKAEdge(null, 0.0))))){
 			return null;
