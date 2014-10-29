@@ -5,9 +5,10 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import GKA.Controler.MessageReceiver;
 import GKA.Graph.GKAGraphInterface;
 
-public class GKAWindow extends JFrame
+public class GKAWindow extends JFrame implements MessageReceiver
 {
 	/**
 	 * 
@@ -47,5 +48,11 @@ public class GKAWindow extends JFrame
 	}
 	public void sendMessage(String msg){
 		messages.sendMessage(msg);
+	}
+
+	@Override
+	public void receiveMessage(String message) {
+		messages.sendMessage(message);
+		
 	}
 }

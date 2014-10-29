@@ -2,6 +2,8 @@ package GKA.GUI;
 
 import java.awt.Color;
 
+import GKA.Graph.GKAGraphInterface;
+
 public class GKAGraphMenuPanel extends GKAPanel{
 
 	/**
@@ -16,7 +18,8 @@ public class GKAGraphMenuPanel extends GKAPanel{
 	private GKAShortestPathBroadButton broadButton;
 	private GKACancelButton cancelButton;
 	private GKADijkstraButton dijkstraButton;
-	public GKAGraphMenuPanel(int width, int height, int posX, int posY) 
+	private GKAFloydWarshallButton floydWarshallButton;
+	public GKAGraphMenuPanel(int width, int height, int posX, int posY, GKAGraphInterface graph) 
 	{
 		super(width, height, posX, posY, Color.GREEN);
 		setLayout(null);
@@ -30,10 +33,14 @@ public class GKAGraphMenuPanel extends GKAPanel{
 		add(removeButton);
 		broadButton = new GKAShortestPathBroadButton(width - 10, 25, 5, 125);
 		add(broadButton);
+		if (graph.isWeighted()){
+			dijkstraButton = new GKADijkstraButton(width - 10, 25, 5, 155);
+			add(dijkstraButton);
+			floydWarshallButton = new GKAFloydWarshallButton(width - 10, 25, 5, 185);
+			add(floydWarshallButton);
+		}
 		cancelButton = new GKACancelButton(width - 10, 25, 5, height-40);
 		add(cancelButton);
-		dijkstraButton = new GKADijkstraButton(width - 10, 25, 5, 155);
-        add(dijkstraButton);
 	}
 
 }

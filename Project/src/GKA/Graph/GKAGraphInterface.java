@@ -7,9 +7,12 @@ import java.util.Set;
 
 import org.jgrapht.ListenableGraph;
 
+import GKA.Controler.MessageReceiver;
+import GKA.Controler.MessageSender;
+
 import com.mxgraph.view.mxGraph;
 
-public interface GKAGraphInterface {
+public interface GKAGraphInterface extends MessageSender{
 
 	public static GKAGraphInterface newGraph(GraphType type){
 		return GKAGraph.newGraph(type);
@@ -80,5 +83,9 @@ public interface GKAGraphInterface {
 	public List<GKAEdge> dijkstra(String source, String target);
 	
 	public void resetColor();
+	
+	public List<GKAEdge> dijkstra(String source, String target);
+	
+	public List<GKAEdge> floydWarschall(String source, String target);
 	
 }
