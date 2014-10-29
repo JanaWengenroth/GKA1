@@ -15,6 +15,7 @@ public class GKAGraphMenuPanel extends GKAPanel{
 	private GKARemoveButton removeButton;
 	private GKAShortestPathBroadButton broadButton;
 	private GKACancelButton cancelButton;
+	private GKADijkstraButton dijkstraButton;
 	public GKAGraphMenuPanel(int width, int height, int posX, int posY) 
 	{
 		super(width, height, posX, posY, Color.GREEN);
@@ -31,6 +32,8 @@ public class GKAGraphMenuPanel extends GKAPanel{
 		add(broadButton);
 		cancelButton = new GKACancelButton(width - 10, 25, 5, height-40);
 		add(cancelButton);
+		dijkstraButton = new GKADijkstraButton(width - 10, 25, 5, 155);
+        add(dijkstraButton);
 	}
 
 }

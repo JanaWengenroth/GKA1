@@ -71,6 +71,13 @@ public interface GKAGraphInterface {
 	 * @return
 	 */
 	public List<GKAEdge> shortesPathBroad(String source, String target);
+	/**
+	 * Find the way with the smallest Weight from Source to Target
+	 * @param source
+	 * @param target
+	 * @return
+	 */
+	public List<GKAEdge> dijkstra(String source, String target);
 	
 	public void resetColor();
 	

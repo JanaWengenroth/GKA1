@@ -96,4 +96,8 @@ public class MainControler {
 		graph.resetColor();
 		graph.colorEdge(graph.shortesPathBroad(source, target));
 	}
+	public static void dijkstra(String source, String target){
+        graph.resetColor();
+        graph.colorEdge(graph.dijkstra(source, target));
+    }
 }
