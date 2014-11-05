@@ -632,7 +632,7 @@ class GKAGraph implements GKAGraphInterface {
 
     public List<GKAEdge> dijkstra(String source, String target) {
          List<String> shortestPath = dijkstraStringList(source, target);
-         if(shortestPath == null){
+         if(shortestPath == null || shortestPath.size() <= 1){
              return null;
          }
          else{
@@ -763,7 +763,6 @@ class GKAGraph implements GKAGraphInterface {
      Double shortestWeight = Double.POSITIVE_INFINITY;
      
      while (!wayList.isEmpty()){         
-         HashMap<ArrayList<String>, Double> tmpWaylist = new HashMap<>(wayList);
          Map.Entry<ArrayList<String>, Double> actualWay = null;
          for(Map.Entry<ArrayList<String>, Double> shortestWay : wayList.entrySet()){
              if(actualWay == null || actualWay.getValue() < shortestWay.getValue())
@@ -771,7 +770,7 @@ class GKAGraph implements GKAGraphInterface {
                  actualWay = shortestWay;
              }              
          }
-             tmpWaylist.remove(actualWay.getKey());
+             wayList.remove(actualWay.getKey());
              String lastNode = actualWay.getKey().get(actualWay.getKey().size() - 1);
              for(GKAEdge edge : getAccessibleEdges(lastNode)){
                  ArrayList<String> tmpActualWay = new ArrayList<>(actualWay.getKey());
@@ -793,7 +792,7 @@ class GKAGraph implements GKAGraphInterface {
                      
                          if(!visitedVertexes.containsKey(nextNode)){
                              visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
-                             tmpWaylist.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
+                             wayList.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
                          }
                          else
                          {
@@ -804,20 +803,17 @@ class GKAGraph implements GKAGraphInterface {
                                  {
                                     if ((path.getKey().get(path.getKey().size() - 1)) == nextNode) 
                                     {
-                                        tmpWaylist.remove(path.getKey());
+                                        wayList.remove(path.getKey());
                                         break;
                                     }    
                                  }
                                  visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
-                                 tmpWaylist.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
+                                 wayList.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
                              }
                          }
                      }
                  }
              }
-             
-         
-         wayList = tmpWaylist;
      }
      long timeNeeded = (System.nanoTime() - startime);
      MainControler.sendMessage("Found no way!");

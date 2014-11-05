@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -328,5 +329,173 @@ public class GKAGraphTest
         assertEquals(g8, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
     }
     
+    private double getWayLength(Collection<GKAEdge> list){
+        double retval = 0.0;
+        if(list != null)
+        {
+            for(GKAEdge edge : list){
+                retval += edge.getWeight();
+            }
+        }
+        else
+        {
+            retval = -1.0;
+        }
+        return retval;
+    }
+    
+    @Test 
+    public void testGraph3()
+    {
+        GKAGraphInterface testGraph = GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\graph3.gka"));
+        for(String vertex1 : testGraph.getjGraph().vertexSet())
+        {
+            for(String vertex2 : testGraph.getjGraph().vertexSet())
+            {
+                
+               assertEquals(getWayLength(testGraph.dijkstra(vertex1, vertex2)), getWayLength(testGraph.floydWarschall(vertex1, vertex2)), 0.01); 
+            }
+        }
+    }
+    class RandomGraph
+    {
+        private GKAGraphInterface graph;
+        private String way1Source;
+        private String way1Target;
+        private double way1Weight;
+        private String way2Source;
+        private String way2Target;
+        private double way2Weight;
+        
+        RandomGraph(GKAGraphInterface graph, String way1Source, String way1Target, double way1Weight, String way2Source, String way2Target, double way2Weight)
+        {
+           this.setGraph(graph);
+           this.setWay1Source(way1Source);
+           this.setWay1Target(way1Target);
+           this.setWay1Weight(way1Weight);
+           this.setWay2Source(way2Source);
+           this.setWay2Target(way2Target);
+           this.setWay2Weight(way2Weight);
+        }
 
+        public GKAGraphInterface getGraph()
+        {
+            return graph;
+        }
+        
+        private void setGraph(GKAGraphInterface graph)
+        {
+            this.graph = graph;
+        }
+        
+        public String getWay1Source()
+        {
+            return way1Source;
+        }
+
+        private void setWay1Source(String way1Source)
+        {
+            this.way1Source = way1Source;
+        }
+
+        public String getWay1Target()
+        {
+            return way1Target;
+        }
+
+        private void setWay1Target(String way1Target)
+        {
+            this.way1Target = way1Target;
+        }
+
+        public double getWay1Weight()
+        {
+            return way1Weight;
+        }
+
+        private void setWay1Weight(double way1Weight)
+        {
+            this.way1Weight = way1Weight;
+        }
+
+        public String getWay2Source()
+        {
+            return way2Source;
+        }
+
+        private void setWay2Source(String way2Source)
+        {
+            this.way2Source = way2Source;
+        }
+
+        public String getWay2Target()
+        {
+            return way2Target;
+        }
+
+        private void setWay2Target(String way2Target)
+        {
+            this.way2Target = way2Target;
+        }
+
+        public double getWay2Weight()
+        {
+            return way2Weight;
+        }
+
+        private void setWay2Weight(double way2Weight)
+        {
+            this.way2Weight = way2Weight;
+        }
+        
+        
+    }
+    
+    public RandomGraph generateGraph(int vertexAnzahl, int edgeAnzahl)
+    {
+        GKAGraphInterface retval = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
+        for(int i = 0; i < vertexAnzahl; i++)
+        {
+            retval.addVertex(String.valueOf(i));
+        }
+        for(int i = 0; i < (vertexAnzahl / 2) - 1; i++)
+        {
+            retval.addEdge(String.valueOf(i), String.valueOf(i+1), null, 0.1);
+        }
+        for(int i = vertexAnzahl / 2 ; i < vertexAnzahl; i++)
+        {
+            retval.addEdge(String.valueOf(i), String.valueOf(i+1), null, 0.1);
+        }
+        for(int i = 0 ; i < edgeAnzahl; i++)
+        {
+            int target = (int) (Math.random() * (vertexAnzahl - 1));
+            int source = (int) (Math.random() * (vertexAnzahl - 1));
+            retval.addEdge(String.valueOf(source), String.valueOf(target), null, ((Math.random() * edgeAnzahl) + ((vertexAnzahl / 2) + 1) * 0.1));
+        }
+        return new RandomGraph(retval, String.valueOf(0), String.valueOf((vertexAnzahl / 2) - 1), ((vertexAnzahl /2) - 1) * 0.1, String.valueOf(vertexAnzahl / 2), String.valueOf(vertexAnzahl - 1), ((vertexAnzahl /2) - 1) * 0.1);
+    }
+    
+    @Test
+    public void testRandomGraph()
+    {
+       long startTime = System.currentTimeMillis();
+       RandomGraph testGraph = generateGraph(100, 6000);
+       System.out.println(System.currentTimeMillis() - startTime);
+       startTime = System.currentTimeMillis();
+       assertEquals(getWayLength(testGraph.getGraph().dijkstra(testGraph.getWay1Source(), testGraph.getWay1Target())), testGraph.getWay1Weight(), 0.01);
+       System.out.println(System.currentTimeMillis() - startTime);
+       startTime = System.currentTimeMillis();
+       assertEquals(getWayLength(testGraph.getGraph().dijkstra(testGraph.getWay2Source(), testGraph.getWay2Target())), testGraph.getWay2Weight(), 0.01);
+       System.out.println(System.currentTimeMillis() - startTime);
+       startTime = System.currentTimeMillis();
+       assertEquals(getWayLength(testGraph.getGraph().floydWarschall(testGraph.getWay1Source(), testGraph.getWay1Target())), testGraph.getWay1Weight(), 0.01);
+       System.out.println(System.currentTimeMillis() - startTime);
+       startTime = System.currentTimeMillis();
+       assertEquals(getWayLength(testGraph.getGraph().floydWarschall(testGraph.getWay2Source(), testGraph.getWay2Target())), testGraph.getWay2Weight(), 0.01);
+       System.out.println(System.currentTimeMillis() - startTime);
+       startTime = System.currentTimeMillis();
+    }
 }
+    
+
+
