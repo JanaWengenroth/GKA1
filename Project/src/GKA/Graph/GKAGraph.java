@@ -62,9 +62,9 @@ class GKAGraph implements GKAGraphInterface {
 	 * @param type - specifies the type of the Graph
 	 * @return
 	 */
-	static final String DIRECTED_SIGN = "->";
-	static final String UNDIRECTED_SIGN = "--";
-	static GKAGraphInterface newGraph(GraphType type){
+	 static final String DIRECTED_SIGN = "->";
+	 static final String UNDIRECTED_SIGN = "--";
+	 static GKAGraphInterface newGraph(GraphType type){
 		return new GKAGraph(type);
 	}
 
@@ -75,7 +75,7 @@ class GKAGraph implements GKAGraphInterface {
     	try {
     		linedFile = readFile(file);
     		ArrayList<HashMap<String,String>> parsedGraph = parse(linedFile);
-    		Double weight; 
+    		Double weight;
     		String edgeName;
     		boolean isDirectedGraph = false;
     		boolean isWeightedGraph = false;
@@ -770,54 +770,58 @@ class GKAGraph implements GKAGraphInterface {
                  actualWay = shortestWay;
              }              
          }
-             wayList.remove(actualWay.getKey());
-             String lastNode = actualWay.getKey().get(actualWay.getKey().size() - 1);
-             for(GKAEdge edge : getAccessibleEdges(lastNode)){
-                 ArrayList<String> tmpActualWay = new ArrayList<>(actualWay.getKey());
-                 String nextNode = moveEdge(edge, lastNode);
-                 tmpActualWay.add(nextNode);
-                 hops = hops + 1;
-                 if(nextNode.equals(target)){
-                     if((edge.getWeight() + actualWay.getValue()) < shortestWeight)
-                     {
-                         shortestWeight = edge.getWeight() + actualWay.getValue();
-                         shortesPath = tmpActualWay; 
-                     }
-
+         wayList.remove(actualWay.getKey());
+         String lastNode = actualWay.getKey().get(actualWay.getKey().size() - 1);
+         for(GKAEdge edge : getAccessibleEdges(lastNode)){
+             ArrayList<String> tmpActualWay = new ArrayList<>(actualWay.getKey());
+             String nextNode = moveEdge(edge, lastNode);
+             tmpActualWay.add(nextNode);
+             hops = hops + 1;
+             if(nextNode.equals(target)){
+                 if((edge.getWeight() + actualWay.getValue()) < shortestWeight)
+                 {
+                     shortestWeight = edge.getWeight() + actualWay.getValue();
+                     shortesPath = tmpActualWay;
                  }
-                 else{
-                     if(edge.getWeight() + actualWay.getValue() < shortestWeight)
+
+             }
+             else{
+                 if(edge.getWeight() + actualWay.getValue() < shortestWeight)
+                 {
+
+
+                     if(!visitedVertexes.containsKey(nextNode)){
+                         visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
+                         wayList.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
+                     }
+                     else
                      {
-                         
-                     
-                         if(!visitedVertexes.containsKey(nextNode)){
-                             visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
-                             wayList.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
-                         }
-                         else
+                         if(visitedVertexes.get(nextNode) > (edge.getWeight() + actualWay.getValue()))
                          {
-                             if(visitedVertexes.get(nextNode) > (edge.getWeight() + actualWay.getValue()))
+
+                             for (Map.Entry<ArrayList<String>, Double> path : wayList.entrySet())
                              {
-                                
-                                 for (Map.Entry<ArrayList<String>, Double> path : wayList.entrySet()) 
-                                 {
-                                    if ((path.getKey().get(path.getKey().size() - 1)) == nextNode) 
-                                    {
-                                        wayList.remove(path.getKey());
-                                        break;
-                                    }    
-                                 }
-                                 visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
-                                 wayList.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
+                                if ((path.getKey().get(path.getKey().size() - 1)) == nextNode)
+                                {
+                                    wayList.remove(path.getKey());
+                                    break;
+                                }
                              }
+                             visitedVertexes.put(nextNode, edge.getWeight() + actualWay.getValue());
                          }
+                         wayList.put(tmpActualWay, edge.getWeight() + actualWay.getValue());
                      }
                  }
              }
+         }
      }
      long timeNeeded = (System.nanoTime() - startime);
-     MainControler.sendMessage("Found no way!");
-     MainControler.sendMessage("Weight of shortest way: " + shortestWeight);
+     if (shortesPath != null) {
+         MainControler.sendMessage("Found shortest Path: " + shortesPath.toString());
+         MainControler.sendMessage("Weight of shortest way: " + shortestWeight);
+     }else {
+         MainControler.sendMessage("Found no way!");
+     }
      MainControler.sendMessage("Hops: " + hops);
      MainControler.sendMessage("Time: " + timeNeeded + " NanoSec");
      return shortesPath;
