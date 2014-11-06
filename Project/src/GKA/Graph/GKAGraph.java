@@ -36,6 +36,7 @@ import java.util.Set;
 
 
 
+
 //import org.jgraph.graph.DefaultEdge;
 //import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
@@ -846,7 +847,7 @@ class GKAGraph implements GKAGraphInterface {
 			Matrix<String, Set<GKAEdge>> floydMatrix = generateFloydMatrix();
 			warschallMatrix = generateWarschalMatrix(floydMatrix);
 		}
-		sendMessage("Ben�tigte Zeit: " + (System.nanoTime() - startime) + " nanosec." );
+		sendMessage("Benoetigte Zeit: " + (System.nanoTime() - startime) + " nanosec." );
 		sendMessage("Anzahl der Kanten auf dem Weg: " + warschallMatrix.get(source, target).size());
 		if (warschallMatrix.get(source, target).equals(new HashSet<>(Arrays.asList(new GKAEdge(null, 0.0))))){
 			return null;
@@ -894,6 +895,8 @@ class GKAGraph implements GKAGraphInterface {
 							HashSet<GKAEdge> tmpSet = new HashSet<>();
 							tmpSet.add(edge);
 							retVal.put(row, column, tmpSet);
+							if (row.equals(column) && getWayLength(tmpSet) < 0)
+								throw new IllegalArgumentException("A negativ Circle is detected");
 							hops++;
 						}
 					}
