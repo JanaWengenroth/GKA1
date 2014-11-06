@@ -642,7 +642,12 @@ class GKAGraph implements GKAGraphInterface {
                  String sourceErg = it.next();;
                  while (it.hasNext()){
                      String targetErg = it.next();
-                     retVal.add(getjGraph().getEdge(sourceErg, targetErg));
+                     GKAEdge shortestesEdgeBetween = null;
+                     for (GKAEdge edge : getjGraph().getAllEdges(sourceErg, targetErg)){
+                    	 if (shortestesEdgeBetween == null || shortestesEdgeBetween.getWeight() > edge.getWeight())
+                    		 shortestesEdgeBetween = edge;
+                     }
+                     retVal.add(shortestesEdgeBetween);
                      sourceErg = targetErg;
                  }
              }else{
