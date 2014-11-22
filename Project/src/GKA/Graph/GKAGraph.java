@@ -255,6 +255,7 @@ class GKAGraph implements GKAGraphInterface {
 	private final GraphType type;
 	private final List<MessageReceiver> messageReceivers = new ArrayList<>();
 	private Matrix<String, Set<GKAEdge>> warschallMatrix = null;
+	private long edgecount = 0;
 	
 	
 	private GKAGraph(GraphType type){
@@ -358,7 +359,7 @@ class GKAGraph implements GKAGraphInterface {
 		}
 		GKAEdge edge;
 		try {
-			edge = new GKAEdge(name, weight);
+			edge = new GKAEdge(name, weight, edgecount++);
 			jGraph.addEdge(source, target,edge);
 			sendMessage("Edge \"" + edge.toString() + "\" was set.");
 		} catch (Exception e) {
@@ -857,7 +858,7 @@ class GKAGraph implements GKAGraphInterface {
 		}
 		sendMessage("Benoetigte Zeit: " + (System.nanoTime() - startime) + " nanosec." );
 		sendMessage("Anzahl der Kanten auf dem Weg: " + warschallMatrix.get(source, target).size());
-		if (warschallMatrix.get(source, target).equals(new HashSet<>(Arrays.asList(new GKAEdge(null, 0.0))))){
+		if (warschallMatrix.get(source, target).equals(new HashSet<>(Arrays.asList(new GKAEdge(null, 0.0, 0))))){
 			return null;
 		}
 		return new ArrayList<>(warschallMatrix.get(source, target));
@@ -895,7 +896,7 @@ class GKAGraph implements GKAGraphInterface {
 			for(String column : retVal.getColumns()){
 				if (row.equals(column)){
 					HashSet<GKAEdge> tmpSet = new HashSet<>();
-					tmpSet.add(new GKAEdge(null, 0.0));
+					tmpSet.add(new GKAEdge(null, 0.0, 0));
 					retVal.put(row, column, tmpSet);
 				}else{
 					for(GKAEdge edge : getjGraph().getAllEdges(row, column)){
@@ -927,6 +928,12 @@ class GKAGraph implements GKAGraphInterface {
 		retVal.addAll(way2);
 		return retVal;
 	}
+	
+
+    
+    public void fordFulkerson(String source, String sink){
+        FordFulkerson fordFulkerson = new FordFulkerson(this);
+        sendMessage("Max blow between \"" + source + "\" and \"" + sink +"\": " + fordFulkerson.maxFlow(source, sink));
 	
 	   private Matrix<String, Set<Double>> generateCapacityMatrix(){
 	        Matrix<String, Set<Double>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
