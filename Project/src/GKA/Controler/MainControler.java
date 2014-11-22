@@ -107,7 +107,10 @@ public class MainControler {
     }
 	public static void floydWarschall(String source, String target) {
 		graph.resetColor();
-		graph.colorEdge(graph.floydWarschall(source, target));
-		
+		graph.colorEdge(graph.floydWarschall(source, target));	
+	}
+	public static void fordFulkerson(String source, String target) {
+		graph.resetColor();
+		graph.fordFulkerson(source, target);	
 	}
 }

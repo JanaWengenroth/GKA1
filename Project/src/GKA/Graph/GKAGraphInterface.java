@@ -86,4 +86,6 @@ public interface GKAGraphInterface extends MessageSender{
 	
 	public List<GKAEdge> floydWarschall(String source, String target);
 	
+	public void fordFulkerson(String source, String sink);
+	
 }

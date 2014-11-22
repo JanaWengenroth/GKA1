@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import GKA.Controler.MouseControler.MouseBroadSearchHandler;
 import GKA.Controler.MouseControler.MouseDijkstraHandler;
 import GKA.Controler.MouseControler.MouseEventControler;
+import GKA.Controler.MouseControler.MouseFloydWarschallHandler;
 
 public class GKAFloydWarshallButton extends GKAButton{
 
@@ -19,7 +20,7 @@ public class GKAFloydWarshallButton extends GKAButton{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this){
-			MouseEventControler.newEvent(new MouseDijkstraHandler());
+			MouseEventControler.newEvent(new MouseFloydWarschallHandler());
 		}
 	}
 }

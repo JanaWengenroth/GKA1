@@ -9,13 +9,15 @@ public class GKAEdge extends DefaultEdge{
 	 */
 	private static final long serialVersionUID = -6523434696944744833L;
 	
-	private String edgeName = null;
-	private Double weight = null;
+	private final String edgeName;
+	private final Double weight;
+	private final Long uniqueId;
 	
-	public GKAEdge(String name, Double weight){
+	public GKAEdge(String name, Double weight, long uniqueId){
 		super();
 		this.edgeName = name;
 		this.weight = weight;
+		this.uniqueId = uniqueId;
 	}
 	public Object getSource(){
 		return super.getSource();
@@ -32,7 +34,9 @@ public class GKAEdge extends DefaultEdge{
 	public String getName(){
 		return this.edgeName;
 	}
-	
+	public long getUniqueId(){
+		return uniqueId;
+	}
     public String toString()
     {
     	String retVal;
@@ -49,6 +53,7 @@ public class GKAEdge extends DefaultEdge{
     }
     @Override
     public boolean equals(Object object){
+    	//return this == object || ((object != null && object instanceof GKAEdge) && (this.uniqueId.equals(((GKAEdge) object).getUniqueId())));
         if(object == null){
             return false;
         }
@@ -88,11 +93,12 @@ public class GKAEdge extends DefaultEdge{
             else{
             	retval = retval && getWeight().equals(edge.getWeight());
             }
-            return retval;
+            return retval && (uniqueId == edge.getUniqueId());
         }
     }
     @Override
     public int hashCode(){
+    	
     	int retVal = 31;
     	if(getSource() != null){
     		retVal += getSource().hashCode();
@@ -106,7 +112,9 @@ public class GKAEdge extends DefaultEdge{
     	if(getWeight() != null){
     		retVal += getWeight().hashCode();
         }
+    	retVal += uniqueId.hashCode();
         return retVal;
+    	//return uniqueId.hashCode();
     }
 
 }

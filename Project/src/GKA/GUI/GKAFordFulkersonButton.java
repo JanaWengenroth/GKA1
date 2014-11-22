@@ -5,22 +5,22 @@ import java.awt.event.ActionEvent;
 import GKA.Controler.MouseControler.MouseBroadSearchHandler;
 import GKA.Controler.MouseControler.MouseDijkstraHandler;
 import GKA.Controler.MouseControler.MouseEventControler;
-import GKA.Controler.MouseControler.MouseFloydWarschallHandler;
+import GKA.Controler.MouseControler.MouseFordFulkersonHandler;
 
-public class GKADijkstraButton extends GKAButton{
+public class GKAFordFulkersonButton extends GKAButton{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8786171296007640450L;
 	
-	public GKADijkstraButton(int width, int height, int posX, int posY) {
-		super(width, height, posX, posY, "Floyd-Warshall");
+	public GKAFordFulkersonButton(int width, int height, int posX, int posY) {
+		super(width, height, posX, posY, "FordFulkerson");
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this){
-			MouseEventControler.newEvent(new MouseDijkstraHandler());
+			MouseEventControler.newEvent(new MouseFordFulkersonHandler());
 		}
 	}
 }
