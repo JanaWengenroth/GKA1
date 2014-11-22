@@ -928,8 +928,8 @@ class GKAGraph implements GKAGraphInterface {
 		return retVal;
 	}
 	
-	   private Matrix<String, HashSet<Double>> generateCapacityMatrix(){
-	        Matrix<String, HashSet<Double>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
+	   private Matrix<String, Set<Double>> generateCapacityMatrix(){
+	        Matrix<String, Set<Double>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
 	        long hops = 0 ;
 	        for(String row : retVal.getRows()){
 	            for(String column : retVal.getColumns()){
@@ -955,8 +955,8 @@ class GKAGraph implements GKAGraphInterface {
 	        return retVal;
 	    }
 	   
-	   private Matrix<String, HashSet<Double>> generateFlowMatrix(){
-           Matrix<String, HashSet<Double>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
+	   private Matrix<String, Set<Double>> generateFlowMatrix(){
+           Matrix<String, Set<Double>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
            long hops = 0 ;
            for(String row : retVal.getRows()){
                for(String column : retVal.getColumns()){
@@ -993,17 +993,17 @@ class GKAGraph implements GKAGraphInterface {
 
 	       public Double edmondsKarp(String source, String sink) {
 	          
-	           Matrix<String, HashSet<Double>> capacityMatrix = generateCapacityMatrix(); 
+	           Matrix<String, Set<Double>> capacityMatrix = generateCapacityMatrix(); 
 	           //Double countCapacities = capacityMatrix.length;
-	           int countCapacities = capacityMatrix.getRows().size();
+	           int countOfCapacities = capacityMatrix.getRows().size();
 	           // Residual capacity from u to v is C[u][v] - F[u][v]
-	           Matrix<String, HashSet<Double>> flowMatrix = generateFlowMatrix();
+	           Matrix<String, Set<Double>> flowMatrix = generateFlowMatrix();
 	           while (true) {
-	               String[] parentTable = new String [countCapacities]; // Parent table
+	               Double[] parentTable = new Double [countOfCapacities]; // Parent table
 	               Arrays.fill(parentTable, -1.0);
-	               parentTable[0] = source;
-	               Double [] pathCapacity = new Double [countCapacities]; // Capacity of path to node
-	               pathCapacity[0] = Double.POSITIVE_INFINITY;
+	               parentTable[source.indexOf(source)] = source;
+	               Double [] pathCapacity = new Double [countOfCapacities]; // Capacity of path to node
+	               pathCapacity[source.indexOf(source)] = Double.POSITIVE_INFINITY;
 	               // BFS queue
 	               Queue<String> Q = new LinkedList<String>();
 	               Q.add(source);
@@ -1015,9 +1015,9 @@ class GKAGraph implements GKAGraphInterface {
 	                           Double edgeCapacity = edge.getWeight();
 	                       // There is available capacity,
 	                       // and v is not seen before in search
-	                       if ((capacityMatrix - flowMatrix) > 0 && parentTable[edgeCapacity] == -1.0) {
-	                           parentTable[edgeCapacity] = currentNode;
-	                           pathCapacity[edgeCapacity] = Math.min(pathCapacity[currentNode], capacityMatrix[currentNode][edgeCapacity] - flowMatrix[currentNode][edgeCapacity]);
+	                       if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && parentTable[nextNode.indexOf(nextNode)] == -1.0) {
+	                           parentTable[nextNode.indexOf(nextNode)] = currentNode;
+	                           pathCapacity[nextNode.indexOf(nextNode)] = Math.min(pathCapacity[currentNode.indexOf(currentNode)], capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode));
 	                           if (edgeCapacity != sink)
 	                               Q.offer(edgeCapacity);
 	                           else {
