@@ -935,22 +935,22 @@ class GKAGraph implements GKAGraphInterface {
         FordFulkerson fordFulkerson = new FordFulkerson(this);
         sendMessage("Max blow between \"" + source + "\" and \"" + sink +"\": " + fordFulkerson.maxFlow(source, sink));
 	
-	   private Matrix<String, Set<Double>> generateCapacityMatrix(){
-	        Matrix<String, Set<Double>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
+	   private Matrix<String, Double> generateCapacityMatrix(){
+	        Matrix<String, Double> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
 	        long hops = 0 ;
 	        for(String row : retVal.getRows()){
 	            for(String column : retVal.getColumns()){
 	                if (row.equals(column)){
-	                    HashSet<Double> tmpSet = new HashSet<>();
-	                    tmpSet.add(0.0);
+	                    Double tmpSet;
+	                    tmpSet = 0.0;
 	                    retVal.put(row, column, tmpSet);
 	                }else{
 	                    for(GKAEdge edge : getAccessibleEdges(row))
 	                    {
 	                       if(column == edge.getTarget())
 	                           {
-	                               HashSet<Double> tmpSet = new HashSet<>();
-	                               tmpSet.add(edge.getWeight());
+	                               Double tmpSet;
+	                               tmpSet = edge.getWeight();
 	                               retVal.put(row, column, tmpSet);
 	                                hops++;
 	                           }   
@@ -962,22 +962,22 @@ class GKAGraph implements GKAGraphInterface {
 	        return retVal;
 	    }
 	   
-	   private Matrix<String, Set<Double>> generateFlowMatrix(){
-           Matrix<String, Set<Double>> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
+	   private Matrix<String, Double> generateFlowMatrix(){
+           Matrix<String, Double> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
            long hops = 0 ;
            for(String row : retVal.getRows()){
                for(String column : retVal.getColumns()){
                    if (row.equals(column)){
-                       HashSet<Double> tmpSet = new HashSet<>();
-                       tmpSet.add(0.0);
+                       Double tmpSet;
+                       tmpSet = 0.0;
                        retVal.put(row, column, tmpSet);
                    }else{
                        for(GKAEdge edge : getAccessibleEdges(row))
                        {
                           if(column == edge.getTarget())
                               {
-                                  HashSet<Double> tmpSet = new HashSet<>();
-                                  tmpSet.add(0.0);
+                                  Double tmpSet;
+                                  tmpSet = 0.0;
                                   retVal.put(row, column, tmpSet);
                                    hops++;
                               }   
@@ -1001,11 +1001,11 @@ class GKAGraph implements GKAGraphInterface {
 	       public Double edmondsKarp(String source, String sink) 
 	       {
 	          
-	           Matrix<String, Set<Double>> capacityMatrix = generateCapacityMatrix(); 
+	           Matrix<String, Double> capacityMatrix = generateCapacityMatrix(); 
 	           //Double countCapacities = capacityMatrix.length;
 	           int countOfCapacities = capacityMatrix.getRows().size();
 	           // Residual capacity from u to v is C[u][v] - F[u][v]
-	           Matrix<String, Set<Double>> flowMatrix = generateFlowMatrix();
+	           Matrix<String, Double> flowMatrix = generateFlowMatrix();
 	           while (true) 
 	           {
 	               String [] parentTable = new String [countOfCapacities]; // Parent table
