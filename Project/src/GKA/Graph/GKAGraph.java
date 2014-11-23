@@ -954,7 +954,7 @@ class GKAGraph implements GKAGraphInterface {
 	                               retVal.put(row, column, tmpSet);
 	                                hops++;
 	                           }   
-	                    }
+	                    }     
 	                }
 	            }
 	        }
@@ -998,16 +998,18 @@ class GKAGraph implements GKAGraphInterface {
 	    * @return maximum flow
 	    */
 
-	       public Double edmondsKarp(String source, String sink) {
+	       public Double edmondsKarp(String source, String sink) 
+	       {
 	          
 	           Matrix<String, Set<Double>> capacityMatrix = generateCapacityMatrix(); 
 	           //Double countCapacities = capacityMatrix.length;
 	           int countOfCapacities = capacityMatrix.getRows().size();
 	           // Residual capacity from u to v is C[u][v] - F[u][v]
 	           Matrix<String, Set<Double>> flowMatrix = generateFlowMatrix();
-	           while (true) {
-	               Double[] parentTable = new Double [countOfCapacities]; // Parent table
-	               Arrays.fill(parentTable, -1.0);
+	           while (true) 
+	           {
+	               String [] parentTable = new String [countOfCapacities]; // Parent table
+	               Arrays.fill(parentTable, "-1");
 	               parentTable[source.indexOf(source)] = source;
 	               Double [] pathCapacity = new Double [countOfCapacities]; // Capacity of path to node
 	               pathCapacity[source.indexOf(source)] = Double.POSITIVE_INFINITY;
@@ -1015,38 +1017,51 @@ class GKAGraph implements GKAGraphInterface {
 	               Queue<String> Q = new LinkedList<String>();
 	               Q.add(source);
 	               LOOP:
-	               while (!Q.isEmpty()) {
+	               while (!Q.isEmpty()) 
+	               {
 	                   String currentNode = Q.remove();
-	                   for (GKAEdge edge : getAccessibleEdges(currentNode)) {
+	                   for (GKAEdge edge : getAccessibleEdges(currentNode)) 
+	                   {
 	                           String nextNode = edge.getTarget().toString();
 	                           Double edgeCapacity = edge.getWeight();
 	                       // There is available capacity,
 	                       // and v is not seen before in search
-	                       if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && parentTable[nextNode.indexOf(nextNode)] == -1.0) {
+	                       if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && parentTable[nextNode.indexOf(nextNode)] == "-1") 
+	                       {
 	                           parentTable[nextNode.indexOf(nextNode)] = currentNode;
 	                           pathCapacity[nextNode.indexOf(nextNode)] = Math.min(pathCapacity[currentNode.indexOf(currentNode)], capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode));
-	                           if (edgeCapacity != sink)
-	                               Q.offer(edgeCapacity);
-	                           else {
+	                           if (nextNode != sink)
+	                               Q.add(nextNode);
+	                           else 
+	                           {
 	                               // Backtrack search, and write flow
-	                               while (parentTable[edgeCapacity ] != edgeCapacity) {
-	                                   currentNode = parentTable[edgeCapacity];
-	                                   flowMatrix[currentNode][edgeCapacity] += pathCapacity[sink];
-	                                   flowMatrix[edgeCapacity][currentNode] -= pathCapacity[sink];
-	                                   edgeCapacity = currentNode;
+	                               while (parentTable[nextNode.indexOf(nextNode)] != nextNode) 
+	                               {
+	                                   currentNode = parentTable[nextNode.indexOf(nextNode)];
+	                                   flowMatrix.get(currentNode, nextNode) += pathCapacity[sink];
+	                                   flowMatrix.get(nextNode, currentNode)-= pathCapacity[sink];
+	                                   nextNode = currentNode;
 	                               }
 	                               break LOOP;
 	                           }
 	                       }
 	                   }
 	               }
-	               if (parentTable[sink] == -1) { // We did not find a path to t
-	                   Double sum = 0;
-	                   for (Double x : flowMatrix[sources])
-	                       sum += x;
+	               if (parentTable[sink.indexOf(sink)] == "-1") 
+	               { // We did not find a path to t
+	                   Double sum = 0.0;
+	                   for (String row : flowMatrix.getRows())
+	                   {
+	                       for (String column : flowMatrix.getColumns())
+	                       {
+	                           if(column == source)
+	                           {
+	                               sum += flowMatrix.get(column,row);
+	                           }
+	                   }
 	                   return sum;
 	               }
 	           }
 	       }
-
-}
+	    }
+    }

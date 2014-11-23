@@ -20,6 +20,8 @@ public class GKAGraphMenuPanel extends GKAPanel{
 	private GKADijkstraButton dijkstraButton;
 	private GKAFloydWarshallButton floydWarshallButton;
 	private GKAFordFulkersonButton fordFulkersonButton;
+	private GKAEdmondKarpButton edmondKarpButton;
+	
 	public GKAGraphMenuPanel(int width, int height, int posX, int posY, GKAGraphInterface graph) 
 	{
 		super(width, height, posX, posY, Color.GREEN);
@@ -42,6 +44,8 @@ public class GKAGraphMenuPanel extends GKAPanel{
 			if(graph.isDirected()){
 				fordFulkersonButton = new GKAFordFulkersonButton(width - 10, 25, 5, 215);
 				add(fordFulkersonButton);
+				edmondKarpButton = new GKAEdmondKarpButton(width, -10, 25, 245);
+				add(edmondKarpButton);
 			}
 		}
 		cancelButton = new GKACancelButton(width - 10, 25, 5, height-40);

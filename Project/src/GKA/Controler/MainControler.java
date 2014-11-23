@@ -113,4 +113,8 @@ public class MainControler {
 		graph.resetColor();
 		graph.fordFulkerson(source, target);	
 	}
+	public static void edmondKarp(String source, String target) {
+        graph.resetColor();
+        graph.edmondKarp(source, target);    
+    }
 }
