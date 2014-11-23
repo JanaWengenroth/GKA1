@@ -31,44 +31,41 @@ public class FordFulkerson extends FlowBase {
 		if (source.equals(sink)){ 
 			return maxFlow;
 		}else{
+			//VorwärtsSuche
 			Set<String> forwardVertexes = forwardVertexesofSources(source);
-			if(forwardVertexes.isEmpty()){
-				Set<String> reverseVertexes = reverseVertexesofSources(source);
-				Iterator<String> reverseIt = reverseVertexes.iterator();
-				double returnedFlow = 0.0;
-				String nextVertex = null;
-				while(reverseIt.hasNext() && returnedFlow == 0.0){
-					nextVertex = reverseIt.next();
-					if(alreadyReached.contains(nextVertex)){
-						returnedFlow = 0.0;
-					}else{
-						alreadyReached.add(source);
-						returnedFlow = maxFlow_(alreadyReached, nextVertex, sink, Double.min(currentFlows.get(nextVertex, source), maxFlow));
-					}
-					if(returnedFlow != 0.0){
-						currentFlows.put(nextVertex, source, currentFlows.get(nextVertex, source) - returnedFlow);
-						System.out.print(source + ":" + nextVertex + "=-" + returnedFlow + "; ");
-						return returnedFlow;
-					}
+			Iterator<String> forwardIt = forwardVertexes.iterator();
+			double returnedFlow = 0.0;
+			String nextVertex = null;
+			while(forwardIt.hasNext() && returnedFlow == 0.0){
+				nextVertex = forwardIt.next();
+				if(alreadyReached.contains(nextVertex)){
+					returnedFlow = 0.0;
+				}else{
+					alreadyReached.add(source);
+					returnedFlow = maxFlow_(alreadyReached, nextVertex, sink, Double.min(getPossibleFlowBetween(source, nextVertex), maxFlow));
+				}
+				if(returnedFlow != 0.0){
+					currentFlows.put(source, nextVertex, currentFlows.get(source, nextVertex) + returnedFlow);
+					System.out.print(source + ":" + nextVertex + "=" + returnedFlow + "; ");
+					return returnedFlow;
 				}
 			}
-			else{
-				Iterator<String> forwardIt = forwardVertexes.iterator();
-				double returnedFlow = 0.0;
-				String nextVertex = null;
-				while(forwardIt.hasNext() && returnedFlow == 0.0){
-					nextVertex = forwardIt.next();
-					if(alreadyReached.contains(nextVertex)){
-						returnedFlow = 0.0;
-					}else{
-						alreadyReached.add(source);
-						returnedFlow = maxFlow_(alreadyReached, nextVertex, sink, Double.min(getPossibleFlowBetween(source, nextVertex), maxFlow));
-					}
-					if(returnedFlow != 0.0){
-						currentFlows.put(source, nextVertex, currentFlows.get(source, nextVertex) + returnedFlow);
-						System.out.print(source + ":" + nextVertex + "=" + returnedFlow + "; ");
-						return returnedFlow;
-					}
+			
+			//Rückwärtssuche
+			Set<String> reverseVertexes = reverseVertexesofSources(source);
+			Iterator<String> reverseIt = reverseVertexes.iterator();
+			while(reverseIt.hasNext() && returnedFlow == 0.0){
+				nextVertex = reverseIt.next();
+				if(alreadyReached.contains(nextVertex)){
+					returnedFlow = 0.0;
+				}else{
+					alreadyReached.add(source);
+					returnedFlow = maxFlow_(alreadyReached, nextVertex, sink, Double.min(currentFlows.get(nextVertex, source), maxFlow));
+				}
+				if(returnedFlow != 0.0){
+					currentFlows.put(nextVertex, source, currentFlows.get(nextVertex, source) - returnedFlow);
+					System.out.print(source + ":" + nextVertex + "=-" + returnedFlow + "; ");
+					return returnedFlow;
 				}
 			}
 		}
