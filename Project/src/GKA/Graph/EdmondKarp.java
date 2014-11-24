@@ -20,12 +20,12 @@ public class EdmondKarp extends FlowBase{
         while (true) 
         {
             
-     	   ArrayList<String> parentTable = new ArrayList<>();
+     	   ArrayList<String> parentTable = new ArrayList<>(); //Vorgaengerliste
      	   parentTable.add(source);
      	   ArrayList<Double> pathCapacity = new ArrayList<>();
-     	   pathCapacity.add(Double.POSITIVE_INFINITY);
+     	   pathCapacity.add(Double.POSITIVE_INFINITY);//Pfad Kapazitaeten
             // BFS queue
-            Queue<String> Q = new LinkedList<String>();
+            Queue<String> Q = new LinkedList<String>();//Queue mit Knoten
             Q.add(source);
             LOOP:
             while (!Q.isEmpty()) 
@@ -34,8 +34,8 @@ public class EdmondKarp extends FlowBase{
                 for (String nextNode: forwardVertexesofSources(currentNode)) 
                 {
                 	hops++;
-                    // There is available capacity,
-                    // and v is not seen before in search
+                    // Es existiert eine Kapazitaet groeßer 0, Pfad moeglich
+                    // nextNode noch nicht besucht
                     if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && !parentTable.contains(nextNode)) 
                     {
                  	   parentTable.add(nextNode);
@@ -69,7 +69,7 @@ public class EdmondKarp extends FlowBase{
             }
             }
             if (!parentTable.contains(sink)) 
-            { // We did not find a path to t
+            { // kein Weg zur Senke gefunden
                 Double sum = 0.0;
                 for (String row : flowMatrix.getRows())
                 {
