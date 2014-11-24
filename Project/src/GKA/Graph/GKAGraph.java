@@ -171,6 +171,9 @@ class GKAGraph implements GKAGraphInterface {
     	
     	return returnValue;
     }
+	static GKAGraphInterface newGraph(int vertexes, int edges){
+		return null;
+	}
 
 	
 	private static ArrayList<HashMap<String, String>> parse(ArrayList<String> linedFile) throws IncorrectFileFormat {
@@ -935,92 +938,21 @@ class GKAGraph implements GKAGraphInterface {
 	}
 	
 
-    
+    @Override
     public void fordFulkerson(String source, String sink){
         FordFulkerson fordFulkerson = new FordFulkerson(this);
         sendMessage("Max blow between \"" + source + "\" and \"" + sink +"\": " + fordFulkerson.maxFlow(source, sink));
+        sendMessage("Runtime: " + fordFulkerson.getRunTime());
+        sendMessage("Zugriffe: " + fordFulkerson.getHops());
     }
-    /*
-    private Set<GKAEdge> getAccessibleEdgesBetween(String source, String target) {
-		Set<GKAEdge> edges = new HashSet<>(getjGraph().getAllEdges(source, target));
-		Set<GKAEdge> notGoable = new HashSet<>();
-		for (GKAEdge edge : edges) {
-			if(!isEdgeAccessible(edge, source)){
-				notGoable.add(edge);
-			}
-		}
-		edges.removeAll(notGoable);
-		return edges;
-	}
-   private Matrix<String, Double> generateCapacityMatrix(){
-        
-	   Set<String> vertexes = getjGraph().vertexSet();
-		Matrix<String, Double> flows = new Matrix<>(vertexes, vertexes);
-		for(String row: vertexes){
-			for(String column: vertexes){
-				double flow = 0.0;
-				for(GKAEdge edge: getAccessibleEdgesBetween(row, column)){
-					flow += edge.getWeight();
-				}
-				flows.put(row, column, flow);
-			}
-		}
-		return flows;
-	   /*Matrix<String, Double> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
-        long hops = 0 ;
-        for(String row : retVal.getRows()){
-            for(String column : retVal.getColumns()){
-                if (row.equals(column)){
-                    Double tmpSet;
-                    tmpSet = 0.0;
-                    retVal.put(row, column, tmpSet);
-                }else{
-                    for(GKAEdge edge : getAccessibleEdges(row))
-                    {
-                       if(column == edge.getTarget())
-                           {
-                               Double tmpSet;
-                               tmpSet = edge.getWeight();
-                               retVal.put(row, column, tmpSet);
-                                hops++;
-                           }   
-                    }     
-                }
-            }
-        }
-        sendMessage("Created Capacity Matrix with: " + hops + " hops.");
-        return retVal;
-    }
-   
-   private Matrix<String, Double> generateFlowMatrix(){
-       Matrix<String, Double> retVal = new Matrix<>(getjGraph().vertexSet(), getjGraph().vertexSet());
-       long hops = 0 ;
-       for(String row : retVal.getRows()){
-           for(String column : retVal.getColumns()){
-               Double tmpSet;
-               tmpSet = 0.0;
-               retVal.put(row, column, tmpSet);
-           }
-       }
-       sendMessage("Created Capacity Matrix with: " + hops + " hops.");
-           return retVal;
-   }
-   */
-	   /**
-    * Finds the maximum flow in a flow network.
-    * @param E neighbour lists
-    * @param capacityMatrix capacity matrix (must be n by n)
-    * @param source source
-    * @param sink sink
-    * @return maximum flow
-    */
-
-       
+  
 
 
 	@Override
 	public void edmondKarp(String source, String sink) {
 		EdmondKarp edmondKarp = new EdmondKarp(this);
         sendMessage("Max blow between \"" + source + "\" and \"" + sink +"\": " + edmondKarp.edmondsKarp(source, sink));
+        sendMessage("Runtime: " + edmondKarp.getRunTime());
+        sendMessage("Zugriffe: " + edmondKarp.getHops());
 	}
 }

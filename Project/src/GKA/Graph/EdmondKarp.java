@@ -12,7 +12,8 @@ public class EdmondKarp extends FlowBase{
 	
 	public Double edmondsKarp(String source, String sink) 
     {
-       
+        long start = System.nanoTime();
+        hops = 0;
         Matrix<String, Double> capacityMatrix = maxFlows; 
         Matrix<String, Double> flowMatrix = currentFlows;
         clearFlows();
@@ -32,6 +33,7 @@ public class EdmondKarp extends FlowBase{
                 String currentNode = Q.remove();
                 for (String nextNode: forwardVertexesofSources(currentNode)) 
                 {
+                	hops++;
                     // There is available capacity,
                     // and v is not seen before in search
                     if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && !parentTable.contains(nextNode)) 
@@ -51,6 +53,7 @@ public class EdmondKarp extends FlowBase{
                      	   nextNode = backTrack.previous();
                      	   while (backTrack.hasPrevious()) 
                            {
+                     		   hops++;
                      		   currentNode = backTrack.previous();
                                flowMatrix.put(currentNode, nextNode, flowMatrix.get(currentNode, nextNode) + pathCapacity.get(pathCapacity.size()-1));
                                
@@ -70,15 +73,10 @@ public class EdmondKarp extends FlowBase{
                 Double sum = 0.0;
                 for (String row : flowMatrix.getRows())
                 {
-                    for (String column : flowMatrix.getColumns())
-                    {
-                        if(column == source)
-                        {
-                            sum += flowMatrix.get(column,row);
-                        }
-	                }
-	               
+                	hops++;
+                	sum += flowMatrix.get(source,row);
 	            } 
+                runTime = System.nanoTime() - start;
                 return sum;
 	        }
 	    }

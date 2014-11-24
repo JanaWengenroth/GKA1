@@ -8,11 +8,19 @@ public class FlowBase {
 	protected GKAGraph graph;
 	protected Matrix<String, Double> maxFlows;
 	protected Matrix<String, Double> currentFlows;
-
+	protected long runTime = 0;
+	protected int hops = 0;
 	public FlowBase() {
 		super();
 	}
 
+	public int getHops(){
+		return hops;
+	}
+	public long getRunTime(){
+		return runTime;
+	}
+	
 	protected void init(GKAGraph graph) {
 		this.graph = graph;
 		Set<String> vertexes = graph.getjGraph().vertexSet();
@@ -69,6 +77,7 @@ public class FlowBase {
 	protected Set<String> forwardVertexesofSources(String source) {
 		Set<String> vertexes = new HashSet<>();
 		for (String vertex: maxFlows.getColumns()){
+			hops++;
 			if (currentFlows.get(source, vertex) < maxFlows.get(source, vertex)){
 				vertexes.add(vertex);
 			}
@@ -79,6 +88,7 @@ public class FlowBase {
 	protected Set<String> reverseVertexesofSources(String source) {
 		Set<String> vertexes = new HashSet<>();
 		for (String vertex: maxFlows.getColumns()){
+			hops++;
 			if (currentFlows.get(vertex, source) > 0.0){
 				vertexes.add(vertex);
 			}

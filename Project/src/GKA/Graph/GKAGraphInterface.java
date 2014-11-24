@@ -20,6 +20,10 @@ public interface GKAGraphInterface extends MessageSender{
 	public static GKAGraphInterface newGraph(File file){
 		return GKAGraph.newGraph(file);
 	}
+	public static GKAGraphInterface newGraphBigNet(int i, int j){
+		return GKAGraph.newGraph(i,j);
+	}
+	
 	public abstract ListenableGraph<String, GKAEdge> getjGraph();
 
 	/**
@@ -89,5 +93,6 @@ public interface GKAGraphInterface extends MessageSender{
 	public void fordFulkerson(String source, String sink);
 	
 	public void edmondKarp(String source, String sink);
+	
 	
 }
