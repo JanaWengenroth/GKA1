@@ -44,7 +44,7 @@ public class GKAGraphMenuPanel extends GKAPanel{
 			if(graph.isDirected()){
 				fordFulkersonButton = new GKAFordFulkersonButton(width - 10, 25, 5, 215);
 				add(fordFulkersonButton);
-				edmondKarpButton = new GKAEdmondKarpButton(width, -10, 25, 245);
+				edmondKarpButton = new GKAEdmondKarpButton(width -10, 25, 5, 245);
 				add(edmondKarpButton);
 			}
 		}

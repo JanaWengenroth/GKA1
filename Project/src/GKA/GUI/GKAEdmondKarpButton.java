@@ -10,10 +10,10 @@ import GKA.Controler.MouseControler.MouseEdmondKarpHandler;
 public class GKAEdmondKarpButton extends GKAButton{
 
     /**
-     * 
-     */
-    private static final long serialVersionUID = -8786171296007640450L;
-    
+	 * 
+	 */
+	private static final long serialVersionUID = -5389564208442848515L;
+
     public GKAEdmondKarpButton(int width, int height, int posX, int posY) {
         super(width, height, posX, posY, "EdmondKarp");
     }
