@@ -105,6 +105,9 @@ public abstract class FlowBase {
 		clearFlows();
 		hops = 0;
 		long start = System.nanoTime();
+		if(source.equals(sink)){
+			return 0.0;
+		}
 		Set<String> forwardVertexes = forwardVertexesofSources(source);
 		if(forwardVertexes.isEmpty()){
 			runTime = System.nanoTime() - start;
@@ -116,7 +119,7 @@ public abstract class FlowBase {
 			do{
 				returnedFlow = maxFlow_(new ArrayList<>(), source, sink, Double.POSITIVE_INFINITY);	
 				maxFlow += returnedFlow;
-				System.out.println(" == " + maxFlow);
+				//System.out.println(" == " + maxFlow);
 			}while(returnedFlow != 0.0);
 			runTime = System.nanoTime() - start;
 			return maxFlow;
