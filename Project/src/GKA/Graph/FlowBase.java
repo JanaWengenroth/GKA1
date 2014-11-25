@@ -1,9 +1,10 @@
 package GKA.Graph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FlowBase {
+public abstract class FlowBase {
 
 	protected GKAGraph graph;
 	protected Matrix<String, Double> maxFlows;
@@ -99,5 +100,29 @@ public class FlowBase {
 	protected double getPossibleFlowBetween(String source, String sink) {
 		return maxFlows.get(source, sink) - currentFlows.get(source, sink);
 	}
+	
+	public double maxFlow(String source, String sink){
+		clearFlows();
+		hops = 0;
+		long start = System.nanoTime();
+		Set<String> forwardVertexes = forwardVertexesofSources(source);
+		if(forwardVertexes.isEmpty()){
+			runTime = System.nanoTime() - start;
+			return 0.0;
+		}
+		else{
+			double maxFlow = 0.0;
+			double returnedFlow = 0.0;
+			do{
+				returnedFlow = maxFlow_(new ArrayList<>(), source, sink, Double.POSITIVE_INFINITY);	
+				maxFlow += returnedFlow;
+				System.out.println(" == " + maxFlow);
+			}while(returnedFlow != 0.0);
+			runTime = System.nanoTime() - start;
+			return maxFlow;
+		}
+	}
+	
+	abstract protected double maxFlow_(ArrayList<String> alreadyReached, String source, String sink, double maxFlow);
 
 }

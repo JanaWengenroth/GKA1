@@ -9,32 +9,12 @@ public class FordFulkerson extends FlowBase {
 	public FordFulkerson(GKAGraph graph){
 		init(graph);
 	}
-	public double maxFlow(String source, String sink){
-		clearFlows();
-		hops = 0;
-		long start = System.nanoTime();
-		Set<String> forwardVertexes = forwardVertexesofSources(source);
-		if(forwardVertexes.isEmpty()){
-			runTime = System.nanoTime() - start;
-			return 0.0;
-		}
-		else{
-			double maxFlow = 0.0;
-			double returnedFlow = 0.0;
-			do{
-				returnedFlow = maxFlow_(new ArrayList<>(), source, sink, Double.POSITIVE_INFINITY);	
-				maxFlow += returnedFlow;
-				System.out.println(" == " + maxFlow);
-			}while(returnedFlow != 0.0);
-			runTime = System.nanoTime() - start;
-			return maxFlow;
-		}
-	}
-	private double maxFlow_(ArrayList<String> alreadyReached, String source, String sink, double maxFlow){
+	
+	protected double maxFlow_(ArrayList<String> alreadyReached, String source, String sink, double maxFlow){
 		if (source.equals(sink)){ 
 			return maxFlow;
 		}else{
-			//VorwärtsSuche
+			//Vorwï¿½rtsSuche
 			Set<String> forwardVertexes = forwardVertexesofSources(source);
 			Iterator<String> forwardIt = forwardVertexes.iterator();
 			double returnedFlow = 0.0;
@@ -56,7 +36,7 @@ public class FordFulkerson extends FlowBase {
 				}
 			}
 			
-			//Rückwärtssuche
+			//Rï¿½ckwï¿½rtssuche
 			Set<String> reverseVertexes = reverseVertexesofSources(source);
 			Iterator<String> reverseIt = reverseVertexes.iterator();
 			while(reverseIt.hasNext() && returnedFlow == 0.0){

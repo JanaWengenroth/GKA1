@@ -497,7 +497,7 @@ public class GKAGraphTest
     }
     @Test
     public void bigNet(){
-    	GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
+    	/*GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
     	EdmondKarp edmondKarp = new EdmondKarp(big);
     	FordFulkerson fordFulkerson = new FordFulkerson(big);
     	long timeFord =0;
@@ -519,7 +519,7 @@ public class GKAGraphTest
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
-    	System.out.println("Durchl Ed: " + (timeEdmond/100) + " Fl" + (timeFord/100));
+    	System.out.println("Durchl Ed: " + (timeEdmond/100) + " Fl" + (timeFord/100));*/
     }
 }
     
