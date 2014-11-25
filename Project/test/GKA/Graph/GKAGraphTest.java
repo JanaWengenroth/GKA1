@@ -507,7 +507,7 @@ public class GKAGraphTest
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
-    	System.out.println("Durchl Ed: " + (timeEdmond/100) + " Fl" + (timeFord/100));
+    	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
     	
     	big = GKAGraphInterface.newGraphBigNet(2500,2000000);
     	edmondKarp = new EdmondKarp(big);
@@ -519,7 +519,7 @@ public class GKAGraphTest
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
-    	System.out.println("Durchl Ed: " + (timeEdmond/100) + " Fl" + (timeFord/100));
+    	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
     }
 }
     
