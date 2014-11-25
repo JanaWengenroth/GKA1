@@ -497,7 +497,7 @@ public class GKAGraphTest
     }
     @Test
     public void bigNet(){
-    	GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
+    	/*GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
     	EdmondKarp edmondKarp = new EdmondKarp(big);
     	FordFulkerson fordFulkerson = new FordFulkerson(big);
     	long timeFord =0;

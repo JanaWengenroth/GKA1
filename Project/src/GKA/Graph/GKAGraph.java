@@ -951,7 +951,7 @@ class GKAGraph implements GKAGraphInterface {
 	@Override
 	public void edmondKarp(String source, String sink) {
 		EdmondKarp edmondKarp = new EdmondKarp(this);
-        sendMessage("Max blow between \"" + source + "\" and \"" + sink +"\": " + edmondKarp.edmondsKarp(source, sink));
+        sendMessage("Max blow between \"" + source + "\" and \"" + sink +"\": " + edmondKarp.maxFlow(source, sink));
         sendMessage("Runtime: " + edmondKarp.getRunTime());
         sendMessage("Zugriffe: " + edmondKarp.getHops());
 	}
