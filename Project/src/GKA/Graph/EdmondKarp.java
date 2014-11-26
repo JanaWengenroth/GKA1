@@ -45,7 +45,7 @@ public class EdmondKarp extends FlowBase{
 	public double maxFlow(String source, String sink) 
     {
 		if(source.equals(sink)){
-			return 0.0;
+			return Double.POSITIVE_INFINITY;
 		}
 		//System.out.println(" Edmon " + source + " " + sink);
 		HashMap<String, String> parentMap = new HashMap<>();

@@ -50,29 +50,29 @@ public class BigNet_Gruppe_
     }
 
 
-public BigNet_Gruppe_ generateGraph(int vertexAnzahl, int edgeAnzahl, String source, String sink)
-{
-    GKAGraphInterface retval = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
-    for(int i = 0; i < vertexAnzahl -2; i++)
-    {
-        retval.addVertex(String.valueOf(i));
-    }
-    retval.addVertex(source);
-    retval.addVertex(sink);
-    retval.addEdge(source, String.valueOf(0), null, (double)((int) (Math.random() * edgeAnzahl)));   
-    retval.addEdge((String.valueOf((vertexAnzahl/2) - 1)), sink, null, (double)((int) (Math.random() * edgeAnzahl)));
-    for(int i = 0; i < ((vertexAnzahl -2) / 2) - 1; i++)
-    {
-        retval.addEdge(String.valueOf(i), String.valueOf(i+1), null, (double)((int) (Math.random() * edgeAnzahl)));
-    }
-
-    for(int i = 0 ; i < edgeAnzahl; i++)
-    {
-        int edgeTarget = (int) (Math.random() * (vertexAnzahl - 1));
-        int edgeSource = (int) (Math.random() * (vertexAnzahl - 1));
-        retval.addEdge(String.valueOf(edgeSource), String.valueOf(edgeTarget), null, ((double)((int) (Math.random() * edgeAnzahl)) + (int)((vertexAnzahl / 2) + 1) * Math.random()));
-    }
-   
-    return new BigNet_Gruppe_(retval, source, sink);
-}
+	public BigNet_Gruppe_ generateGraph(int vertexAnzahl, int edgeAnzahl, String source, String sink)
+	{
+	    GKAGraphInterface retval = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
+	    for(int i = 0; i < vertexAnzahl -2; i++)
+	    {
+	        retval.addVertex(String.valueOf(i));
+	    }
+	    retval.addVertex(source);
+	    retval.addVertex(sink);
+	    retval.addEdge(source, String.valueOf(0), null, (double)((int) (Math.random() * edgeAnzahl)));   
+	    retval.addEdge((String.valueOf((vertexAnzahl/2) - 1)), sink, null, (double)((int) (Math.random() * edgeAnzahl)));
+	    for(int i = 0; i < ((vertexAnzahl -2) / 2) - 1; i++)
+	    {
+	        retval.addEdge(String.valueOf(i), String.valueOf(i+1), null, (double)((int) (Math.random() * edgeAnzahl)));
+	    }
+	
+	    for(int i = 0 ; i < edgeAnzahl; i++)
+	    {
+	        int edgeTarget = (int) (Math.random() * (vertexAnzahl - 1));
+	        int edgeSource = (int) (Math.random() * (vertexAnzahl - 1));
+	        retval.addEdge(String.valueOf(edgeSource), String.valueOf(edgeTarget), null, ((double)((int) (Math.random() * edgeAnzahl)) + (int)((vertexAnzahl / 2) + 1) * Math.random()));
+	    }
+	   
+	    return new BigNet_Gruppe_(retval, source, sink);
+	}
 }
