@@ -45,9 +45,9 @@ public class EdmondKarp extends FlowBase{
 	public double maxFlow(String source, String sink) 
     {
 		if(source.equals(sink)){
-			return 0.0;
+			return Double.POSITIVE_INFINITY;
 		}
-		System.out.println(" Edmon " + source + " " + sink);
+		//System.out.println(" Edmon " + source + " " + sink);
 		HashMap<String, String> parentMap = new HashMap<>();
         long start = System.nanoTime();
         hops = 0;
@@ -71,7 +71,7 @@ public class EdmondKarp extends FlowBase{
                 for (String nextNode: forwardVertexesofSources(currentNode)) 
                 {
                 	hops++;
-                    // Es existiert eine Kapazitaet groeßer 0 -> Pfad moeglich
+                    // Es existiert eine Kapazitaet groeßer 0, Pfad moeglich
                     // nextNode noch nicht besucht
                     if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && !parentTable.contains(nextNode)) 
                     {
@@ -82,13 +82,12 @@ public class EdmondKarp extends FlowBase{
                  					   pathCapacity.get(parentTable.indexOf(currentNode)),
                  					   capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode))
                  	   );
-                 	  System.out.println(" Edmond Karp " + nextNode + " " + sink);
                  	   if (!nextNode.equals(sink))
                             Q.add(nextNode);
                        else 
                        {
                            // Backtrack search, and write flow
-                     	  while(parentMap.get(nextNode) != null)
+                     	   while(parentMap.get(nextNode) != null)
                            {
                      		   hops++;
                                flowMatrix.put(parentMap.get(nextNode), nextNode, flowMatrix.get(parentMap.get(nextNode), nextNode) + pathCapacity.get(pathCapacity.size()-1));
@@ -98,7 +97,6 @@ public class EdmondKarp extends FlowBase{
                             		   flowMatrix.get(nextNode, parentMap.get(nextNode)) - 
                             		   pathCapacity.get(pathCapacity.size() - 1));
                                nextNode = parentMap.get(nextNode);
-                               System.out.println(" Edmond Karp " + source + " " + sink);
                            }
                            break LOOP;
                      }
@@ -114,7 +112,6 @@ public class EdmondKarp extends FlowBase{
                 	sum += flowMatrix.get(source,row);
 	            } 
                 runTime = System.nanoTime() - start;
-                System.out.println(" Edmond Karp " + source + " " + sink);
                 return sum;
 	        }
 	    }

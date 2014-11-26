@@ -430,8 +430,9 @@ class GKAGraph implements GKAGraphInterface {
 	}
 	
 	@Override
-	public void saveGraph(File file){
+	public void saveGraph(File file, boolean decreaped){
 		//Writer fw = null;
+		System.out.println(decreaped);
 		OutputStreamWriter bw = null;
 		if (!file.exists()) {
 			try {
@@ -457,9 +458,8 @@ class GKAGraph implements GKAGraphInterface {
 			  if(edge.getName() != null){
 				  saveVal += " (" + edge.getName() + ")";
 			  }
-			  
 			  if(isWeighted()){
-				  saveVal += " :" + edge.getWeight();
+				  saveVal += " : " + (decreaped ? (String.valueOf(edge.getWeight().intValue())) : edge.getWeight());
 			  }
 			  saveVal += ";" + System.getProperty("line.separator");
 			  bw.append(saveVal);

@@ -311,21 +311,21 @@ public class GKAGraphTest
     @Test
     public void testSaveGraph()
     {
-        g1.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g1.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g1, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g2.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g2.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g2, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-       // g3.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+       // g3.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
        // assertEquals(g3, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g4.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g4.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g4, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g5.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g5.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g5, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g6.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g6.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g6, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g7.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g7.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g7, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g8.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g8.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g8, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
     }
     
@@ -494,33 +494,6 @@ public class GKAGraphTest
        assertEquals(getWayLength(testGraph.getGraph().floydWarschall(testGraph.getWay2Source(), testGraph.getWay2Target())), testGraph.getWay2Weight(), 0.01);
        System.out.println(System.currentTimeMillis() - startTime);
        startTime = System.currentTimeMillis();
-    }
-    
-    @Test
-    public void bigNet(){
-    	GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
-    	EdmondKarp edmondKarp = new EdmondKarp(big);
-    	FordFulkerson fordFulkerson = new FordFulkerson(big);
-    	long timeFord =0;
-    	long timeEdmond = 0;
-    	for(int i = 0; i< 100;i++){
-    		assertEquals(edmondKarp.maxFlow(String.valueOf(0), String.valueOf(100)), fordFulkerson.maxFlow(String.valueOf(0), String.valueOf(100)));
-    		timeFord += fordFulkerson.getRunTime();
-    		timeEdmond += edmondKarp.getRunTime();
-    	}
-    	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
-    	
-    	big = (GKAGraph) GKAGraphInterface.newGraphBigNet(2500,2000000);
-    	edmondKarp = new EdmondKarp(big);
-    	fordFulkerson = new FordFulkerson(big);
-    	timeFord =0;
-    	timeEdmond = 0;
-    	for(int i = 0; i< 100;i++){
-    		assertEquals(edmondKarp.maxFlow(String.valueOf(0), String.valueOf(100)), fordFulkerson.maxFlow(String.valueOf(0), String.valueOf(100)));
-    		timeFord += fordFulkerson.getRunTime();
-    		timeEdmond += edmondKarp.getRunTime();
-    	}
-    	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
     }
 }
     

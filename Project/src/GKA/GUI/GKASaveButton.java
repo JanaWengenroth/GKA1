@@ -22,7 +22,8 @@ public class GKASaveButton extends GKAButton
 			int retVal = fileChooser.showSaveDialog(this);
 			if (retVal == GKAFileChooser.APPROVE_OPTION){
 				File file = fileChooser.getSelectedFile();
-				MainControler.saveGraph(file);
+				
+				MainControler.saveGraph(file, fileChooser.getFileFilter().equals(GKAFileChooser.gkaFilter));
 			}
 		}
 		

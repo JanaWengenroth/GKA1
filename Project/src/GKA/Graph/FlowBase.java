@@ -106,7 +106,7 @@ public abstract class FlowBase {
 		hops = 0;
 		long start = System.nanoTime();
 		if(source.equals(sink)){
-			return 0.0;
+			return Double.POSITIVE_INFINITY;
 		}
 		Set<String> forwardVertexes = forwardVertexesofSources(source);
 		if(forwardVertexes.isEmpty()){

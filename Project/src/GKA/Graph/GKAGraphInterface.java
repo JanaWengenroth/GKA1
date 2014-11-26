@@ -62,7 +62,7 @@ public interface GKAGraphInterface extends MessageSender{
 	
 	public boolean removeEdge(String source, String target);
 	
-	public void saveGraph(File file);
+	public void saveGraph(File file, boolean decreapted);
 	
 	public void colorEdge(GKAEdge edge);
 	

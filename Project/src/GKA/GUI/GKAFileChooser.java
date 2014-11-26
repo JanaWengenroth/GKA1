@@ -14,9 +14,12 @@ public class GKAFileChooser extends JFileChooser{
 	 * 
 	 */
 	private static final long serialVersionUID = -5976610437720184567L;
+	public static final FileNameExtensionFilter egkaFilter = new FileNameExtensionFilter("Extended GKA Files","egka");
+	public static final FileNameExtensionFilter gkaFilter = new FileNameExtensionFilter("Classic GKA Files", "gka"); 
 	public GKAFileChooser(){
 		super();
-		addChoosableFileFilter(new FileNameExtensionFilter("GKA Files","gka"));
+		addChoosableFileFilter(egkaFilter);
+		addChoosableFileFilter(gkaFilter);
 	}
 
 }
