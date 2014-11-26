@@ -48,6 +48,7 @@ import java.util.Set;
 
 
 
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.Edge;
 //import org.jgraph.graph.DefaultEdge;
@@ -171,8 +172,25 @@ class GKAGraph implements GKAGraphInterface {
     	
     	return returnValue;
     }
-	static GKAGraphInterface newGraph(int vertexes, int edges){
-		return null;
+	static GKAGraphInterface newGraph(int vertexAnzahl, int edgeAnzahl){
+	    GKAGraphInterface retval = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
+        for(int i = 0; i < vertexAnzahl - 1; i++)
+        {
+            retval.addVertex(String.valueOf(i));
+        }
+        for(int i = 0; i < vertexAnzahl - 2; i++)
+        {
+            retval.addEdge(String.valueOf(i), String.valueOf(i+1), null, (double)((int) (Math.random() * edgeAnzahl)));    
+        }
+        retval.addEdge(String.valueOf(vertexAnzahl - 1), String.valueOf(0), null, (double)((int) (Math.random() * edgeAnzahl)));
+    
+        for(int i = 0 ; i < (edgeAnzahl - vertexAnzahl) - 1; i++)
+        {
+            int edgeTarget = (int) (Math.random() * (vertexAnzahl - 1));
+            int edgeSource = (int) (Math.random() * (vertexAnzahl - 1));
+            retval.addEdge(String.valueOf(edgeSource), String.valueOf(edgeTarget), null,(double)((int) (Math.random() * edgeAnzahl)));
+        }
+        return retval;
 	}
 
 	

@@ -495,27 +495,28 @@ public class GKAGraphTest
        System.out.println(System.currentTimeMillis() - startTime);
        startTime = System.currentTimeMillis();
     }
+    
     @Test
     public void bigNet(){
-    	/*GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
+    	GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
     	EdmondKarp edmondKarp = new EdmondKarp(big);
     	FordFulkerson fordFulkerson = new FordFulkerson(big);
     	long timeFord =0;
     	long timeEdmond = 0;
     	for(int i = 0; i< 100;i++){
-    		assertArrayEquals(edmondKarp.edmondsKarp(_?????, ?????), fordFulkerson.maxFlow(?????, ???);
+    		assertEquals(edmondKarp.maxFlow(String.valueOf(0), String.valueOf(100)), fordFulkerson.maxFlow(String.valueOf(0), String.valueOf(100)));
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
     	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
     	
-    	big = GKAGraphInterface.newGraphBigNet(2500,2000000);
+    	big = (GKAGraph) GKAGraphInterface.newGraphBigNet(2500,2000000);
     	edmondKarp = new EdmondKarp(big);
     	fordFulkerson = new FordFulkerson(big);
     	timeFord =0;
     	timeEdmond = 0;
     	for(int i = 0; i< 100;i++){
-    		assertArrayEquals(edmondKarp.edmondsKarp(_?????, ?????), fordFulkerson.maxFlow(?????, ???);
+    		assertEquals(edmondKarp.maxFlow(String.valueOf(0), String.valueOf(100)), fordFulkerson.maxFlow(String.valueOf(0), String.valueOf(100)));
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
