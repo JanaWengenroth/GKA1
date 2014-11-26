@@ -41,30 +41,39 @@ public class FlowTest {
 	
 	@Test
     public void bigNet(){
-    	/*GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
+	    System.out.println("start generating new graph");
+    	GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
     	EdmondKarp edmondKarp = new EdmondKarp(big);
     	FordFulkerson fordFulkerson = new FordFulkerson(big);
     	long timeFord =0;
     	long timeEdmond = 0;
     	for(int i = 0; i< 100;i++){
-    		assertArrayEquals(edmondKarp.edmondsKarp(_?????, ?????), fordFulkerson.maxFlow(?????, ???);
+    	    System.out.println("running round: " + i);
+    	    int sink = (int)(Math.random() * 800);
+    	    int source = (int)(Math.random() * 800);
+    		assertEquals(edmondKarp.maxFlow(String.valueOf(source), String.valueOf(sink)), 
+    		        fordFulkerson.maxFlow(String.valueOf(source), String.valueOf(sink)), delta);
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
     	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
-    	
+    	  System.out.println("start generating new graph");
     	big = (GKAGraph) GKAGraphInterface.newGraphBigNet(2500,2000000);
     	edmondKarp = new EdmondKarp(big);
     	fordFulkerson = new FordFulkerson(big);
     	timeFord =0;
     	timeEdmond = 0;
     	for(int i = 0; i< 100;i++){
-    		assertArrayEquals(edmondKarp.edmondsKarp(_?????, ?????), fordFulkerson.maxFlow(?????, ???);
+    	    System.out.println("running round: " + i);
+    	    int sink = (int)(Math.random() * 2500);
+            int source = (int)(Math.random() * 2500);
+            assertEquals(edmondKarp.maxFlow(String.valueOf(source), String.valueOf(sink)), 
+                    fordFulkerson.maxFlow(String.valueOf(source), String.valueOf(sink)), delta);
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
     	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
-    	*/
+    	
     }
 
 }
