@@ -955,4 +955,6 @@ class GKAGraph implements GKAGraphInterface {
         sendMessage("Runtime: " + edmondKarp.getRunTime());
         sendMessage("Zugriffe: " + edmondKarp.getHops());
 	}
+	
+	
 }
