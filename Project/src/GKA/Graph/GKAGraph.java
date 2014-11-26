@@ -387,6 +387,7 @@ class GKAGraph implements GKAGraphInterface {
 		if (!getjGraph().containsVertex(target)){
 			addVertex(target);
 		}
+		
 		GKAEdge edge;
 		try {
 			edge = new GKAEdge(name, weight, edgecount++);
@@ -401,7 +402,46 @@ class GKAGraph implements GKAGraphInterface {
 		return true;
 		
 	}
-	
+	@Override
+	public boolean addEdgeUnsave(String source, String target, String name, Double weight){
+		/*if (source == null){
+			sendMessage("Please add a SourceVertex!");
+			return false;
+		}else if(target == null){
+			sendMessage("Please add a TargetVertex!");
+			return false;
+		}
+		if (weight == null && isWeighted()){
+			sendMessage("Please add a Weight for weighted Graphs!");
+			return false;
+		} else if( isWeighted() && weight < 0.0){
+			sendMessage("A weight below 0 is not allowed!");
+			return false;
+		}
+		if (weight != null && !isWeighted()){
+			sendMessage("Weights have no effects to unweighted Graphs!");
+		}
+		if(!getjGraph().containsVertex(source)){
+			addVertex(source);
+		}
+		if (!getjGraph().containsVertex(target)){
+			addVertex(target);
+		}
+		*/
+		GKAEdge edge;
+		try {
+			edge = new GKAEdge(name, weight, edgecount++);
+			jGraph.addEdge(source, target,edge);
+			sendMessage("Edge \"" + edge.toString() + "\" was set.");
+		} catch (Exception e) {
+			sendMessage("Adding edge from \"" + source + "\" to \"" + target + "\" failed by \n" +
+					e.toString());
+			return false;
+		}
+		graphChanged();
+		return true;
+		
+	}
 	private void graphChanged(){
 		warschallMatrix = null;
 	}

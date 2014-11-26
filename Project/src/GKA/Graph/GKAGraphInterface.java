@@ -93,6 +93,8 @@ public interface GKAGraphInterface extends MessageSender{
 	public void fordFulkerson(String source, String sink);
 	
 	public void edmondKarp(String source, String sink);
+	boolean addEdgeUnsave(String source, String target, String name,
+			Double weight);
 	
 	
 }

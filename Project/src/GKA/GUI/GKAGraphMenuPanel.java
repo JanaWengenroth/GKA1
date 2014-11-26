@@ -21,6 +21,7 @@ public class GKAGraphMenuPanel extends GKAPanel{
 	private GKAFloydWarshallButton floydWarshallButton;
 	private GKAFordFulkersonButton fordFulkersonButton;
 	private GKAEdmondKarpButton edmondKarpButton;
+	private GenerateRandomButton generateRandomButton;
 	
 	public GKAGraphMenuPanel(int width, int height, int posX, int posY, GKAGraphInterface graph) 
 	{
@@ -41,13 +42,16 @@ public class GKAGraphMenuPanel extends GKAPanel{
 			add(dijkstraButton);
 			floydWarshallButton = new GKAFloydWarshallButton(width - 10, 25, 5, 185);
 			add(floydWarshallButton);
-			//if(graph.isDirected()){
+			if(graph.isDirected()){
 				fordFulkersonButton = new GKAFordFulkersonButton(width - 10, 25, 5, 215);
 				add(fordFulkersonButton);
 				edmondKarpButton = new GKAEdmondKarpButton(width -10, 25, 5, 245);
 				add(edmondKarpButton);
-			//}
+			}
+			
 		}
+		generateRandomButton = new GenerateRandomButton(width - 10, 25, 5, height-70);
+		add(generateRandomButton);
 		cancelButton = new GKACancelButton(width - 10, 25, 5, height-40);
 		add(cancelButton);
 	}
