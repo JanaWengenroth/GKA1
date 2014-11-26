@@ -119,7 +119,6 @@ public abstract class FlowBase {
 			do{
 				returnedFlow = maxFlow_(new ArrayList<>(), source, sink, Double.POSITIVE_INFINITY);	
 				maxFlow += returnedFlow;
-				//System.out.println(" == " + maxFlow);
 			}while(returnedFlow != 0.0);
 			runTime = System.nanoTime() - start;
 			return maxFlow;

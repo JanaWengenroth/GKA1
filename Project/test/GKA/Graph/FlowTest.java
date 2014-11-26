@@ -22,7 +22,6 @@ public class FlowTest {
 		assertEquals(9.0, fordFulkerson.maxFlow("S", "T"),delta);
 		for(String v1: complex.getjGraph().vertexSet()){
 			for(String v2: complex.getjGraph().vertexSet()){
-				System.out.println(v1 + " " + v2);
 				assertEquals(fordFulkerson.maxFlow(v1, v2), edmondKarp.maxFlow(v1,v2), delta);
 			}
 		}
@@ -41,32 +40,30 @@ public class FlowTest {
 	
 	@Test
     public void bigNet(){
-	    System.out.println("start generating new graph");
-    	GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(800,300000);
+    	GKAGraph big = (GKAGraph) GKAGraphInterface.newGraphBigNet(50, 800);
     	EdmondKarp edmondKarp = new EdmondKarp(big);
     	FordFulkerson fordFulkerson = new FordFulkerson(big);
     	long timeFord =0;
     	long timeEdmond = 0;
     	for(int i = 0; i< 100;i++){
-    	    System.out.println("running round: " + i);
-    	    int sink = (int)(Math.random() * 800);
-    	    int source = (int)(Math.random() * 800);
+    	    int sink = (int)(Math.random() * 50);
+    	    int source = (int)(Math.random() * 50);
     		assertEquals(edmondKarp.maxFlow(String.valueOf(source), String.valueOf(sink)), 
     		        fordFulkerson.maxFlow(String.valueOf(source), String.valueOf(sink)), delta);
     		timeFord += fordFulkerson.getRunTime();
     		timeEdmond += edmondKarp.getRunTime();
     	}
-    	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson" + (timeFord/100));
-    	  System.out.println("start generating new graph");
-    	big = (GKAGraph) GKAGraphInterface.newGraphBigNet(2500,2000000);
+    	System.out.println("Durchschnittliche Laufzeit Edmond Karp: " + (timeEdmond/100) + " Ford Fulkerson: " + (timeFord/100));
+    	
+    	big = (GKAGraph) GKAGraphInterface.newGraphBigNet(100,1600);
     	edmondKarp = new EdmondKarp(big);
     	fordFulkerson = new FordFulkerson(big);
     	timeFord =0;
     	timeEdmond = 0;
     	for(int i = 0; i< 100;i++){
     	    System.out.println("running round: " + i);
-    	    int sink = (int)(Math.random() * 2500);
-            int source = (int)(Math.random() * 2500);
+    	    int sink = (int)(Math.random() * 100);
+            int source = (int)(Math.random() * 100);
             assertEquals(edmondKarp.maxFlow(String.valueOf(source), String.valueOf(sink)), 
                     fordFulkerson.maxFlow(String.valueOf(source), String.valueOf(sink)), delta);
     		timeFord += fordFulkerson.getRunTime();

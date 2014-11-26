@@ -47,7 +47,6 @@ public class EdmondKarp extends FlowBase{
 		if(source.equals(sink)){
 			return Double.POSITIVE_INFINITY;
 		}
-		//System.out.println(" Edmon " + source + " " + sink);
 		HashMap<String, String> parentMap = new HashMap<>();
         long start = System.nanoTime();
         hops = 0;
@@ -57,8 +56,8 @@ public class EdmondKarp extends FlowBase{
         while (true) 
         {
             
-     	   ArrayList<String> parentTable = new ArrayList<>(); //Vorgaengerliste
-     	   parentTable.add(source);
+     	   ArrayList<String> reachedVertexes = new ArrayList<>(); //Vorgaengerliste
+     	   reachedVertexes.add(source);
      	   ArrayList<Double> pathCapacity = new ArrayList<>();
      	   pathCapacity.add(Double.POSITIVE_INFINITY);//Pfad Kapazitaeten
             // BFS queue
@@ -73,13 +72,13 @@ public class EdmondKarp extends FlowBase{
                 	hops++;
                     // Es existiert eine Kapazitaet groeßer 0, Pfad moeglich
                     // nextNode noch nicht besucht
-                    if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && !parentTable.contains(nextNode)) 
+                    if ((capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode)) > 0 && !reachedVertexes.contains(nextNode)) 
                     {
-                 	   parentTable.add(nextNode);
+                 	   reachedVertexes.add(nextNode);
                  	  parentMap.put(nextNode, currentNode);
                  	   pathCapacity.add(
                  			   Math.min(
-                 					   pathCapacity.get(parentTable.indexOf(currentNode)),
+                 					   pathCapacity.get(reachedVertexes.indexOf(currentNode)),
                  					   capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode))
                  	   );
                  	   if (!nextNode.equals(sink))
@@ -103,7 +102,7 @@ public class EdmondKarp extends FlowBase{
                 }
             }
             }
-            if (!parentTable.contains(sink)) 
+            if (!reachedVertexes.contains(sink)) 
             { // kein Weg zur Senke gefunden
                 Double sum = 0.0;
                 for (String row : flowMatrix.getRows())
