@@ -94,8 +94,8 @@ public class MainControler {
 	public static GKAGraphInterface getGraph() {
 		return graph;
 	}
-	public static void saveGraph(File file){
-		graph.saveGraph(file);
+	public static void saveGraph(File file, boolean decreapted){
+		graph.saveGraph(file, decreapted);
 	}
 	public static void shortesPathBroad(String source, String target){
 		graph.resetColor();

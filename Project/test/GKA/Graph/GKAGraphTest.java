@@ -311,21 +311,21 @@ public class GKAGraphTest
     @Test
     public void testSaveGraph()
     {
-        g1.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g1.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g1, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g2.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g2.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g2, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-       // g3.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+       // g3.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
        // assertEquals(g3, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g4.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g4.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g4, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g5.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g5.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g5, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g6.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g6.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g6, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g7.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g7.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g7, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
-        g8.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"));
+        g8.saveGraph(new File("..\\aufgabe1Bsp\\test.gka"),false);
         assertEquals(g8, GKAGraphInterface.newGraph(new File("..\\aufgabe1Bsp\\test.gka")));
     }
     

@@ -41,12 +41,12 @@ public class GKAGraphMenuPanel extends GKAPanel{
 			add(dijkstraButton);
 			floydWarshallButton = new GKAFloydWarshallButton(width - 10, 25, 5, 185);
 			add(floydWarshallButton);
-			if(graph.isDirected()){
+			//if(graph.isDirected()){
 				fordFulkersonButton = new GKAFordFulkersonButton(width - 10, 25, 5, 215);
 				add(fordFulkersonButton);
 				edmondKarpButton = new GKAEdmondKarpButton(width -10, 25, 5, 245);
 				add(edmondKarpButton);
-			}
+			//}
 		}
 		cancelButton = new GKACancelButton(width - 10, 25, 5, height-40);
 		add(cancelButton);

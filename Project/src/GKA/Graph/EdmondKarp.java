@@ -47,7 +47,7 @@ public class EdmondKarp extends FlowBase{
 		if(source.equals(sink)){
 			return 0.0;
 		}
-		System.out.println(" Edmon " + source + " " + sink);
+		//System.out.println(" Edmon " + source + " " + sink);
 		HashMap<String, String> parentMap = new HashMap<>();
         long start = System.nanoTime();
         hops = 0;
@@ -82,13 +82,12 @@ public class EdmondKarp extends FlowBase{
                  					   pathCapacity.get(parentTable.indexOf(currentNode)),
                  					   capacityMatrix.get(currentNode, nextNode) - flowMatrix.get(currentNode, nextNode))
                  	   );
-                 	  System.out.println(" Edmon " + nextNode + " " + sink);
                  	   if (!nextNode.equals(sink))
                             Q.add(nextNode);
                        else 
                        {
                            // Backtrack search, and write flow
-                     	  while(parentMap.get(nextNode) != null)
+                     	   while(parentMap.get(nextNode) != null)
                            {
                      		   hops++;
                                flowMatrix.put(parentMap.get(nextNode), nextNode, flowMatrix.get(parentMap.get(nextNode), nextNode) + pathCapacity.get(pathCapacity.size()-1));
@@ -98,7 +97,6 @@ public class EdmondKarp extends FlowBase{
                             		   flowMatrix.get(nextNode, parentMap.get(nextNode)) - 
                             		   pathCapacity.get(pathCapacity.size() - 1));
                                nextNode = parentMap.get(nextNode);
-                               System.out.println(" Edmon " + source + " " + sink);
                            }
                            break LOOP;
                      }
@@ -114,7 +112,6 @@ public class EdmondKarp extends FlowBase{
                 	sum += flowMatrix.get(source,row);
 	            } 
                 runTime = System.nanoTime() - start;
-                System.out.println(" Edmon " + source + " " + sink);
                 return sum;
 	        }
 	    }
