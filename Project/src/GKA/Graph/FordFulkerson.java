@@ -31,7 +31,6 @@ public class FordFulkerson extends FlowBase {
 				if(returnedFlow != 0.0){
 					hops++;
 					currentFlows.put(source, nextVertex, currentFlows.get(source, nextVertex) + returnedFlow);
-					//System.out.print(source + ":" + nextVertex + "=" + returnedFlow + "; ");
 					return returnedFlow;
 				}
 			}
@@ -51,7 +50,6 @@ public class FordFulkerson extends FlowBase {
 				if(returnedFlow != 0.0){
 					hops++;
 					currentFlows.put(nextVertex, source, currentFlows.get(nextVertex, source) - returnedFlow);
-					//System.out.print(source + ":" + nextVertex + "=-" + returnedFlow + "; ");
 					return returnedFlow;
 				}
 			}

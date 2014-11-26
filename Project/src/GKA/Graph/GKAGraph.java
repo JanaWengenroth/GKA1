@@ -176,12 +176,10 @@ class GKAGraph implements GKAGraphInterface {
 	    GKAGraphInterface retval = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
         for(int i = 0; i < vertexAnzahl; i++)
         {
-            System.out.println("generating vertex: " + i);
             retval.addVertex(String.valueOf(i));
         }
         for(int i = 0; i < vertexAnzahl - 1; i++)
         {
-            System.out.println("generating edge: " + i);
             retval.addEdge(String.valueOf(i), String.valueOf(i+1), null, (double)((int) (Math.random() * edgeAnzahl)));    
         }
         retval.addEdge(String.valueOf(vertexAnzahl - 1), String.valueOf(0), null, (double)((int) (Math.random() * edgeAnzahl)));
@@ -190,8 +188,6 @@ class GKAGraph implements GKAGraphInterface {
         {
             int edgeTarget = (int) (Math.random() * (vertexAnzahl));
             int edgeSource = (int) (Math.random() * (vertexAnzahl));
-            if((i + vertexAnzahl) % 1000 == 0)
-                System.out.println("generating edge: " + (i + vertexAnzahl));
             retval.addEdge(String.valueOf(edgeSource), String.valueOf(edgeTarget), null,(double)((int) (Math.random() * edgeAnzahl)));
         }
         return retval;
