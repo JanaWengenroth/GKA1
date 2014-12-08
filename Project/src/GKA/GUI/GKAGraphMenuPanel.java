@@ -22,6 +22,7 @@ public class GKAGraphMenuPanel extends GKAPanel{
 	private GKAFordFulkersonButton fordFulkersonButton;
 	private GKAEdmondKarpButton edmondKarpButton;
 	private GenerateRandomButton generateRandomButton;
+	private GKAMinimumSpanningTreeButton minimumSpanningTreeButton;
 	
 	public GKAGraphMenuPanel(int width, int height, int posX, int posY, GKAGraphInterface graph) 
 	{
@@ -47,6 +48,9 @@ public class GKAGraphMenuPanel extends GKAPanel{
 				add(fordFulkersonButton);
 				edmondKarpButton = new GKAEdmondKarpButton(width -10, 25, 5, 245);
 				add(edmondKarpButton);
+			}else{
+				minimumSpanningTreeButton = new GKAMinimumSpanningTreeButton(width - 10, 25, 5, 215);
+				add(minimumSpanningTreeButton);
 			}
 			
 		}

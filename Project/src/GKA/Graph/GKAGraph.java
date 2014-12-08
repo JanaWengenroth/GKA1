@@ -1013,6 +1013,12 @@ class GKAGraph implements GKAGraphInterface {
         sendMessage("Runtime: " + edmondKarp.getRunTime());
         sendMessage("Zugriffe: " + edmondKarp.getHops());
 	}
+
+
+	@Override
+	public GKAGraphInterface getMinimumSpanningTree() {
+		return (new MinimumSpanningTree(this)).getMinimumSpanningTree();
+	}
 	
 	
 }

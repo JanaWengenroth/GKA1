@@ -9,12 +9,14 @@ import GKA.Graph.GraphType;
 public class MainControler {
 	private static GKAWindow mainWindow;
 	private static GKAGraphInterface graph;
+	private static boolean minimumSpanningTree = false;
 	public static void main(String[] args) {
 		mainWindow = new GKAWindow();
 		newDirectedGraph();
 		mainWindow.repaint();
 	}
 	public static void newGraph(File file){
+		minimumSpanningTree = false;
 		GKAGraphInterface.newGraph(file);
 		MainControler.graph = GKAGraphInterface.newGraph(file);
 		graph.addMessageReceiver(mainWindow);
@@ -23,7 +25,17 @@ public class MainControler {
 		mainWindow.pack();
 		sendMessage("New Graph was build.");
 	}
+	public static void newGraph(GKAGraphInterface graph){
+		minimumSpanningTree = false;
+		MainControler.graph = graph;
+		graph.addMessageReceiver(mainWindow);
+		graph.setLayout();
+		mainWindow.showMainPanel(graph);
+		mainWindow.pack();
+		sendMessage("New Graph was build.");
+	}
 	public static void newDirectedGraph(){
+		minimumSpanningTree = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
 		graph.addMessageReceiver(mainWindow);
 		graph.addEdge("v1", "v2",null,null);
@@ -34,6 +46,7 @@ public class MainControler {
 		sendMessage("New Directed Graph was build.");
 	}
 	public static void newDirectedWeightedGraph(){
+		minimumSpanningTree = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
 		graph.addMessageReceiver(mainWindow);
 		graph.addVertex("v1");
@@ -46,6 +59,7 @@ public class MainControler {
 		sendMessage("New Directed Graph was build.");
 	}
 	public static void newUndirectedGraph(){
+		minimumSpanningTree = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Undirected);
 		graph.addVertex("v3");
 		graph.addVertex("v4");
@@ -57,6 +71,7 @@ public class MainControler {
 		sendMessage("New Directed Graph was build.");
 	}
 	public static void newUndirectedWeigthedGraph(){
+		minimumSpanningTree = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.UndirectedWeighted);
 		graph.addMessageReceiver(mainWindow);
 		graph.addVertex("v3");
@@ -117,4 +132,21 @@ public class MainControler {
         graph.resetColor();
         graph.edmondKarp(source, target);    
     }
+	public static void minimumSpanningTree() {
+		GKAGraphInterface tmpGraph = null;
+		if(minimumSpanningTree){
+			minimumSpanningTree = false;
+			tmpGraph = graph;
+		}else{
+			minimumSpanningTree = true;
+			tmpGraph = graph.getMinimumSpanningTree();
+		}
+		tmpGraph.addMessageReceiver(mainWindow);
+		tmpGraph.addEdge("v1", "v2",null,null);
+		tmpGraph.addEdge("v1", "v2",null,null);
+		tmpGraph.setLayout();
+		mainWindow.showMainPanel(tmpGraph);
+		mainWindow.pack();
+		
+	}
 }
