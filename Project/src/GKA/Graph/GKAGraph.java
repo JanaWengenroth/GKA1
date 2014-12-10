@@ -279,7 +279,7 @@ class GKAGraph implements GKAGraphInterface {
 	private final ListenableGraph<String, GKAEdge> jGraph;
 	private final JGraphXAdapter<String,GKAEdge> mxgraph;
 	private final GraphType type;
-	private final List<MessageReceiver> messageReceivers = new ArrayList<>();
+	private final Set<MessageReceiver> messageReceivers = new HashSet<>();
 	private Matrix<String, Set<GKAEdge>> warschallMatrix = null;
 	private long edgecount = 0;
 	
@@ -898,15 +898,15 @@ class GKAGraph implements GKAGraphInterface {
 
      }
      long timeNeeded = (System.nanoTime() - startime);
-     if (shortesPath == null || shortesPath.size() < 2){
-    	 sendMessage("Found no way!");
-     }
-     else {
-    	 sendMessage("Found way: " + shortesPath.toString());
-    	 sendMessage("Weight of shortest way: " + shortestWeight);
-     }
-     sendMessage("Hops: " + hops);
-     sendMessage("Time: " + timeNeeded + " NanoSec");
+//     if (shortesPath == null || shortesPath.size() < 2){
+//    	 sendMessage("Found no way!");
+//     }
+//     else {
+//    	 sendMessage("Found way: " + shortesPath.toString());
+//    	 sendMessage("Weight of shortest way: " + shortestWeight);
+//     }
+//     sendMessage("Hops: " + hops);
+//     sendMessage("Time: " + timeNeeded + " NanoSec");
      return shortesPath;
  } 
 
@@ -1023,7 +1023,11 @@ class GKAGraph implements GKAGraphInterface {
 
 	@Override
 	public MSTHeuristic getMSTHeuristic(String startNode) {
-		return (new MSTHeuristic(this,startNode));
+		MSTHeuristic heuristic = new MSTHeuristic(this,startNode);
+		sendMessage("MSTHeuristic Tour: " + heuristic.getWay());
+		sendMessage("MSTHeuristic Size: " + heuristic.getLength());
+		sendMessage("MSTHeuristic Time: " + heuristic.getRunTime() + " NanoSekunden");
+		return (heuristic);
 	}
 	
 	

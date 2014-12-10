@@ -12,7 +12,20 @@ public class MSTHeuristic {
 	private final GKAGraphInterface tour;
 	private List<String> way = new ArrayList<>();
 	private double length = 0.0;
+	private long runTime = 0;
+	
+	public List<String> getWay() {
+		return way;
+	}
+	public double getLength() {
+		return length;
+	}
+	public long getRunTime() {
+		return runTime;
+	}
+	
 	public MSTHeuristic(GKAGraphInterface graph, String startNode){
+		long startTime = System.nanoTime();
 		if(graph.getjGraph().vertexSet().size() < 2 ){
 			way = new ArrayList<>(graph.getjGraph().vertexSet().size());
 			dupGraph = graph;
@@ -21,7 +34,9 @@ public class MSTHeuristic {
 			dupGraph = generateDuplicatedGraph(graph.getMinimumSpanningTree());
 			tour = generateTour(graph, dupGraph,startNode);
 		}
+		runTime = System.nanoTime() - startTime;
 	}
+	
 	private GKAGraphInterface generateTour(GKAGraphInterface graph, GKAGraphInterface dupGraph, String startnode) {
 		GKAGraphInterface tour = GKAGraphInterface.newGraph(GraphType.UndirectedWeighted);
 		List<String> way = new ArrayList<>();
