@@ -1016,8 +1016,14 @@ class GKAGraph implements GKAGraphInterface {
 
 
 	@Override
-	public GKAGraphInterface getMinimumSpanningTree() {
-		return (new MinimumSpanningTree(this)).getMinimumSpanningTree();
+	public MinimumSpanningTree getMinimumSpanningTree() {
+		return (new MinimumSpanningTree(this));
+	}
+
+
+	@Override
+	public MSTHeuristic getMSTHeuristic(String startNode) {
+		return (new MSTHeuristic(this,startNode));
 	}
 	
 	

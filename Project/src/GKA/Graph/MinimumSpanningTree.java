@@ -1,11 +1,15 @@
 package GKA.Graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MinimumSpanningTree {
 	private final GKAGraphInterface minimumSpanningTree = GKAGraphInterface.newGraph(GraphType.UndirectedWeighted);
+	private final Set<GKAEdge> edgeSet = new HashSet<>();
 	public MinimumSpanningTree(GKAGraphInterface graph){
 		generateMinimumSapnningTree(graph);
 	}
@@ -29,8 +33,13 @@ public class MinimumSpanningTree {
 		}
 		for(GKAEdge edge: edges){
 			if (minimumSpanningTree.shortesPathBroad(edge.getSource().toString(), edge.getTarget().toString())==null){
+				edgeSet.add(edge);
 				minimumSpanningTree.addEdge(edge.getSource().toString(), edge.getTarget().toString(), null, edge.getWeight());
 			}
 		}
+	}
+
+	public Set<GKAEdge> getEdgeSet() {
+		return Collections.unmodifiableSet(edgeSet);
 	}
 }

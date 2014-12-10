@@ -10,6 +10,7 @@ public class MainControler {
 	private static GKAWindow mainWindow;
 	private static GKAGraphInterface graph;
 	private static boolean minimumSpanningTree = false;
+	private static boolean mstHeuristic = false;
 	public static void main(String[] args) {
 		mainWindow = new GKAWindow();
 		newDirectedGraph();
@@ -17,6 +18,7 @@ public class MainControler {
 	}
 	public static void newGraph(File file){
 		minimumSpanningTree = false;
+		mstHeuristic = false;
 		GKAGraphInterface.newGraph(file);
 		MainControler.graph = GKAGraphInterface.newGraph(file);
 		graph.addMessageReceiver(mainWindow);
@@ -27,6 +29,7 @@ public class MainControler {
 	}
 	public static void newGraph(GKAGraphInterface graph){
 		minimumSpanningTree = false;
+		mstHeuristic = false;
 		MainControler.graph = graph;
 		graph.addMessageReceiver(mainWindow);
 		graph.setLayout();
@@ -36,6 +39,7 @@ public class MainControler {
 	}
 	public static void newDirectedGraph(){
 		minimumSpanningTree = false;
+		mstHeuristic = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
 		graph.addMessageReceiver(mainWindow);
 		graph.addEdge("v1", "v2",null,null);
@@ -47,6 +51,7 @@ public class MainControler {
 	}
 	public static void newDirectedWeightedGraph(){
 		minimumSpanningTree = false;
+		mstHeuristic = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
 		graph.addMessageReceiver(mainWindow);
 		graph.addVertex("v1");
@@ -60,6 +65,7 @@ public class MainControler {
 	}
 	public static void newUndirectedGraph(){
 		minimumSpanningTree = false;
+		mstHeuristic = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Undirected);
 		graph.addVertex("v3");
 		graph.addVertex("v4");
@@ -72,6 +78,7 @@ public class MainControler {
 	}
 	public static void newUndirectedWeigthedGraph(){
 		minimumSpanningTree = false;
+		mstHeuristic = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.UndirectedWeighted);
 		graph.addMessageReceiver(mainWindow);
 		graph.addVertex("v3");
@@ -139,11 +146,24 @@ public class MainControler {
 			tmpGraph = graph;
 		}else{
 			minimumSpanningTree = true;
-			tmpGraph = graph.getMinimumSpanningTree();
+			tmpGraph = graph.getMinimumSpanningTree().getMinimumSpanningTree();
 		}
 		tmpGraph.addMessageReceiver(mainWindow);
-		tmpGraph.addEdge("v1", "v2",null,null);
-		tmpGraph.addEdge("v1", "v2",null,null);
+		tmpGraph.setLayout();
+		mainWindow.showMainPanel(tmpGraph);
+		mainWindow.pack();
+		
+	}
+	public static void mstHeuristic(String startNode) {
+		GKAGraphInterface tmpGraph = null;
+		if(mstHeuristic){
+			mstHeuristic = false;
+			tmpGraph = graph;
+		}else{
+			mstHeuristic = true;
+			tmpGraph = graph.getMSTHeuristic(startNode).getTour();
+		}
+		tmpGraph.addMessageReceiver(mainWindow);
 		tmpGraph.setLayout();
 		mainWindow.showMainPanel(tmpGraph);
 		mainWindow.pack();

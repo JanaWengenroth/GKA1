@@ -95,7 +95,8 @@ public interface GKAGraphInterface extends MessageSender{
 	public void edmondKarp(String source, String sink);
 	boolean addEdgeUnsave(String source, String target, String name,
 			Double weight);
-	public GKAGraphInterface getMinimumSpanningTree();
+	public MinimumSpanningTree getMinimumSpanningTree();
+	public MSTHeuristic getMSTHeuristic(String startNode);
 	
 	
 }
