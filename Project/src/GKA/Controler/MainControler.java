@@ -11,6 +11,7 @@ public class MainControler {
 	private static GKAGraphInterface graph;
 	private static boolean minimumSpanningTree = false;
 	private static boolean mstHeuristic = false;
+	private static boolean nearestNeighbour = false;
 	public static void main(String[] args) {
 		mainWindow = new GKAWindow();
 		newDirectedGraph();
@@ -19,6 +20,7 @@ public class MainControler {
 	public static void newGraph(File file){
 		minimumSpanningTree = false;
 		mstHeuristic = false;
+		nearestNeighbour = false;
 		GKAGraphInterface.newGraph(file);
 		MainControler.graph = GKAGraphInterface.newGraph(file);
 		graph.addMessageReceiver(mainWindow);
@@ -30,6 +32,7 @@ public class MainControler {
 	public static void newGraph(GKAGraphInterface graph){
 		minimumSpanningTree = false;
 		mstHeuristic = false;
+		nearestNeighbour = false;
 		MainControler.graph = graph;
 		graph.addMessageReceiver(mainWindow);
 		graph.setLayout();
@@ -40,6 +43,7 @@ public class MainControler {
 	public static void newDirectedGraph(){
 		minimumSpanningTree = false;
 		mstHeuristic = false;
+		nearestNeighbour = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Directed);
 		graph.addMessageReceiver(mainWindow);
 		graph.addEdge("v1", "v2",null,null);
@@ -52,6 +56,7 @@ public class MainControler {
 	public static void newDirectedWeightedGraph(){
 		minimumSpanningTree = false;
 		mstHeuristic = false;
+		nearestNeighbour = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
 		graph.addMessageReceiver(mainWindow);
 		graph.addVertex("v1");
@@ -66,6 +71,7 @@ public class MainControler {
 	public static void newUndirectedGraph(){
 		minimumSpanningTree = false;
 		mstHeuristic = false;
+		nearestNeighbour = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.Undirected);
 		graph.addVertex("v3");
 		graph.addVertex("v4");
@@ -79,6 +85,7 @@ public class MainControler {
 	public static void newUndirectedWeigthedGraph(){
 		minimumSpanningTree = false;
 		mstHeuristic = false;
+		nearestNeighbour = false;
 		MainControler.graph = GKAGraphInterface.newGraph(GraphType.UndirectedWeighted);
 		graph.addMessageReceiver(mainWindow);
 		graph.addVertex("v3");
@@ -167,6 +174,23 @@ public class MainControler {
 		tmpGraph.setLayout();
 		mainWindow.showMainPanel(tmpGraph);
 		mainWindow.pack();
-		
 	}
+		
+		  public static void nearestNeighbour(String startNode) 
+		  {
+		        GKAGraphInterface tmpGraph = null;
+		        if(nearestNeighbour)
+		        {
+		            nearestNeighbour = false;
+		            tmpGraph = graph;
+		        }else
+		        {
+		            nearestNeighbour = true;
+		            tmpGraph = graph.getNearestNeighbour(startNode).getNearestNeighbourTour(startNode);
+		        }
+		        tmpGraph.addMessageReceiver(mainWindow);
+		        tmpGraph.setLayout();
+		        mainWindow.showMainPanel(tmpGraph);
+		        mainWindow.pack();
+		  }
 }

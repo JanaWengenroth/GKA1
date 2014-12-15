@@ -17,12 +17,18 @@ public interface GKAGraphInterface extends MessageSender{
 	public static GKAGraphInterface newGraph(GraphType type){
 		return GKAGraph.newGraph(type);
 	}
+	
 	public static GKAGraphInterface newGraph(File file){
 		return GKAGraph.newGraph(file);
 	}
+	
 	public static GKAGraphInterface newGraphBigNet(int i, int j){
 		return GKAGraph.newGraph(i,j);
 	}
+	
+	public static GKAGraphInterface newTourGraph(int i){
+	    return GKAGraph.newRundReiseGraph(i);
+    }
 	
 	public abstract ListenableGraph<String, GKAEdge> getjGraph();
 
@@ -97,6 +103,7 @@ public interface GKAGraphInterface extends MessageSender{
 			Double weight);
 	public MinimumSpanningTree getMinimumSpanningTree();
 	public MSTHeuristic getMSTHeuristic(String startNode);
+	public NearestNeighbour getNearestNeighbour(String startNode);
 	
 	
 }

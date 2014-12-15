@@ -172,6 +172,7 @@ class GKAGraph implements GKAGraphInterface {
     	
     	return returnValue;
     }
+	 
 	static GKAGraphInterface newGraph(int vertexAnzahl, int edgeAnzahl){
 	    GKAGraphInterface retval = GKAGraphInterface.newGraph(GraphType.DirectedWeighted);
         for(int i = 0; i < vertexAnzahl; i++)
@@ -193,6 +194,84 @@ class GKAGraph implements GKAGraphInterface {
         return retval;
 	}
 
+	static GKAGraphInterface newRundReiseGraph(int vertexAnzahl) {
+        GKAGraphInterface retval = GKAGraphInterface.newGraph(GraphType.UndirectedWeighted);
+        List<String> vertexList = new ArrayList<>();
+        int edgeAnzahl = (((vertexAnzahl * vertexAnzahl)/2 - (vertexAnzahl/2)));
+        
+        for(int i = 0; i < vertexAnzahl; i++)
+        {
+            retval.addVertex(String.valueOf(i));
+            vertexList.add(String.valueOf(i));
+        }
+     
+        for(int i = 0; i < vertexAnzahl-1; i++)
+        {
+            String source = "" + i;
+            String target = "" + (i + 1);
+          
+            retval.addEdge(source, target, null, Math.random() * edgeAnzahl);
+            
+            if(target == "" + (vertexAnzahl - 1))
+            {
+                source = "" + 0;
+                target = "" + (vertexAnzahl - 1);
+                
+                Double wholeWeight = 0.0;
+                
+                for(GKAEdge edge : retval.getjGraph().getAllEdges(source, target))
+                {
+                     wholeWeight = wholeWeight + edge.getWeight();
+                }
+                Double weight = Math.random() * wholeWeight;
+                retval.addEdge(source, target, null, weight);
+            }
+        }
+        
+        
+        Set<String> touched = new HashSet<>();
+        while(edgeAnzahl != 0)
+        {
+            for(String vertex : vertexList)
+            {
+                if(!touched.contains(vertex)) 
+                {
+                    touched.add(vertex);
+                    for(String nextVertex : vertexList)
+                    {
+                        if(!touched.contains(nextVertex)) 
+                        {                           
+                            String source = vertex;
+                            String target = nextVertex;
+                            
+                            if(!retval.getjGraph().containsEdge(source, target))
+                            {
+                                if(!retval.getjGraph().containsEdge(target, source))
+                                {
+                                    List<GKAEdge> shortestPath = retval.dijkstra(source, target);
+                                    
+                                    Double wholeWeight = 0.0;
+                                    
+                                    for(GKAEdge edge : shortestPath)
+                                    {
+                                        Double edgeWeight = edge.getWeight();
+                                        wholeWeight = wholeWeight + edgeWeight;
+                                    }
+                                    
+                                    Double weight = Math.random() * wholeWeight;                  
+                                    retval.addEdge(source, target, null, weight);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+            edgeAnzahl = edgeAnzahl - 1;
+        }
+            
+        return retval;
+	}
 	
 	private static ArrayList<HashMap<String, String>> parse(ArrayList<String> linedFile) throws IncorrectFileFormat {
 		ArrayList<HashMap<String, String>> retVal = new ArrayList<>();
@@ -1030,5 +1109,16 @@ class GKAGraph implements GKAGraphInterface {
 		return (heuristic);
 	}
 	
-	
+
+    @Override
+    public NearestNeighbour getNearestNeighbour(String startNode) {
+        NearestNeighbour heuristic = new NearestNeighbour(this,startNode);
+        sendMessage("NearestNeighbour Tour: " + heuristic.getWay());
+        sendMessage("NearestNeighbour Size: " + heuristic.getLength());
+        sendMessage("NearestNeighbour Time: " + heuristic.getRunTime() + " NanoSekunden");
+        return (heuristic);
+    }
+
+
+ 
 }

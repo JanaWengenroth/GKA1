@@ -22,8 +22,10 @@ public class GKAGraphMenuPanel extends GKAPanel{
 	private GKAFordFulkersonButton fordFulkersonButton;
 	private GKAEdmondKarpButton edmondKarpButton;
 	private GenerateRandomButton generateRandomButton;
+	private GenerateRandomTourGraphButton generateRandomTourButton;
 	private GKAMinimumSpanningTreeButton minimumSpanningTreeButton;
 	private GKAMSTHeuristicTreeButton mstHeuristicTreeButton;
+	private GKANearestNeighbourButton nearestNeighbourButton;
 	
 	public GKAGraphMenuPanel(int width, int height, int posX, int posY, GKAGraphInterface graph) 
 	{
@@ -54,11 +56,15 @@ public class GKAGraphMenuPanel extends GKAPanel{
 				add(minimumSpanningTreeButton);
 				mstHeuristicTreeButton = new GKAMSTHeuristicTreeButton(width - 10, 25, 5, 245);
 				add(mstHeuristicTreeButton);
+				nearestNeighbourButton = new GKANearestNeighbourButton(width - 10, 25, 5, 275);
+				add(nearestNeighbourButton);
 			}
 			
 		}
 		generateRandomButton = new GenerateRandomButton(width - 10, 25, 5, height-70);
 		add(generateRandomButton);
+		generateRandomTourButton = new GenerateRandomTourGraphButton(width - 10, 25, 5, height -100);
+		add(generateRandomTourButton);
 		cancelButton = new GKACancelButton(width - 10, 25, 5, height-40);
 		add(cancelButton);
 	}

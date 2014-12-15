@@ -33,14 +33,14 @@ public class GenerateRandomButton extends GKAButton{
 				MainControler.sendMessage("Please Enter a correct VertexNumber.");
 				return;
 			}
-			String inputEdgeNr = JOptionPane.showInputDialog("Please enter VertexNumber");
+			String inputEdgeNr = JOptionPane.showInputDialog("Please enter EdgeNumber");
 			if (inputEdgeNr == null){
 				return;
 			}else if (inputEdgeNr.isEmpty()){
-				MainControler.sendMessage("Please Enter a VertexNumber.");
+				MainControler.sendMessage("Please Enter a EdgeNumber.");
 				return;
 			}else if(!inputEdgeNr.matches("[0-9]+")){
-				MainControler.sendMessage("Please Enter a correct VertexNumber.");
+				MainControler.sendMessage("Please Enter a correct EdgeNumber.");
 				return;
 			}
 			GKAGraphInterface.newGraphBigNet(Integer.valueOf(inputVertexNr), Integer.valueOf(inputEdgeNr)).
