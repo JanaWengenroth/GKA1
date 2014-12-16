@@ -35,7 +35,7 @@ public class GenerateRandomTourGraphButton extends GKAButton{
             }
            
             GKAGraphInterface.newTourGraph(Integer.valueOf(inputVertexNr)).
-            saveGraph(new File("..\\aufgabe1Bsp\\tour_" + inputVertexNr + "_" + ".gka"), true);
+            saveGraph(new File("..\\aufgabe1Bsp\\tour_" + inputVertexNr + "_" + ".gka"), false);
         }
     }
         

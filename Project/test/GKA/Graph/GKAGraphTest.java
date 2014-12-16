@@ -496,57 +496,6 @@ public class GKAGraphTest
        System.out.println(System.currentTimeMillis() - startTime);
        startTime = System.currentTimeMillis();
     }
-    
-    class RandomTourGraph
-    {
-        private GKAGraphInterface graph;
-       
-        
-        RandomTourGraph(GKAGraphInterface graph)
-        {
-           this.setGraph(graph);
-        }
-
-        public GKAGraphInterface getGraph()
-        {
-            return graph;
-        }
-        
-        private void setGraph(GKAGraphInterface graph)
-        {
-            this.graph = graph;
-        }  
-        
-    }
-    
-    public RandomTourGraph generateTourGraph(int vertexAnzahl) 
-    {
-
-  }
-
-
-    
-    
-    @Test
-    public void testRandomTourGraph()
-    {
-       long startTime = System.currentTimeMillis();
-       RandomGraph testGraph = generateGraph(100, 6000);
-       System.out.println(System.currentTimeMillis() - startTime);
-       startTime = System.currentTimeMillis();
-       assertEquals(getWayLength(testGraph.getGraph().dijkstra(testGraph.getWay1Source(), testGraph.getWay1Target())), testGraph.getWay1Weight(), 0.01);
-       System.out.println(System.currentTimeMillis() - startTime);
-       startTime = System.currentTimeMillis();
-       assertEquals(getWayLength(testGraph.getGraph().dijkstra(testGraph.getWay2Source(), testGraph.getWay2Target())), testGraph.getWay2Weight(), 0.01);
-       System.out.println(System.currentTimeMillis() - startTime);
-       startTime = System.currentTimeMillis();
-       assertEquals(getWayLength(testGraph.getGraph().floydWarschall(testGraph.getWay1Source(), testGraph.getWay1Target())), testGraph.getWay1Weight(), 0.01);
-       System.out.println(System.currentTimeMillis() - startTime);
-       startTime = System.currentTimeMillis();
-       assertEquals(getWayLength(testGraph.getGraph().floydWarschall(testGraph.getWay2Source(), testGraph.getWay2Target())), testGraph.getWay2Weight(), 0.01);
-       System.out.println(System.currentTimeMillis() - startTime);
-       startTime = System.currentTimeMillis();
-    }
 }
     
 

@@ -186,7 +186,7 @@ public class MainControler {
 		        }else
 		        {
 		            nearestNeighbour = true;
-		            tmpGraph = graph.getNearestNeighbour(startNode).getNearestNeighbourTour(startNode);
+		            tmpGraph = graph.getNearestNeighbour(startNode).getNearestNeighbourTour();
 		        }
 		        tmpGraph.addMessageReceiver(mainWindow);
 		        tmpGraph.setLayout();

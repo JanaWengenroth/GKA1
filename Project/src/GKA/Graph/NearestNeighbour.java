@@ -147,6 +147,8 @@ public class NearestNeighbour
        }
        shortestEdges.add(edgeToSource);
 
+       visitedVertexes.add(source);
+       
        for(GKAEdge edge : shortestEdges)
        {
            String start = edge.getSource().toString();
@@ -176,7 +178,7 @@ public class NearestNeighbour
         return dupGraph;
     }
     
-    public GKAGraphInterface getNearestNeighbourTour(String source) 
+    public GKAGraphInterface getNearestNeighbourTour() 
     {
         return tour;
     }
