@@ -17,6 +17,13 @@ public class MinimumSpanningTree {
 	public GKAGraphInterface getMinimumSpanningTree() {
 		return minimumSpanningTree;
 	}
+	public double length(){
+		double retVal = 0.0;
+		for(GKAEdge edge: edgeSet){
+			retVal += edge.getWeight();
+		}
+		return retVal;
+	}
 	
 	private void generateMinimumSapnningTree(GKAGraphInterface graph){
 		List<GKAEdge> edges = new ArrayList<>(graph.getjGraph().edgeSet());

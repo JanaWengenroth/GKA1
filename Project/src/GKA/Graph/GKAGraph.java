@@ -209,21 +209,20 @@ class GKAGraph implements GKAGraphInterface {
         {
             String source = "" + i;
             String target = "" + (i + 1);
-          
-            retval.addEdge(source, target, null, randomNumberGreaterZero(5000.0) + 5000.0);
+            retval.addEdge(source, target, null, Math.random() * edgeAnzahl);
             
-            if(target.equals("" + (vertexAnzahl - 1)))
+            if(target == "" + (vertexAnzahl - 1))
             {
                 source = "" + 0;
                 target = "" + (vertexAnzahl - 1);
                 
-//                Double wholeWeight = 0.0;
-//                
-//                for(GKAEdge edge : retval.getjGraph().edgeSet())
-//                {
-//                     wholeWeight = wholeWeight + edge.getWeight();
-//                }
-                Double weight = randomNumberGreaterZero(5000.0) + 5000.0;
+                Double wholeWeight = 0.0;
+                
+                for(GKAEdge edge : retval.getjGraph().getAllEdges(source, target))
+                {
+                     wholeWeight = wholeWeight + edge.getWeight();
+                }
+                Double weight = Math.random() * wholeWeight;
                 retval.addEdge(source, target, null, weight);
             }
         }
@@ -247,8 +246,18 @@ class GKAGraph implements GKAGraphInterface {
                             if(!retval.getjGraph().containsEdge(source, target))
                             {
                                 if(!retval.getjGraph().containsEdge(target, source))
-                                { 
-                                    Double weight = randomNumberGreaterZero(5000.0) + 5000.0;
+                                {
+                                    List<GKAEdge> shortestPath = retval.dijkstra(source, target);
+                                    
+                                    Double wholeWeight = 0.0;
+                                    
+                                    for(GKAEdge edge : shortestPath)
+                                    {
+                                        Double edgeWeight = edge.getWeight();
+                                        wholeWeight = wholeWeight + edgeWeight;
+                                    }
+                                    
+                                    Double weight = Math.random() * wholeWeight;                  
                                     retval.addEdge(source, target, null, weight);
                                 }
                             }
@@ -261,18 +270,6 @@ class GKAGraph implements GKAGraphInterface {
         }
             
         return retval;
-	}
-	
-	private static Double randomNumberGreaterZero(Double maxValue)
-	{
-	    Double retval = -1.0;
-	    
-	    while (retval <= 0.0)
-	    {
-	        retval = Math.random();	        
-	    }
-	    retval *= maxValue;
-	    return retval;
 	}
 	
 	private static ArrayList<HashMap<String, String>> parse(ArrayList<String> linedFile) throws IncorrectFileFormat {
