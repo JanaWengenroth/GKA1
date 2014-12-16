@@ -31,18 +31,19 @@ public class TourTest
     @Test
     public void test()
     {
+        int testDurchlaeufe = 100;
         long mittlereZeitMST = 0;
         long mittlereZeitNearest = 0; 
         Double mittlererWeg = 0.0;
         Double mittlereDifferenzWeg = 0.0;
-        for(int j = 0; j < 20; j++)
+        for(int j = 0; j < testDurchlaeufe; j++)
         {
-            GKAGraphInterface graph = GKAGraphInterface.newTourGraph(50);
+            GKAGraphInterface graph = GKAGraphInterface.newTourGraph(25);
             NearestNeighbour nearestNeighbour = graph.getNearestNeighbour("0");
             MSTHeuristic mst = graph.getMSTHeuristic("0");
             assertEquals(graph.getjGraph().vertexSet(), mst.getTour().getjGraph().vertexSet());
             assertEquals(graph.getjGraph().vertexSet(), nearestNeighbour.getNearestNeighbourTour().getjGraph().vertexSet());
-            for(int i = 0; i < 50; i++)
+            for(int i = 0; i < 25; i++)
             {
                 assertEquals(2, mst.getTour().getjGraph().edgesOf(String.valueOf(i)).size());
                 assertEquals(2, nearestNeighbour.getNearestNeighbourTour().getjGraph().edgesOf(String.valueOf(i)).size());
@@ -64,8 +65,8 @@ public class TourTest
             mittlererWeg += (mst.getLength() + nearestNeighbour.getLength()/2);
         }
         
-        System.out.println("mittlere ZeitMST: " + (mittlereZeitMST/20));
-        System.out.println("mittlere ZeitNN: " + (mittlereZeitNearest/20));
-        System.out.println("der mittlere Weg von MST ist " + (((mittlereDifferenzWeg/20)/(mittlererWeg/20))*100) + "% größer als der des NN");
+        System.out.println("mittlere ZeitMST: " + (mittlereZeitMST/testDurchlaeufe));
+        System.out.println("mittlere ZeitNN: " + (mittlereZeitNearest/testDurchlaeufe));
+        System.out.println("der mittlere Weg von MST ist " + (((mittlereDifferenzWeg/testDurchlaeufe)/(mittlererWeg/testDurchlaeufe))*100) + "% größer als der des NN");
     }
 }
