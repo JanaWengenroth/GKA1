@@ -39,6 +39,7 @@ public class TourTest
         for(int j = 0; j < testDurchlaeufe; j++)
         {
             GKAGraphInterface graph = GKAGraphInterface.newTourGraph(25);
+            MinimumSpanningTree minimumSpanningTree = graph.getMinimumSpanningTree();
             NearestNeighbour nearestNeighbour = graph.getNearestNeighbour("0");
             MSTHeuristic mst = graph.getMSTHeuristic("0");
             assertEquals(graph.getjGraph().vertexSet(), mst.getTour().getjGraph().vertexSet());
@@ -58,6 +59,8 @@ public class TourTest
             Collections.shuffle(mstEdgeList);
             mst.getTour().removeEdge(mstEdgeList.get(0).getSource().toString(),mstEdgeList.get(0).getTarget().toString());
             assertEquals(graph.getjGraph().vertexSet(),new HashSet<>(((GKAGraph) mst.getTour()).dijkstraStringList(mstEdgeList.get(0).getSource().toString(),mstEdgeList.get(0).getTarget().toString())));
+            assertTrue(minimumSpanningTree.getLength()*2 >= mst.getLength());
+            assertTrue(minimumSpanningTree.getLength()*2 >= nearestNeighbour.getLength());
             
             mittlereZeitMST += mst.getRunTime();
             mittlereZeitNearest += nearestNeighbour.getRunTime();
